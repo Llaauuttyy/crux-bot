@@ -162,12 +162,12 @@ class ExtApi(Api):
 
         # PRE: Revieces parameters who allows us to customize our request.
 
-        # POST: Calls functions and manages its responses, 
+        # POST: Calls functions and manages its responses,
         # in order to return the messages amount we established.
 
         args = {
             "access_token": access_token,
-            "fields": enf_comma_separated("fields", fields),  # enf_comma_separated basically filters 
+            "fields": enf_comma_separated("fields", fields),  # enf_comma_separated basically filters
             "limit": limit                                    # the fields we passed by parameter.
         }
 
@@ -197,8 +197,6 @@ if __name__ == '__main__':
 
     con = api.get_page_conversations(
         page_id="102579945106245",
-        access_token="EAAj2lZBEi6OsBAKbZBaGMmAvvPGDZCWB4b9PcDCaoNtfFSlbewUn0UDxk6JR0PaZBuQ04trsq2hBRQLAv9T7EZBQnwzs6QGc6Hi7FMyLDrjaTRLkDQBFm42VVTCrA7gGhdUHugLw6xOjDaE7t0IytVZB1MeZBJdHSbqzIFaYZCpc0DRUYa9FFDk2",
+        access_token="ACCESS_TOKEN",
         fields=None, folder="inbox", count=10, limit=20, return_json=True
     )
-    print(con)
-
