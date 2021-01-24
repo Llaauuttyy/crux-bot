@@ -8,4 +8,5 @@ graph = facebook.GraphAPI(access_token="PAGE_ACCESS_TOKEN",
 
 # Allows us to edit a post by passing its post id
 # Parameter connection_name gotta be empty in order to work.
+# It can be used whether for posts or comments.
 data = graph.put_object(parent_object="post_id", connection_name="", message="edit")
