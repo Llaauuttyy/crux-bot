@@ -1,5 +1,7 @@
 import json
 
+# This module will allow the user sees which posts
+# they want to comment in, like, edit, etc. 
 
 def posts_reader():
 
