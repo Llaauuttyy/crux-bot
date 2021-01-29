@@ -28,3 +28,24 @@ def get_ig_user_info(username):
     with open("data/ig_user_info.json", 'w') as f:
         json.dump(data, f)
 
+
+def get_ig_user_medias(username):
+
+    data = api.discovery_user_medias(
+        username = username,
+        return_json = True
+    )
+
+    with open("data/ig_user_medias.json", 'w') as f:
+        json.dump(data, f)
+
+
+def get_ig_media_info(media_id):
+
+    data = api.get_media_info(
+        media_id = media_id,
+        return_json = True
+    )
+
+    with open("data/ig_media_info.json", 'w') as f:
+        json.dump(data, f)
