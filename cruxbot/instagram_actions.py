@@ -115,3 +115,24 @@ class ExtApi(IgProApi):
 
         with open("data/ig_publish_photo.json", 'w') as f:
             json.dump(data, f) 
+
+
+    def post_enabling_comments(self,
+                     ig_media_id,
+                     access_token,
+                     args
+                     ):
+
+        post_args = {
+            "access_token" : access_token,
+        }
+
+        data = self.build_path(
+            target = ig_media_id,
+            resource = "",
+            args = args,
+            post_args = post_args
+        )
+
+        with open("data/ig_enabling_comments.json", 'w') as f:
+            json.dump(data, f) 
