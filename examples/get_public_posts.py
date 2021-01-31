@@ -30,7 +30,7 @@ def get_posts(user_id):
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id = page_username,
+        page_id = user_id,
         since_time = "2020-05-01",
         count = None,
         limit = 100,
