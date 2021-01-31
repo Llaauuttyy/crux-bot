@@ -212,3 +212,75 @@ class ExtApi(Api):
 
         return response
 
+
+    def build_path_of_photo(self,
+                            target,  # type: str
+                            resource,  # type: str
+                            post_args,  # type: Dict
+                            files
+                            ):
+        """
+        :param target: target id
+        :param resource: target resource field
+        :param post_args: fields for this resource
+        :return: JSON response
+        """       
+
+        resp = self._requestFile(
+            path = "{version}/{target}/{resource}".format(
+                version = self.version, 
+                target = target, 
+                resource = resource
+            ),
+            post_args = post_args,
+            files = {"source": files}
+        )
+
+        data = self._parse_response(resp)
+
+        return data
+
+
+    def post_photo(self,
+                   page_id,  # type: str
+                   access_token,  # type: str
+                   files
+                   ):
+        """
+        Post a photo for target page.
+        Note:
+            This is need page access token with the scope `pages_read_engagement` and `pages_manage_posts`.
+        :param page_id: Target page id.
+        :param access_token: Page access token.
+        :param files: Files for post in page id.
+        :return: JSON response.
+        """
+
+        post_args = {
+            "access_token" : access_token
+        }
+
+        response = []
+
+        data = self.build_path_of_photo(
+            target = page_id, 
+            resource = "photos",
+            post_args = post_args,
+            files = files 
+        )
+
+        response.extend(data)
+
+        return response
+
+
+if __name__ == '__main__':
+    api = ExtApi(long_term_token = "long-term-token")
+
+    con = api.post_photo(
+        page_id = "102579945106245",
+        access_token = "",
+        files = open("perro-sorprendido.jpg", "rb")
+    )
+
+    print(con)
