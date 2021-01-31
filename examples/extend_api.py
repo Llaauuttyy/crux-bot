@@ -153,3 +153,62 @@ class ExtApi(Api):
 
         return conversations
 
+
+    def build_path_of_comment(self,
+                              target,  # type: str
+                              resource,  # type: str
+                              post_args  # type: Dict
+                              ):
+        """
+        :param target: target id
+        :param resource: target resource field
+        :param post_args: fields for this resource
+        :return: JSON response
+        """       
+
+        resp = self._request(
+            path = "{version}/{target}/{resource}".format(
+                version = self.version, 
+                target = target, 
+                resource = resource
+            ),
+            post_args = post_args
+        )
+
+        data = self._parse_response(resp)
+
+        return data        
+
+
+    def post_comment(self,
+                     object_id,  # type: str
+                     access_token,  # type: str
+                     message
+                     ):
+        """
+        Post a comment for target object.
+        Note:
+            This is need page access token and with the scope `pages_manage_engagement`.
+        :param object_id: Target object id.
+        :param access_token: Page access token.
+        :param message: Message to be post as a comment
+        :return: JSON response
+        """
+
+        post_args = {
+            "access_token" : access_token,
+            "message" : message
+        }
+
+        response = []
+
+        data = self.build_path_of_comment(
+            target = object_id, 
+            resource = "comments",
+            post_args = post_args, 
+        )
+
+        response.extend(data)
+
+        return response
+
