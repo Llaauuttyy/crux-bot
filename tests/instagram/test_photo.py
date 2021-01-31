@@ -15,7 +15,7 @@ class ApiPhotoTest(unittest.TestCase):
         self.api = ig.ExtApi(
             app_id = "2522931991341291",
             app_secret = "9552895069b4d3c2950320c0f06354ff",         
-            long_term_token = ""
+            long_term_token = "long-term-token"
         )
         
         self.data = {}
