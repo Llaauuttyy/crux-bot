@@ -16,7 +16,7 @@ APP_SECRET = "9552895069b4d3c2950320c0f06354ff"
 ACCESS_TOKEN = "Your Access Token"
 
 
-def get_posts(page_username):
+def get_posts(user_id):
     # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
     # pasa por parámetros, las constantes anteriormente definidas.
     api = Api(
@@ -46,10 +46,10 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-    page_username = "103684888301061"
-    data = get_posts(page_username)
+    user_id = "103684888301061"
+    data = get_posts(user_id)
     
-    with open("wto_posts.json", 'w') as f:
+    with open("data/facebook/fb_posts.json", 'w') as f:
         json.dump(data, f)
 
 
