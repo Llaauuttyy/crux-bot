@@ -46,10 +46,10 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-    user_id = "103684888301061"
-    data = get_posts(user_id)
+    page_username = "102579945106245"
+    data = get_posts(page_username)
 
-    with open("data/facebook/fb_posts.json", 'w') as f:
+    with open("examples\\data\\fb_get_public_posts.json", 'w') as f:
         json.dump(data, f)
 
 
