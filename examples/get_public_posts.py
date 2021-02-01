@@ -46,29 +46,10 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     user_id = "103684888301061"
     data = get_posts(user_id)
 
     with open("data/facebook/fb_posts.json", 'w') as f:
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-    page_username = "102579945106245"
-    data = get_posts(page_username)
-
-    with open("examples\\data\\fb_get_public_posts.json", 'w') as f:
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         json.dump(data, f)
 
 
