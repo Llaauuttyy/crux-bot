@@ -92,6 +92,55 @@ class ExtApi(Api):
         return next_page, data
 
 
+    def get_posts():
+        # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
+        # pasa por parámetros, las constantes anteriormente definidas.
+        api = Api(
+            app_id="APP_ID",
+            app_secret="APP_SECRET",
+            long_term_token="ACCESS_TOKEN",
+        )
+
+        # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
+        # el usuario, en su muro.
+        # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
+        # información se desea obtener.
+        data = api.get_page_posts(
+            page_id="user_id",
+            since_time="2020-05-01",
+            count=None,
+            limit=100,
+            return_json=True,
+        )
+
+        with open("data\\facebook\\fb_posts.json", 'w') as f:
+            json.dump(data, f)
+
+
+    def get_comments():
+        # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
+        # pasa por parámetros, las constantes anteriormente definidas.
+        api = Api(
+            app_id="APP_ID",
+            app_secret="APP_SECRET",
+            long_term_token="ACCESS_TOKEN",
+        )
+
+        # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
+        # el usuario, en su muro.
+        # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
+        # información se desea obtener.
+        data = api.get_comments_by_object(
+            object_id="102579945106245_116261920404714",
+            count=None,
+            limit=100,
+            return_json=True,
+        )
+
+        with open("data\\facebook\\fb_get_comments.json", 'w') as f:
+            json.dump(data, f)
+
+
     def get_page_conversations(self,
                                page_id,  # type: str
                                access_token,  # type: str
