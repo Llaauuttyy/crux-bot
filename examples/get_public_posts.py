@@ -1,7 +1,3 @@
-"""
-    This show how to get facebook page public posts.
-"""
-
 import json
 
 from pyfacebook import Api
@@ -13,7 +9,7 @@ APP_ID = "2522931991341291"
 APP_SECRET = "9552895069b4d3c2950320c0f06354ff"
 
 # Se deberá omitir setear ésta variable, por cuestiones de seguridad
-ACCESS_TOKEN = "EAAj2lZBEi6OsBAKUmb5ZCgYiHrrJzTnfBmUwItETHsrAZC96gnNL0jdhBG31NpFhhZCHTLgmEdCJulQ6S491ZC3QjYiOh9UJjPAFrWFYCzDfZBEwLOEaH5oNwmllruC47SM7PlwycoDgKFLagXfTLHzmZBixziVTdmYX5nnNMqS4AZDZD"
+ACCESS_TOKEN = "PAGE_ACCESS_TOKEN"
 
 
 def get_posts(user_id):
@@ -30,7 +26,7 @@ def get_posts(user_id):
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id=page_username,
+        page_id=user_id,
         since_time="2020-05-01",
         count=None,
         limit=100,
@@ -46,10 +42,10 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-    page_username = "102579945106245"
-    data = get_posts(page_username)
+    user_id = "102579945106245"
+    data = get_posts(user_id)
 
-    with open("examples\\data\\fb_get_public_posts.json", 'w') as f:
+    with open("data\\facebook\\fb_posts.json", 'w') as f:
         json.dump(data, f)
 
 
