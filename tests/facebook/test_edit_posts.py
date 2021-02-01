@@ -3,7 +3,7 @@ import json
 import sys
 sys.path.append("ALTERNATIVE PATH")
 
-import examples.extended_api as extended_api
+import cruxbot.facebook_actions as fb
 
 
 class ConversationMessagesTest(unittest.TestCase):

@@ -3,16 +3,16 @@ import json
 import sys
 sys.path.append("ALTERNATIVE PATH")
 
-import examples.Get_and_list_conversations.extended_api as extended_api
+import cruxbot.facebook_actions as fb
 
 
 class ConversationMessagesTest(unittest.TestCase):
 
     def setUp(self):
         self.conversation_id = "t_3858840557530603"
-        self.page_access_token = "PAGE_ACCESS_TOKEN"
+        self.page_access_token = "PAGE_aCCESS_TOKEN"
 
-        self.api = extended_api.ExtApi(long_term_token="long-term-token")
+        self.api = fb.ExtApi(long_term_token="long-term-token")
 
     def testConversationMessages(self):
 
