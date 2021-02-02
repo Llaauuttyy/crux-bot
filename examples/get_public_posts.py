@@ -1,24 +1,19 @@
 import json
+import sys
+sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 
 from pyfacebook import Api
 
-# Use version 5+, Call API need app secret proof. So need provide your app secret.
-# If not have, you can just use version 4.0.
-# El valor de estas variables, se obtienen de la cuenta en Facebook for Developers.
-APP_ID = "2522931991341291"
-APP_SECRET = "9552895069b4d3c2950320c0f06354ff"
-
-# Se deberá omitir setear ésta variable, por cuestiones de seguridad
-ACCESS_TOKEN = "PAGE_ACCESS_TOKEN"
+import cruxbot.utils.constant as constant
 
 
 def get_posts(user_id):
     # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
     # pasa por parámetros, las constantes anteriormente definidas.
     api = Api(
-        app_id=APP_ID,
-        app_secret=APP_SECRET,
-        long_term_token=ACCESS_TOKEN,
+        app_id = constant.APP_ID,
+        app_secret = constant.APP_SECRET,
+        long_term_token = constant.USER_ACCESS_TOKEN,
     )
 
     # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
@@ -42,7 +37,7 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-    user_id = "102579945106245"
+    user_id = constant.USER_ID
     data = get_posts(user_id)
 
     with open("data\\facebook\\fb_posts.json", 'w') as f:

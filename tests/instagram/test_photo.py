@@ -5,17 +5,18 @@ import sys
 sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 
 import cruxbot.instagram_actions as ig
+import cruxbot.utils.constant as constant
 
 
 class ApiPhotoTest(unittest.TestCase):
 
     def setUp(self):
-        self.instagram_business_id = "17841444663784851"
+        self.instagram_business_id = constant.INSTAGRAM_BUSINESS_ID
 
         self.api = ig.ExtApi(
-            app_id = "2522931991341291",
-            app_secret = "9552895069b4d3c2950320c0f06354ff",         
-            long_term_token = "long-term-token"
+            app_id = constant.APP_ID,
+            app_secret = constant.APP_SECRET,         
+            long_term_token = constant.PAGE_ACCESS_TOKEN
         )
         
         self.data = {}

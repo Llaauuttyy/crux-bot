@@ -12,6 +12,8 @@ from pyfacebook.utils.param_validation import enf_comma_separated
 
 from cruxbot.utils.extend_base import ExtBaseApi
 
+import cruxbot.utils.constant as constant
+
 
 @attrs
 class People(BaseModel):
@@ -287,8 +289,8 @@ if __name__ == '__main__':
     api = ExtApi(long_term_token = "long-term-token")
 
     con = api.post_photo(
-        page_id = "102579945106245",
-        access_token = "",
+        page_id = constant.PAGE_ID,
+        access_token = constant.PAGE_ACCESS_TOKEN,
         files = open("perro-sorprendido.jpg", "rb")
     )
 
