@@ -1,11 +1,16 @@
 """
     This show extend this api for support others methods.
 """
+import sys
+sys.path.append("C:/Users/Leonel/Documents/crux-bot")
+
 from typing import Dict, List, Optional, Union, Tuple, Set
 
 from attr import attrs, attrib
-from pyfacebook import Api, BaseModel
+from pyfacebook import BaseModel
 from pyfacebook.utils.param_validation import enf_comma_separated
+
+from cruxbot.utils.extend_base import ExtBaseApi
 
 
 @attrs
@@ -13,6 +18,7 @@ class People(BaseModel):
     """
     Refer: https://developers.facebook.com/docs/graph-api/reference/v6.0/conversation
     """
+    
     id = attrib(default = None, type = Optional[str])
     name = attrib(default = None, type = Optional[str])
     email = attrib(default = None, type = Optional[str], repr = False)
@@ -44,7 +50,8 @@ class PageConversation(BaseModel):
             self.senders = [People.new_from_json_dict(sender) for sender in senders]
 
 
-class ExtApi(Api):
+class ExtApi(ExtBaseApi):
+
     DEFAULT_CONVERSATION_FIELDS = [
         "id", "link", "snippet", "updated_time", "message_count",
         "unread_count", "participants", "senders", "can_reply",
@@ -66,6 +73,7 @@ class ExtApi(Api):
         :param next_page: next page url
         :return:
         """
+
         if next_page is not None:
             resp = self._request(
                 path = next_page
@@ -118,6 +126,7 @@ class ExtApi(Api):
         Or return json data. Default is false.
         :return: Conversation data list.
         """
+
         if fields is None:
             fields = self.DEFAULT_CONVERSATION_FIELDS
 
@@ -226,7 +235,7 @@ class ExtApi(Api):
         :return: JSON response
         """       
 
-        resp = self._requestFile(
+        resp = self._request(
             path = "{version}/{target}/{resource}".format(
                 version = self.version, 
                 target = target, 

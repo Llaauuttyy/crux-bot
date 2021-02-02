@@ -1,7 +1,7 @@
 import unittest
 import json
 import sys
-sys.path.append("ALTERNATIVE PATH")
+sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 
 import cruxbot.facebook_actions as fb
 
