@@ -1,7 +1,3 @@
-"""
-    This show how to get facebook page public posts.
-"""
-
 import json
 
 from pyfacebook import Api
@@ -13,16 +9,16 @@ APP_ID = "2522931991341291"
 APP_SECRET = "9552895069b4d3c2950320c0f06354ff"
 
 # Se deberá omitir setear ésta variable, por cuestiones de seguridad
-ACCESS_TOKEN = "Your Access Token"
+ACCESS_TOKEN = "PAGE_ACCESS_TOKEN"
 
 
 def get_posts(user_id):
     # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
     # pasa por parámetros, las constantes anteriormente definidas.
     api = Api(
-        app_id = APP_ID,
-        app_secret = APP_SECRET,
-        long_term_token = ACCESS_TOKEN,
+        app_id=APP_ID,
+        app_secret=APP_SECRET,
+        long_term_token=ACCESS_TOKEN,
     )
 
     # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
@@ -46,10 +42,10 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-    user_id = "103684888301061"
+    user_id = "102579945106245"
     data = get_posts(user_id)
-    
-    with open("data/facebook/fb_posts.json", 'w') as f:
+
+    with open("data\\facebook\\fb_posts.json", 'w') as f:
         json.dump(data, f)
 
 
