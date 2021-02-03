@@ -7,10 +7,8 @@ sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 from typing import Dict, List, Optional, Union, Tuple, Set
 
 from attr import attrs, attrib
-from pyfacebook import BaseModel
+from pyfacebook import Api, BaseModel
 from pyfacebook.utils.param_validation import enf_comma_separated
-
-from cruxbot.utils.extend_base import ExtBaseApi
 
 import cruxbot.utils.constant as constant
 
@@ -52,7 +50,7 @@ class PageConversation(BaseModel):
             self.senders = [People.new_from_json_dict(sender) for sender in senders]
 
 
-class ExtApi(ExtBaseApi):
+class ExtApi(Api):
 
     DEFAULT_CONVERSATION_FIELDS = [
         "id", "link", "snippet", "updated_time", "message_count",
@@ -95,6 +93,7 @@ class ExtApi(ExtBaseApi):
 
         if "paging" in data:
             next_page = data["paging"].get("next")
+
         return next_page, data
 
 
@@ -145,7 +144,7 @@ class ExtApi(ExtBaseApi):
         while True:
             next_page, data = self.page_by_next(
                 target = page_id, 
-                resource="conversations",
+                resource = "conversations",
                 args = args, 
                 next_page = next_page
             )
