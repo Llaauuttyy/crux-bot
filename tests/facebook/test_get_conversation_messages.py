@@ -1,28 +1,30 @@
 import unittest
 import json
 import sys
-sys.path.append("ALTERNATIVE PATH")
+sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 
 import cruxbot.facebook_actions as fb
+import cruxbot.utils.constant as constant
 
 
 class ConversationMessagesTest(unittest.TestCase):
 
     def setUp(self):
         self.conversation_id = "t_3858840557530603"
-        self.page_access_token = "PAGE_aCCESS_TOKEN"
+        self.page_access_token = constant.PAGE_ACCESS_TOKEN
 
-        self.api = fb.ExtApi(long_term_token="long-term-token")
+        self.api = fb.ExtApi(long_term_token = "long-term-token")
+
 
     def testConversationMessages(self):
 
         messages = self.api.get_conversation_messages(
-            conversation_id=self.conversation_id,
-            access_token=self.page_access_token,
-            fields=["id", "message", "from", "to"],
-            count=10,
-            limit=100,
-            return_json=True
+            conversation_id = self.conversation_id,
+            access_token = self.page_access_token,
+            fields = ["id", "message", "from", "to"],
+            count = 10,
+            limit = 100,
+            return_json = True
         )
 
         data = []

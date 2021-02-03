@@ -1,123 +1,68 @@
-import json
-
+from facebook import GraphAPI
 from pyfacebook import IgProApi
 
 
-def get_ig_user_info(api, username):
+def get_ig_user_info(api,  # type: IgProApi
+                     username  # type: str
+                     ):
 
     data = api.discovery_user(
         username = username,
         return_json = True
     )
 
-    with open("data/instagram/ig_user_info.json", 'w') as f:
-        json.dump(data, f)
+    return data
 
 
-def get_ig_user_medias(api, username):
+def get_ig_user_medias(api,  # type: IgProApi
+                       username  # type: str
+                       ):
 
     data = api.discovery_user_medias(
         username = username,
         return_json = True
     )
 
-    with open("data/instagram/ig_user_medias.json", 'w') as f:
-        json.dump(data, f)
+    return data
 
 
-def get_ig_media_info(api, media_id):
+def get_ig_media_info(api,  # type: IgProApi
+                      media_id  # type: str
+                      ):
 
     data = api.get_media_info(
         media_id = media_id,
         return_json = True
     )
 
-    with open("data/instagram/ig_media_info.json", 'w') as f:
-        json.dump(data, f)
+    return data
 
 
-class ExtApi(IgProApi):
-
-    def build_path(self,
-                   target,
-                   resource,
-                   args,
-                   post_args
-                   ):
-
-        resp = self._request(
-            path = "{version}/{target}/{resource}".format(
-                version = self.version, 
-                target = target, 
-                resource = resource
-            ),
-            args = args,
-            post_args = post_args
-        )
-
-        data = self._parse_response(resp)
-
-        return data
-
-
-    def post_ig_photo(self,
-                      ig_user_id,
-                      access_token,
-                      args
-                      ):
-
+def post_ig_photo(api,  # type: GraphAPI
+                  instagram_business_id,  # type: str
+                  image_url  # type: str
+                  ):
+    
+    response = api.request(
+        path = "{0}/{1}/{2}".format("v9.0", instagram_business_id, "media"),
+        args = {
+            "image_url": image_url
+        },
         post_args = {
-            "access_token" : access_token,
-        }
+            "access_token": api.access_token
+        },
+        method = "POST"
+    )
 
-        data = self.build_path(
-            target = ig_user_id, 
-            resource = "media",
-            args = args,
-            post_args = post_args
-        )
-
-        with open("data/instagram/ig_photo.json", 'w') as f:
-            json.dump(data, f) 
-
-
-    def post_publish_ig_photo(self,
-                              ig_user_id,
-                              access_token,
-                              args
-                              ):
-
+    data = api.request(
+        path = "{0}/{1}/{2}".format("v9.0", instagram_business_id, "media_publish"),
+        args = {
+            "creation_id": response["id"]
+        },
         post_args = {
-            "access_token" : access_token,
-        }
+            "access_token": api.access_token
+        },
+        method = "POST"        
+    )
 
-        data = self.build_path(
-            target = ig_user_id, 
-            resource = "media_publish",
-            args = args,
-            post_args = post_args
-        )
-
-        with open("data/instagram/ig_publish_photo.json", 'w') as f:
-            json.dump(data, f) 
-
-
-    def post_enabling_comments(self,
-                               ig_media_id,
-                               access_token,
-                               args
-                               ):
-
-        post_args = {
-            "access_token" : access_token,
-        }
-
-        data = self.build_path(
-            target = ig_media_id,
-            resource = "",
-            args = args,
-            post_args = post_args
-        )
-
-        with open("data/instagram/ig_enabling_comments.json", 'w') as f:
-            json.dump(data, f)
+    return data

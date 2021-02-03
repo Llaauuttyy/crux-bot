@@ -1,11 +1,16 @@
 """
     This show extend this api for support others methods.
 """
+import sys
+sys.path.append("C:/Users/Leonel/Documents/crux-bot")
+
 from typing import Dict, List, Optional, Union, Tuple, Set
 
 from attr import attrs, attrib
 from pyfacebook import Api, BaseModel
 from pyfacebook.utils.param_validation import enf_comma_separated
+
+import cruxbot.utils.constant as constant
 
 
 @attrs
@@ -13,6 +18,7 @@ class People(BaseModel):
     """
     Refer: https://developers.facebook.com/docs/graph-api/reference/v6.0/conversation
     """
+    
     id = attrib(default = None, type = Optional[str])
     name = attrib(default = None, type = Optional[str])
     email = attrib(default = None, type = Optional[str], repr = False)
@@ -45,6 +51,7 @@ class PageConversation(BaseModel):
 
 
 class ExtApi(Api):
+
     DEFAULT_CONVERSATION_FIELDS = [
         "id", "link", "snippet", "updated_time", "message_count",
         "unread_count", "participants", "senders", "can_reply",
@@ -66,6 +73,7 @@ class ExtApi(Api):
         :param next_page: next page url
         :return:
         """
+
         if next_page is not None:
             resp = self._request(
                 path = next_page
@@ -85,6 +93,7 @@ class ExtApi(Api):
 
         if "paging" in data:
             next_page = data["paging"].get("next")
+
         return next_page, data
 
 
@@ -118,6 +127,7 @@ class ExtApi(Api):
         Or return json data. Default is false.
         :return: Conversation data list.
         """
+
         if fields is None:
             fields = self.DEFAULT_CONVERSATION_FIELDS
 
@@ -134,7 +144,7 @@ class ExtApi(Api):
         while True:
             next_page, data = self.page_by_next(
                 target = page_id, 
-                resource="conversations",
+                resource = "conversations",
                 args = args, 
                 next_page = next_page
             )
@@ -226,7 +236,7 @@ class ExtApi(Api):
         :return: JSON response
         """       
 
-        resp = self._requestFile(
+        resp = self._request(
             path = "{version}/{target}/{resource}".format(
                 version = self.version, 
                 target = target, 
@@ -278,8 +288,8 @@ if __name__ == '__main__':
     api = ExtApi(long_term_token = "long-term-token")
 
     con = api.post_photo(
-        page_id = "102579945106245",
-        access_token = "",
+        page_id = constant.PAGE_ID,
+        access_token = constant.PAGE_ACCESS_TOKEN,
         files = open("perro-sorprendido.jpg", "rb")
     )
 
