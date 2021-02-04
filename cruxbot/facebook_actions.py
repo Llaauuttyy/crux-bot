@@ -19,19 +19,25 @@ DEFAULT_MESSAGE_FIELDS = [
 def path_builder(api,  # type: Api
                  target,  # type: str
                  resource,  # type: str
+                 method = "GET",  # type: str
                  args = None,  # type: Dict 
-                 post_args = None  # type: Dict
+                 post_args = None,  # type: Dict
+                 enforce_auth = True  # type: bool
                  ):
 
-    data = api._request(
+    response = api._request(
         path = "{version}/{target}/{resource}".format(
             version = api.version,
             target = target,
             resource = resource
         ),
+        method = method,
         args = args,
-        post_args = post_args
+        post_args = post_args,
+        enforce_auth = enforce_auth
     )
+
+    data = api._parse_response(response)
 
     return data
 
@@ -44,19 +50,22 @@ def page_by_next(api,  # type: Api
                  ):
 
     if next_page is not None:
-        resp = api._request(
+        response = api._request(
             path = next_page
         )
+
     else:
-        resp = path_builder(
-            api = api,
-            target = target,
-            resource = resource,
+        response = api._request(
+            path = "{version}/{target}/{resource}".format(
+                version = api.version,
+                target = target,
+                resource = resource
+            ),
             args = args
         )
 
     next_page = None
-    data = api._parse_response(resp)
+    data = api._parse_response(response)
 
     if "paging" in data:
         next_page = data["paging"].get("next")
@@ -236,6 +245,7 @@ def post_publication(api,  # type: Api
     }
 
     data = path_builder(
+        api = api,
         target = page_id,
         resource = "feed",
         post_args = post_args
@@ -287,5 +297,25 @@ def post_profile_photo(api,  # type: GraphAPI
         )
     except GraphAPIError as error:
         data = error
+
+    return data
+
+
+def delete_publication(api,  # type: Api
+                       post_id  # type: str
+                       ):
+
+    args = {
+        "access_token": api._access_token,
+    }
+
+    data = path_builder(
+        api = api,
+        target = post_id,
+        resource = "",  # It has to be empty.
+        method = "DELETE",
+        args = args,
+        enforce_auth = False
+    )
 
     return data
