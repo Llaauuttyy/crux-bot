@@ -15,5 +15,3 @@ def put_like(object_id):
     # for liking the post or comment.
 
     graph.put_like(object_id=object_id)
-
-    print("Post likeado con exito!")

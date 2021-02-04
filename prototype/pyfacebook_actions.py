@@ -25,7 +25,7 @@ def get_posts(page_username):
         since_time="2020-05-01",
         count=None,
         limit=100,
-        return_json=True,
+        return_json=True
     )
 
     return data

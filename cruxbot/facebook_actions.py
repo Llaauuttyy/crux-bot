@@ -37,7 +37,13 @@ def path_builder(api,  # type: Api
         enforce_auth = enforce_auth
     )
 
+<<<<<<< Updated upstream
     data = api._parse_response(response)
+=======
+    print(data)
+
+    data = api._parse_response(data)
+>>>>>>> Stashed changes
 
     return data
 
@@ -232,8 +238,8 @@ def post_comment(api,  # type: Api
     )
 
     return data
-    
- 
+
+
 def post_publication(api,  # type: Api
                      page_id,  # type: str
                      message  # type: str  
