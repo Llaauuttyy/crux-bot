@@ -37,13 +37,7 @@ def path_builder(api,  # type: Api
         enforce_auth = enforce_auth
     )
 
-<<<<<<< Updated upstream
     data = api._parse_response(response)
-=======
-    print(data)
-
-    data = api._parse_response(data)
->>>>>>> Stashed changes
 
     return data
 
@@ -322,6 +316,47 @@ def delete_publication(api,  # type: Api
         method = "DELETE",
         args = args,
         enforce_auth = False
+    )
+
+    return data
+
+
+def put_publication(api,  # type: Api
+                    post_id,  # type: str 
+                    message, # type: str
+                    ):
+    # EDITS POST OR COMMENT
+    post_args = {
+        "access_token": api._access_token,
+        "message": message
+    }
+
+    data = path_builder(
+        api = api,
+        target = post_id,
+        resource = "",
+        post_args = post_args
+    )
+
+    return data
+
+
+def list_friends(api,
+                user_id,
+                fields
+                ):
+
+    args = {
+        "access_token": api._access_token,
+        "fields": enf_comma_separated("fields", fields)
+    }
+
+    data = path_builder(
+        api = api,
+        target = user_id,
+        resource = "friends",
+        method="GET",
+        args = args
     )
 
     return data
