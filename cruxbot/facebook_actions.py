@@ -19,7 +19,7 @@ DEFAULT_MESSAGE_FIELDS = [
 def path_builder(api,  # type: Api
                  target,  # type: str
                  resource,  # type: str
-                 method = None,  # type: str
+                 method = "GET",  # type: str
                  args = None,  # type: Dict 
                  post_args = None,  # type: Dict
                  enforce_auth = True  # type: bool
