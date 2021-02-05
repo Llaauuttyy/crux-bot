@@ -37,13 +37,7 @@ def path_builder(api,  # type: Api
         enforce_auth = enforce_auth
     )
 
-<<<<<<< Updated upstream
     data = api._parse_response(response)
-=======
-    print(data)
-
-    data = api._parse_response(data)
->>>>>>> Stashed changes
 
     return data
 
@@ -80,17 +74,17 @@ def page_by_next(api,  # type: Api
 
 
 def get_posts(api,  # type: Api
-              user_id  # type: str
+              page_id  # type: str
               ):
     # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
     # el usuario, en su muro.
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id = user_id,
+        page_id = page_id,
         since_time = "2020-05-01",
         limit = 100,
-        return_json = True,
+        return_json = True
     )
 
     return data
