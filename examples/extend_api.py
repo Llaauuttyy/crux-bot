@@ -103,7 +103,7 @@ class ExtApi(Api):
                                fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
                                folder = "inbox",  # type: str
                                count = 10,  # type: Optional[int]
-                               limit = 200,  # type: int,
+                               limit = 200,  # type: int
                                return_json = False  # type: bool
                                ):
         # type: (...) -> List[Union[Dict, PageConversation]]

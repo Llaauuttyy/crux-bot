@@ -109,7 +109,7 @@ def get_page_conversations(api,  # type: Api
                            fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
                            folder = "inbox",  # type: str
                            count = 10,  # type: Optional[int]
-                           limit = 200  # type: int,
+                           limit = 200  # type: int
                            ):
     # type: (...) -> List[Union[Dict, PageConversation]]
     """
