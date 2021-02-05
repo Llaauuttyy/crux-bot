@@ -12,10 +12,9 @@ trainer.train([
     "El nombre es Juan",
     "Estas son las fotos de Juan: "
     "joyita paaaaaaaa",
-    ""
 ])
-yo = input("habla: ")
-response = chatbot.get_response(yo)
+me = input("habla: ")
+response = chatbot.get_response(me)
 print(response)
 # Get a response to the input text 'I would like to book a flight.'
 

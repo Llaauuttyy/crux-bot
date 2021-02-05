@@ -20,11 +20,11 @@ trainer.train(["Hola",
     "Quiero que actualices los datos de mi perfil"
     "Datos de perfil actualizados"
 ])
-terminar_programa = False
-while not terminar_programa:
-    yo = input("Usuario: ")
-    response = chatbot.get_response(yo)
+end_program = False
+while not end_program:
+    me = input("User: ")
+    response = chatbot.get_response(me)
     print("Crux: ",response)
-    if yo == "Adios":
-        print("Crux: Adios")
-        terminar_programa = True
+    if yo == "Bye":
+        print("Crux: Bye")
+        end_program = True
