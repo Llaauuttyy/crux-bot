@@ -108,7 +108,7 @@ if __name__ == "__main__":
     object_id = "102579945106245_118113996886173"
     conversation_id = "t_10224843694505732"
     post_id = "102579945106245_118113650219541"
-    post_id_to_manipulate = "102579945106245_117925770238329"
+    post_id_to_manipulate = "102579945106245_117924853571754"
     image = open("images/perro-sorprendido.jpg", "rb")
 
     api = Api(
