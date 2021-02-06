@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+images/
 eggs/
 .eggs/
 lib/
@@ -127,3 +128,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Visual Studio Code
+.vscode
