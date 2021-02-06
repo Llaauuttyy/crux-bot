@@ -319,3 +319,44 @@ def delete_publication(api,  # type: Api
     )
 
     return data
+
+
+def put_publication(api,  # type: Api
+                    post_id,  # type: str 
+                    message, # type: str
+                    ):
+    # EDITS POST OR COMMENT
+    post_args = {
+        "access_token": api._access_token,
+        "message": message
+    }
+
+    data = path_builder(
+        api = api,
+        target = post_id,
+        resource = "",
+        post_args = post_args
+    )
+
+    return data
+
+
+def list_friends(api,  # type: Api
+                user_id,  # type: str
+                fields  # type: list[str]
+                ):
+
+    args = {
+        "access_token": api._access_token,
+        "fields": enf_comma_separated("fields", fields)
+    }
+
+    data = path_builder(
+        api = api,
+        target = user_id,
+        resource = "friends",
+        method="GET",
+        args = args
+    )
+
+    return data
