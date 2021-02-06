@@ -74,17 +74,17 @@ def page_by_next(api,  # type: Api
 
 
 def get_posts(api,  # type: Api
-              user_id  # type: str
+              page_id  # type: str
               ):
     # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
     # el usuario, en su muro.
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id = user_id,
+        page_id = page_id,
         since_time = "2020-05-01",
         limit = 100,
-        return_json = True,
+        return_json = True
     )
 
     return data
@@ -109,7 +109,7 @@ def get_page_conversations(api,  # type: Api
                            fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
                            folder = "inbox",  # type: str
                            count = 10,  # type: Optional[int]
-                           limit = 200  # type: int,
+                           limit = 200  # type: int
                            ):
     # type: (...) -> List[Union[Dict, PageConversation]]
     """
@@ -316,47 +316,6 @@ def delete_publication(api,  # type: Api
         method = "DELETE",
         args = args,
         enforce_auth = False
-    )
-
-    return data
-
-
-def put_publication(api,  # type: Api
-                    post_id,  # type: str 
-                    message, # type: str
-                    ):
-    # EDITS POST OR COMMENT
-    post_args = {
-        "access_token": api._access_token,
-        "message": message
-    }
-
-    data = path_builder(
-        api = api,
-        target = post_id,
-        resource = "",
-        post_args = post_args
-    )
-
-    return data
-
-
-def list_friends(api,
-                user_id,
-                fields
-                ):
-
-    args = {
-        "access_token": api._access_token,
-        "fields": enf_comma_separated("fields", fields)
-    }
-
-    data = path_builder(
-        api = api,
-        target = user_id,
-        resource = "friends",
-        method="GET",
-        args = args
     )
 
     return data

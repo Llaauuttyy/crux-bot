@@ -10,7 +10,7 @@ from attr import attrs, attrib
 from pyfacebook import Api, BaseModel
 from pyfacebook.utils.param_validation import enf_comma_separated
 
-import cruxbot.utils.constant as constant
+from cruxbot.cruxbot import PAGE_ACCESS_TOKEN, PAGE_ID
 
 
 @attrs
@@ -103,7 +103,7 @@ class ExtApi(Api):
                                fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
                                folder = "inbox",  # type: str
                                count = 10,  # type: Optional[int]
-                               limit = 200,  # type: int,
+                               limit = 200,  # type: int
                                return_json = False  # type: bool
                                ):
         # type: (...) -> List[Union[Dict, PageConversation]]
@@ -164,133 +164,12 @@ class ExtApi(Api):
         return conversations
 
 
-    def build_path_of_comment(self,
-                              target,  # type: str
-                              resource,  # type: str
-                              post_args  # type: Dict
-                              ):
-        """
-        :param target: target id
-        :param resource: target resource field
-        :param post_args: fields for this resource
-        :return: JSON response
-        """       
-
-        resp = self._request(
-            path = "{version}/{target}/{resource}".format(
-                version = self.version, 
-                target = target, 
-                resource = resource
-            ),
-            post_args = post_args
-        )
-
-        data = self._parse_response(resp)
-
-        return data        
-
-
-    def post_comment(self,
-                     object_id,  # type: str
-                     access_token,  # type: str
-                     message
-                     ):
-        """
-        Post a comment for target object.
-        Note:
-            This is need page access token and with the scope `pages_manage_engagement`.
-        :param object_id: Target object id.
-        :param access_token: Page access token.
-        :param message: Message to be post as a comment
-        :return: JSON response
-        """
-
-        post_args = {
-            "access_token" : access_token,
-            "message" : message
-        }
-
-        response = []
-
-        data = self.build_path_of_comment(
-            target = object_id, 
-            resource = "comments",
-            post_args = post_args, 
-        )
-
-        response.extend(data)
-
-        return response
-
-
-    def build_path_of_photo(self,
-                            target,  # type: str
-                            resource,  # type: str
-                            post_args,  # type: Dict
-                            files
-                            ):
-        """
-        :param target: target id
-        :param resource: target resource field
-        :param post_args: fields for this resource
-        :return: JSON response
-        """       
-
-        resp = self._request(
-            path = "{version}/{target}/{resource}".format(
-                version = self.version, 
-                target = target, 
-                resource = resource
-            ),
-            post_args = post_args,
-            files = {"source": files}
-        )
-
-        data = self._parse_response(resp)
-
-        return data
-
-
-    def post_photo(self,
-                   page_id,  # type: str
-                   access_token,  # type: str
-                   files
-                   ):
-        """
-        Post a photo for target page.
-        Note:
-            This is need page access token with the scope `pages_read_engagement` and `pages_manage_posts`.
-        :param page_id: Target page id.
-        :param access_token: Page access token.
-        :param files: Files for post in page id.
-        :return: JSON response.
-        """
-
-        post_args = {
-            "access_token" : access_token
-        }
-
-        response = []
-
-        data = self.build_path_of_photo(
-            target = page_id, 
-            resource = "photos",
-            post_args = post_args,
-            files = files 
-        )
-
-        response.extend(data)
-
-        return response
-
-
 if __name__ == '__main__':
-    api = ExtApi(long_term_token = "long-term-token")
+    api = ExtApi(long_term_token = PAGE_ACCESS_TOKEN)
 
-    con = api.post_photo(
-        page_id = constant.PAGE_ID,
-        access_token = constant.PAGE_ACCESS_TOKEN,
-        files = open("perro-sorprendido.jpg", "rb")
+    con = api.get_page_conversations(
+        page_id = PAGE_ID,
+        access_token = PAGE_ACCESS_TOKEN,
     )
 
     print(con)

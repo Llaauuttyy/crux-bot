@@ -1,19 +1,18 @@
-import json
 import sys
 sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 
 from pyfacebook import Api
 
-import cruxbot.utils.constant as constant
+from cruxbot.cruxbot import APP_ID, APP_SECRET, PAGE_ACCESS_TOKEN, PAGE_ID
 
 
-def get_posts(user_id):
+def get_posts(page_id):
     # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
     # pasa por parámetros, las constantes anteriormente definidas.
     api = Api(
-        app_id = constant.APP_ID,
-        app_secret = constant.APP_SECRET,
-        long_term_token = constant.USER_ACCESS_TOKEN,
+        app_id = APP_ID,
+        app_secret = APP_SECRET,
+        long_term_token = PAGE_ACCESS_TOKEN,
     )
 
     # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
@@ -21,11 +20,11 @@ def get_posts(user_id):
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id = user_id,
+        page_id = page_id,
         since_time = "2020-05-01",
         count = None,
         limit = 100,
-        return_json = True,
+        return_json = True
     )
 
     return data
@@ -37,11 +36,10 @@ def processor():
     # que se creó, dar click en "Ver y editar".
     # También se puede obtener desde Facebook for Developers, haciendo una consulta desde
     # el "Explorador de la API Graph"
-    user_id = constant.USER_ID
+    user_id = PAGE_ID
     data = get_posts(user_id)
 
-    with open("data\\facebook\\fb_posts.json", 'w') as f:
-        json.dump(data, f)
+    return data
 
 
 if __name__ == "__main__":
