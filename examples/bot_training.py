@@ -28,3 +28,9 @@ while not end_program:
     if yo == "Bye":
         print("Crux: Bye")
         end_program = True
+
+f = with open("entrenador.txt","r")
+datos_entrenamiento = []
+for linea in f.readlines:
+    datos_entrenamiento.append(linea)
+chatbot.train(datos_entrenamiento)
