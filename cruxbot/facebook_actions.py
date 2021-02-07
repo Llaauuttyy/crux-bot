@@ -16,25 +16,26 @@ DEFAULT_MESSAGE_FIELDS = [
     "created_time", "from", "id", "message", "tags", "to"
 ]
 
+
 def path_builder(api,  # type: Api
                  target,  # type: str
                  resource,  # type: str
-                 method = "GET",  # type: str
-                 args = None,  # type: Dict 
-                 post_args = None,  # type: Dict
-                 enforce_auth = True  # type: bool
+                 method="GET",  # type: str
+                 args=None,  # type: Dict
+                 post_args=None,  # type: Dict
+                 enforce_auth=True  # type: bool
                  ):
 
     response = api._request(
-        path = "{version}/{target}/{resource}".format(
-            version = api.version,
-            target = target,
-            resource = resource
+        path="{version}/{target}/{resource}".format(
+            version=api.version,
+            target=target,
+            resource=resource
         ),
-        method = method,
-        args = args,
-        post_args = post_args,
-        enforce_auth = enforce_auth
+        method=method,
+        args=args,
+        post_args=post_args,
+        enforce_auth=enforce_auth
     )
 
     data = api._parse_response(response)
@@ -51,17 +52,17 @@ def page_by_next(api,  # type: Api
 
     if next_page is not None:
         response = api._request(
-            path = next_page
+            path=next_page
         )
 
     else:
         response = api._request(
-            path = "{version}/{target}/{resource}".format(
-                version = api.version,
-                target = target,
-                resource = resource
+            path="{version}/{target}/{resource}".format(
+                version=api.version,
+                target=target,
+                resource=resource
             ),
-            args = args
+            args=args
         )
 
     next_page = None
@@ -81,10 +82,10 @@ def get_posts(api,  # type: Api
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id = page_id,
-        since_time = "2020-05-01",
-        limit = 100,
-        return_json = True
+        page_id=page_id,
+        since_time="2020-05-01",
+        limit=100,
+        return_json=True
     )
 
     return data
@@ -95,10 +96,10 @@ def get_comments(api,  # type: Api
                  ):
 
     data = api.get_comments_by_object(
-        object_id = object_id,
-        count = None,
-        limit = 100,
-        return_json = True,
+        object_id=object_id,
+        count=None,
+        limit=100,
+        return_json=True,
     )
 
     return data
@@ -106,12 +107,11 @@ def get_comments(api,  # type: Api
 
 def get_page_conversations(api,  # type: Api
                            page_id,  # type: str
-                           fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
-                           folder = "inbox",  # type: str
-                           count = 10,  # type: Optional[int]
-                           limit = 200  # type: int
+                           fields=None,  # type: Optional[Union[str, List, Tuple, Set]]
+                           folder="inbox",  # type: str
+                           count=10,  # type: Optional[int]
+                           limit=200  # type: int
                            ):
-    # type: (...) -> List[Union[Dict, PageConversation]]
     """
     Retrieve conversations for target page.
     Note:
@@ -148,11 +148,11 @@ def get_page_conversations(api,  # type: Api
 
     while True:
         next_page, data = page_by_next(
-            api = api,
-            target = page_id, 
-            resource = "conversations",
-            args = args, 
-            next_page = next_page
+            api=api,
+            target=page_id,
+            resource="conversations",
+            args=args,
+            next_page=next_page
         )
 
         data = data.get("data", [])
@@ -170,9 +170,9 @@ def get_page_conversations(api,  # type: Api
 
 def get_conversation_messages(api,  # type: Api
                               conversation_id,  # type: str
-                              fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
-                              count = 10,  # type: Optional[int]
-                              limit = 200,  # type: int
+                              fields=None,  # type: Optional[Union[str, List, Tuple, Set]]
+                              count=10,  # type: Optional[int]
+                              limit=200,  # type: int
                               ):
 
     # PRE: Receives parameters who allows us to customize our request.
@@ -193,11 +193,11 @@ def get_conversation_messages(api,  # type: Api
 
     while True:
         next_page, data = page_by_next(
-            api = api,
-            target = conversation_id, 
-            resource = "messages",  # messages is an important resource.
-            args = args, 
-            next_page = next_page
+            api=api,
+            target=conversation_id,
+            resource="messages",  # messages is an important resource.
+            args=args,
+            next_page=next_page
         )
         data = data.get("data", [])
 
@@ -225,10 +225,10 @@ def post_comment(api,  # type: Api
     }
 
     data = path_builder(
-        api = api,
-        target = post_id,
-        resource = "comments",
-        post_args = post_args
+        api=api,
+        target=post_id,
+        resource="comments",
+        post_args=post_args
     )
 
     return data
@@ -236,7 +236,7 @@ def post_comment(api,  # type: Api
 
 def post_publication(api,  # type: Api
                      page_id,  # type: str
-                     message  # type: str  
+                     message  # type: str
                      ):
 
     post_args = {
@@ -245,10 +245,10 @@ def post_publication(api,  # type: Api
     }
 
     data = path_builder(
-        api = api,
-        target = page_id,
-        resource = "feed",
-        post_args = post_args
+        api=api,
+        target=page_id,
+        resource="feed",
+        post_args=post_args
     )
 
     return data
@@ -263,10 +263,10 @@ def post_like(api,  # type: Api
     }
 
     data = path_builder(
-        api = api,
-        target = object_id,
-        resource = "likes",
-        post_args = post_args
+        api=api,
+        target=object_id,
+        resource="likes",
+        post_args=post_args
     )
 
     return data
@@ -278,8 +278,8 @@ def post_photo(api,  # type: GraphAPI
                ):
 
     data = api.put_photo(
-        image = image,
-        album_path = "{0}/photos/picture".format(page_id)
+        image=image,
+        album_path="{0}/photos/picture".format(page_id)
     )
 
     return data
@@ -292,8 +292,8 @@ def post_profile_photo(api,  # type: GraphAPI
 
     try:
         data = api.put_photo(
-            image = image,
-            album_path = "{0}/picture".format(page_id)
+            image=image,
+            album_path="{0}/picture".format(page_id)
         )
     except GraphAPIError as error:
         data = error
@@ -310,20 +310,20 @@ def delete_publication(api,  # type: Api
     }
 
     data = path_builder(
-        api = api,
-        target = post_id,
-        resource = "",  # It has to be empty.
-        method = "DELETE",
-        args = args,
-        enforce_auth = False
+        api=api,
+        target=post_id,
+        resource="",  # It has to be empty.
+        method="DELETE",
+        args=args,
+        enforce_auth=False
     )
 
     return data
 
 
 def put_publication(api,  # type: Api
-                    post_id,  # type: str 
-                    message, # type: str
+                    post_id,  # type: str
+                    message,  # type: str
                     ):
     # EDITS POST OR COMMENT
     post_args = {
@@ -332,19 +332,19 @@ def put_publication(api,  # type: Api
     }
 
     data = path_builder(
-        api = api,
-        target = post_id,
-        resource = "",
-        post_args = post_args
+        api=api,
+        target=post_id,
+        resource="",
+        post_args=post_args
     )
 
     return data
 
 
 def list_friends(api,  # type: Api
-                user_id,  # type: str
-                fields  # type: list[str]
-                ):
+                 user_id,  # type: str
+                 fields  # type: list[str]
+                 ):
 
     args = {
         "access_token": api._access_token,
@@ -352,11 +352,11 @@ def list_friends(api,  # type: Api
     }
 
     data = path_builder(
-        api = api,
-        target = user_id,
-        resource = "friends",
+        api=api,
+        target=user_id,
+        resource="friends",
         method="GET",
-        args = args
+        args=args
     )
 
     return data
