@@ -6,7 +6,8 @@ chatbot = ChatBot('Charlie')
 
 trainer = ListTrainer(chatbot)
 
-trainer.train(["Hola",
+trainer.train([
+    "Hola",
     "Hola, soy crux. En que te puedo ayudar?",
     "Quiero que me muestres las fotos de un amigo",
     "Perfecto, escriba su nombre",
@@ -20,6 +21,7 @@ trainer.train(["Hola",
     "Quiero que actualices los datos de mi perfil"
     "Datos de perfil actualizados"
 ])
+
 end_program = False
 while not end_program:
     me = input("User: ")
