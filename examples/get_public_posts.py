@@ -10,9 +10,9 @@ def get_posts(page_id):
     # Se crea un objeto Api para la conexión, a partir del contructor, al cual se le
     # pasa por parámetros, las constantes anteriormente definidas.
     api = Api(
-        app_id = APP_ID,
-        app_secret = APP_SECRET,
-        long_term_token = PAGE_ACCESS_TOKEN,
+        app_id=APP_ID,
+        app_secret=APP_SECRET,
+        long_term_token=PAGE_ACCESS_TOKEN,
     )
 
     # Se llama a un método del objeto Api, el cual nos devuelve los posteos hechos por
@@ -20,11 +20,11 @@ def get_posts(page_id):
     # Hay algunos filtros que se pueden pasar por parámetro, para manipular que
     # información se desea obtener.
     data = api.get_page_posts(
-        page_id = page_id,
-        since_time = "2020-05-01",
-        count = None,
-        limit = 100,
-        return_json = True
+        page_id=page_id,
+        since_time="2020-05-01",
+        count=None,
+        limit=100,
+        return_json=True
     )
 
     return data

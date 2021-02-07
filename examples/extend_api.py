@@ -18,10 +18,10 @@ class People(BaseModel):
     """
     Refer: https://developers.facebook.com/docs/graph-api/reference/v6.0/conversation
     """
-    
-    id = attrib(default = None, type = Optional[str])
-    name = attrib(default = None, type = Optional[str])
-    email = attrib(default = None, type = Optional[str], repr = False)
+
+    id = attrib(default=None, type=Optional[str])
+    name = attrib(default=None, type=Optional[str])
+    email = attrib(default=None, type=Optional[str], repr=False)
 
 
 @attrs
@@ -30,16 +30,16 @@ class PageConversation(BaseModel):
     Refer: https://developers.facebook.com/docs/graph-api/reference/v6.0/conversation
     """
 
-    id = attrib(default = None, type = Optional[str])
-    link = attrib(default = None, type = Optional[str], repr = False)
-    snippet = attrib(default = None, type = Optional[str], repr = False)
-    updated_time = attrib(default = None, type = Optional[str])
-    message_count = attrib(default = None, type = Optional[int])
-    unread_count = attrib(default = None, type = Optional[int])
-    participants = attrib(default = None, type = Optional[Dict])
-    senders = attrib(default = None, type = Optional[Dict])
-    can_reply = attrib(default = None, type = Optional[bool], repr = False)
-    is_subscribed = attrib(default = None, type = Optional[bool], repr = False)
+    id = attrib(default=None, type=Optional[str])
+    link = attrib(default=None, type=Optional[str], repr=False)
+    snippet = attrib(default=None, type=Optional[str], repr=False)
+    updated_time = attrib(default=None, type=Optional[str])
+    message_count = attrib(default=None, type=Optional[int])
+    unread_count = attrib(default=None, type=Optional[int])
+    participants = attrib(default=None, type=Optional[Dict])
+    senders = attrib(default=None, type=Optional[Dict])
+    can_reply = attrib(default=None, type=Optional[bool], repr=False)
+    is_subscribed = attrib(default=None, type=Optional[bool], repr=False)
 
     def __attrs_post_init__(self):
         if self.participants is not None and isinstance(self.participants, dict):
@@ -58,14 +58,12 @@ class ExtApi(Api):
         "is_subscribed",
     ]
 
-
     def page_by_next(self,
                      target,  # type: str
                      resource,  # type: str
                      args,  # type: Dict
                      next_page,  # type: str
                      ):
-        # type: (...) -> (str, Dict)
         """
         :param target: target id
         :param resource: target resource field
@@ -76,16 +74,16 @@ class ExtApi(Api):
 
         if next_page is not None:
             resp = self._request(
-                path = next_page
+                path=next_page
             )
         else:
             resp = self._request(
-                path = "{version}/{target}/{resource}".format(
-                    version = self.version, 
-                    target = target, 
-                    resource = resource
+                path="{version}/{target}/{resource}".format(
+                    version=self.version,
+                    target=target,
+                    resource=resource
                 ),
-                args = args
+                args=args
             )
         next_page = None
 
@@ -96,17 +94,15 @@ class ExtApi(Api):
 
         return next_page, data
 
-
     def get_page_conversations(self,
                                page_id,  # type: str
                                access_token,  # type: str
-                               fields = None,  # type: Optional[Union[str, List, Tuple, Set]]
-                               folder = "inbox",  # type: str
-                               count = 10,  # type: Optional[int]
-                               limit = 200,  # type: int
-                               return_json = False  # type: bool
+                               fields=None,  # type: Optional[Union[str, List, Tuple, Set]]
+                               folder="inbox",  # type: str
+                               count=10,  # type: Optional[int]
+                               limit=200,  # type: int
+                               return_json=False  # type: bool
                                ):
-        # type: (...) -> List[Union[Dict, PageConversation]]
         """
         Retrieve conversations for target page.
         Note:
@@ -143,10 +139,10 @@ class ExtApi(Api):
 
         while True:
             next_page, data = self.page_by_next(
-                target = page_id, 
-                resource = "conversations",
-                args = args, 
-                next_page = next_page
+                target=page_id,
+                resource="conversations",
+                args=args,
+                next_page=next_page
             )
             data = data.get("data", [])
 
@@ -165,11 +161,11 @@ class ExtApi(Api):
 
 
 if __name__ == '__main__':
-    api = ExtApi(long_term_token = PAGE_ACCESS_TOKEN)
+    api = ExtApi(long_term_token=PAGE_ACCESS_TOKEN)
 
     con = api.get_page_conversations(
-        page_id = PAGE_ID,
-        access_token = PAGE_ACCESS_TOKEN,
+        page_id=PAGE_ID,
+        access_token=PAGE_ACCESS_TOKEN,
     )
 
     print(con)
