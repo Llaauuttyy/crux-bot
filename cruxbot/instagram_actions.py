@@ -13,6 +13,7 @@ def get_ig_user_info(api,  # type: IgProApi
             username = username,
             return_json = True
         )
+
     except PyFacebookException as error:
         data = { "error": error }
 
@@ -30,6 +31,7 @@ def get_ig_user_medias(api,  # type: IgProApi
             username = username,
             return_json = True
         )
+
     except PyFacebookException as error:
         data = { "error": error }
 
@@ -47,6 +49,7 @@ def get_ig_media_info(api,  # type: IgProApi
             media_id = media_id,
             return_json = True
         )
+
     except PyFacebookException as error:
         data = { "error": error }
 
@@ -72,6 +75,7 @@ def post_ig_photo(api,  # type: GraphAPI
             },
             method = "POST"
         )
+
     except GraphAPIError as error:
         response = { "error": error }
 
@@ -86,6 +90,7 @@ def post_ig_photo(api,  # type: GraphAPI
             },
             method = "POST"
         )
+        
     except (KeyError, GraphAPIError) as error:
         data = { "error": error }
 
