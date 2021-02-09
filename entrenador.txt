@@ -1,6 +1,0 @@
-Hola quisiera ver los comentarios de una foto,
-Hola decime el nombre del usuario y la fecha de la foto,
-El usuario es francisco y la fecha 2/12,
-Perfecto este estos son los comentarios :,
-Hola quiero saber los me gusta de mi foto,
-De que fechas es su foto
