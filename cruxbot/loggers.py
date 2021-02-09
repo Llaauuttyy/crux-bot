@@ -1,5 +1,5 @@
 import logging
-
+import os
 
 # ------------------------------------------------- #
 # ------------ DEBUG LOGGER IS CREATED ------------ #
@@ -10,6 +10,8 @@ def debug_logger_creation():
 
     debug_logger = logging.getLogger("debug")
     debug_logger.setLevel(logging.DEBUG)
+
+    os.makedirs("logs", exist_ok = True)
 
     debug_formatter = logging.Formatter(
         "| %(asctime)s | Line %(lineno)d | %(levelname)s | (Module: %(module)s): (Function: %(funcName)s): %(message)s",
@@ -34,6 +36,8 @@ def chat_logger_creation():
     chat_logger = logging.getLogger("chat")
     chat_logger.setLevel(logging.INFO)
 
+    os.makedirs("logs", exist_ok = True)
+
     chat_formatter = logging.Formatter(
         '''%(asctime)s, %(message)s.''',
         "%d/%m/%Y, %H:%M:%S"
@@ -57,6 +61,8 @@ def error_logger_creation():
     error_logger = logging.getLogger("error")
     error_logger.setLevel(logging.ERROR)
 
+    os.makedirs("logs", exist_ok = True)
+
     error_formatter = logging.Formatter(
         "| %(asctime)s | Line %(lineno)d | %(levelname)s | (Module: %(module)s): (Function: %(funcName)s): %(message)s",
         "%d/%m/%Y - %H:%M:%S"
@@ -70,7 +76,7 @@ def error_logger_creation():
     return error_logger
 
 
-# Loggers
+# Logger
 debug_logger = debug_logger_creation()
 chat_logger = chat_logger_creation()
 error_logger = error_logger_creation()
