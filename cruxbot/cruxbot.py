@@ -28,6 +28,19 @@ PAGE_ID = "102579945106245"
 # Instagram Business Account
 INSTAGRAM_BUSINESS_ID = "17841444663784851"
 
+OPTIONS_FOR_EXIT = ["salir", "exit", "quit", "esc"]
+
+OPTIONS_FOR_FACEBOOK = ["facebook", "fb"]
+
+OPTIONS_FOR_INSTAGRAM = ["instagram", "ig"]
+
+KEYWORDS = [
+    "opciones", "likear", "publicaciones", 
+    "postear", "foto", "actualizar",
+    "listar", "amigos","perfil", 
+    "buscar", "seguidores"
+]
+
 
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
@@ -146,11 +159,14 @@ def bot_training(bot  # type: ChatBot
 
 
 def bot_greetings(bot  # type: ChatBot
-                 ):
+                  ):
 
-    response = bot.get_response("msgwme")
+    username = request_input(bot, "msgwme")
 
-    username = input(f"[{bot.name}]: {response}\n")
+    while username.isdecimal():
+        username = request_input(bot, "msgnameisnum")
+
+    username = username.lower().capitalize()
 
     return username
 
@@ -224,7 +240,7 @@ def search_user_by_bot(api,  # type: IgProApi
 # ------------------------------------------------------ #
 
 
-def set_up_username(username # type: str
+def set_up_username(username  # type: str
                     ):
 
     # Read in the file
@@ -239,9 +255,50 @@ def set_up_username(username # type: str
         file.write(filedata)
 
 
+def request_input(bot,  # type: ChatBot
+                  statement  # type: str
+                  ):
+
+    response = bot.get_response(statement)
+    request = input(f"[{bot.name}]: {response}\n")
+
+    return request.lower()
+
+
+def print_response(bot,  # type: ChatBot
+                   statement  # type: str
+                   ):
+
+    request = ""
+
+    response = bot.get_response(statement)
+
+    while response.confidence <= 0.8:
+        request = request_input(bot, "msgforconfidence")
+
+        response = bot.get_response(request)
+
+    print(f"[{bot.name}]: {response}\n")
+
+
+def are_keywords_in_text(text,  # type: str
+                       keywords  # type: list
+                       ):
+
+    flag_is_in = False
+
+    for x in range(len(keywords)):
+        if keywords[x] in text:
+            flag_is_in = True
+
+    return flag_is_in
+
+
 def main():
     response = ""
     request = ""
+
+    flag_is_valid = False
 
     api = Api(
         app_id=APP_ID,
@@ -259,42 +316,106 @@ def main():
 
     bot_training(bot)
 
-    response = bot.get_response("Descripcion")
-    request = input(f"[{bot.name}]: {response}\n")
+    request = request_input(bot, "descripcion")
 
-    while request not in ["Salir", "salir", "Exit", "exit"]:
+    while request not in OPTIONS_FOR_EXIT:
 
         if "bienvenida" in request:
-            response = bot.get_response(request)
-            print(f"[{bot.name}]: {response}\n")            
+            print_response(bot, request)
 
-        if "opciones" in request:
-            response = bot.get_response(request)
-            request = input(f"[{bot.name}]: {response}\n")
+            request = request_input(bot, "continuar")
 
-            if request in ["Facebook", "facebook", "fb"]:
-                for x in range(7):
-                    response = bot.get_response(f"fbopt{x}")
-                    print(f"[{bot.name}]: {response}")
+        elif "opciones" in request:
+            request = request_input(bot, request)
 
-                request = input("\nEscribe la opción: ")
+            while not flag_is_valid:
 
-            elif request in ["Instagram", "instagram", "ig"]:
-                for x in range(5):
-                    response = bot.get_response(f"igopt{x}")
-                    print(f"[{bot.name}]: {response}")
+                if request in OPTIONS_FOR_FACEBOOK:
+                    for x in range(7):
+                        response = bot.get_response(f"fbopt{x}")
+                        print(f"[{bot.name}]: {response}")
 
-                request = input("\nEscribe la opción: ")
+                    request = request_input(bot, "msgreqopt")
+                    response = bot.get_response(request)
 
-            else:
-                print("Ingresó una opción no valida")
+                    while response.confidence <= 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or "habilitar" in response.text.lower():
+                        request = request_input(bot, "msgforconfidence")
+                        response = bot.get_response(request)
 
-        response = bot.get_response("Continuar")
-        request = input(f"[{bot.name}]: {response}\n")        
+                    if "likear" in request and "likear" in response.text.lower():
+                        #Llamar a función correspondiente para likear
+                        print()
+
+                    elif "publicaciones" in request and "publicaciones" in response.text.lower():
+                        #Llamar a función correspondiente para ver publicaciones
+                        print()
+
+                    elif "postear" in request and "postear" in response.text.lower():
+                        #Llamar a función correspondiente para postear una publicación
+                        print()
+
+                    elif "foto" in request and "foto" in response.text.lower():
+                        #Llamar a función correspondiente para postear una foto
+                        print() 
+
+                    elif "actualizar" in request and "actualizar" in response.text.lower():
+                        #Llamar a función correspondiente para actualizar una publicación
+                        print()
+
+                    elif "amigos" in request and "amigos" in response.text.lower():
+                        #Llamar a función correspondiente para listar los amigos
+                        print()
+
+                    elif "perfil" in request and "perfil" in response.text.lower():
+                        #Llamar a función correspondiente para actualizar la foto de perfil
+                        print()                                                        
+
+                    flag_is_valid = True
+
+                elif request in OPTIONS_FOR_INSTAGRAM:
+                    for x in range(5):
+                        response = bot.get_response(f"igopt{x}")
+                        print(f"[{bot.name}]: {response}")
+
+                    request = request_input(bot, "msgreqopt")
+                    response = bot.get_response(request)
+
+                    while response.confidence <= 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
+                        request = request_input(bot, "msgforconfidence")
+                        response = bot.get_response(request)
+
+                    if "buscar" in request and "buscar" in response.text.lower():
+                        #Llamar a función correspondiente para buscar un usuario
+                        print()
+
+                    if "publicaciones" in request and "publicaciones" in response.text.lower():
+                        #Llamar a función correspondiente para ver publicaciones
+                        print()
+
+                    elif "foto" in request and "foto" in response.text.lower():
+                        #Llamar a función correspondiente para postear una foto
+                        print()
+
+                    elif "actualizar" in request and "habilitar" in response.text.lower():
+                        #Llamar a función correspondiente para actualizar una publicación
+                        print()
+
+                    elif "seguidores" in request and "seguidores" in response.text.lower():
+                        #Llamar a función correspondiente para listar los seguidores
+                        print()
+
+                    flag_is_valid = True
+
+                else:
+                    request = request_input(bot, "msgnotfborig")
+
+            request = request_input(bot, "continuar")
+
+        else:
+            request = request_input(bot, "msgnotvalidopt")
 
     else:
-        response = bot.get_response(request)
-        print(f"[{bot.name}]: {response}\n")
+        print_response(bot, request)
 
 
 if __name__ == "__main__":

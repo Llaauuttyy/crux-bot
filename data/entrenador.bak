@@ -1,37 +1,41 @@
 msgwme
 ¡Bienvenidoooooooo!. Me llamo Crux. ¿Cuál es tu nombre?
-Dar bienvenida
-¡Bienvenidoooooooo de nuevo Leonel!. Me llamo Crux y seré tu asistente a lo largo del programa
-Descripcion
-Excelente Leonel, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet Agustin y Chaves Leonel. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
-Continuar
-Leonel, ¿Algo más que quieras hacer?
-Mostrar opciones
-Okey Leonel, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
-Quiero likear una publicacion
-Comprendo, Leonel. En ese caso necesitaré saber cual publicación quieres likear
-Quiero ver mis publicaciones
-Perfecto, Leonel. Aqui estan tus publicaciones:
-Quiero postear una publicacion
-Okey, Leonel. ¡Deberás pensar un mensaje entonces!
-Quiero subir una foto
-Una...¿Foto?, bueno Leonel. ¡Aviso que no hay vuelta atras, eh!
-Quiero actualizar una publicacion
-Esta bien, Leonel. Ve pensando otro mensaje para actualizar la publicación
-Quiero actualizar una publicacion
-Esta bien, Leonel. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación
-Quiero listar los amigos
-¿Amigos? Eso...¿Existe, Leonel?. Bueno, trataré de hacer lo posible
-Quiero actualizar la foto de perfil
-Noooo, ¿Por qué Leonel?, si está 10/10 la que ya tienes. Otra no queda, ya mismo lo hago
-Quiero buscar a un usuario
-Entiendo, Leonel. En ese caso necesitaré el nombre del usuario
-Quiero listar los seguidores
-Bueno bueno, Leonel. ¡Ojo que solo te los puedo contar!
-Salir
-Bueno mi rey, ¡Hasta la próxima Leonel!
-Exit
-Bueno mi rey, ¡Hasta la próxima Leonel!
+dar bienvenida
+¡Bienvenidoooooooo de nuevo {nombre}!. Me llamo Crux y seré tu asistente a lo largo del programa
+descripcion
+Excelente {nombre}, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet Agustin y Chaves {nombre}. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
+continuar
+{nombre}, ¿Algo más que quieras hacer?
+mostrar opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+quiero likear una publicacion
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+quiero ver mis publicaciones
+Perfecto, {nombre}. Aqui estan tus publicaciones:
+quiero postear una publicacion
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+quiero subir una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+quiero actualizar una publicacion
+Esta bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+quiero actualizar una publicacion
+Esta bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación
+quiero listar los amigos
+¿Amigos? Eso...¿Existe, {nombre}?. Bueno, trataré de hacer lo posible
+quiero actualizar la foto de perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+quiero buscar a un usuario
+Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar
+quiero listar los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+salir
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+exit
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+quit
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+esc
+Bueno mi rey, ¡Hasta la próxima {nombre}!
 fbopt0
 Dar like a posteo
 fbopt1
@@ -56,3 +60,13 @@ igopt3
 Actualizar un posteo
 igopt4
 Listar a los seguidores
+msgnotvalidopt
+Perdón {nombre}, no soy capaz de ejecutar dicha acción. Por el momento solo puedo dar la bienvenida, mostrar las opciones de Facebook e Instagram y salir
+msgnotfborig
+Mmmmmmhhh {nombre}, no soy capaz de ejecutar dicha acción. Recuerda que sólo puede optar entre Facebook e Instagram
+msgnameisnum
+¡Ingresaste por error numeros!. Ten en cuenta que debes ingresar tu nombre
+msgforconfidence
+Uyuyuyuy, mil disculpas {nombre}, pero no entendí del todo lo que me dijiste. Por favor, intenta escribiendomelo de otra forma
+msgreqopt
+Dime {nombre}, ¿Qué opción quieres elegir?
