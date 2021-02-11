@@ -79,19 +79,50 @@ def post_ig_photo(api,  # type: GraphAPI
     except GraphAPIError as error:
         response = { "error": error }
 
+    if "error" not in response:
+        try:
+            data = api.request(
+                path = "{0}/{1}/{2}".format("v9.0", instagram_business_id, "media_publish"),
+                args = {
+                    "creation_id": response["id"]
+                },
+                post_args = {
+                    "access_token": api.access_token
+                },
+                method = "POST"
+            )
+            
+        except GraphAPIError as error:
+            data = { "error": error }
+
+    else:
+        data = response.copy()
+
+    return data
+
+
+def put_ig_media(api,  # type: IgProApi
+                 media_id,  # type: str
+                 comment_enabled  # type: bool
+                 ):
+
+    data = {}
+
     try:
-        data = api.request(
-            path = "{0}/{1}/{2}".format("v9.0", instagram_business_id, "media_publish"),
+        response = api._request(
+            path = "{0}/{1}".format(api.version, media_id),
+            method = "POST",
             args = {
-                "creation_id": response["id"]
+                "comment_enabled": comment_enabled
             },
             post_args = {
-                "access_token": api.access_token
-            },
-            method = "POST"
+                "access_token": api._access_token
+            }
         )
-        
-    except (KeyError, GraphAPIError) as error:
+
+        data = api._parse_response(response)        
+
+    except PyFacebookException as error:
         data = { "error": error }
 
     return data
