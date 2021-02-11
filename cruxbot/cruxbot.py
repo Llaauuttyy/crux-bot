@@ -5,9 +5,13 @@ import facebook_actions as fb
 import instagram_actions as ig
 from loggers import chat_logger
 
+from datetime import datetime, timedelta
+from copy import deepcopy
 from chatterbot import ChatBot
+from chatterbot.response_selection import get_random_response
 from chatterbot.trainers import ListTrainer
 from pyfacebook import Api, IgProApi
+from facebook import GraphAPI
 
 
 # Cruxbot's app ID
@@ -25,6 +29,8 @@ USER_ID = "103684888301061"
 # Cruxbot's page ID
 PAGE_ID = "102579945106245"
 
+IG_USERNAME = "crux_project"
+
 # Instagram Business Account
 INSTAGRAM_BUSINESS_ID = "17841444663784851"
 
@@ -38,7 +44,7 @@ KEYWORDS = [
     "opciones", "likear", "publicaciones", 
     "postear", "foto", "actualizar",
     "listar", "amigos", "perfil", 
-    "buscar", "seguidores"
+    "buscar", "seguidores", "habilitar"
 ]
 
 
@@ -121,6 +127,31 @@ def date_transforming(posts_info_list):
                 # Time's been caught from Facebook servers (Different than ours)
 
 
+def format_date(str_datetime  # type: str
+                ):
+
+    datetime_fixed = ""
+
+    datetime_formatted = (
+        datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S+%f") + 
+        timedelta(hours=-3)
+    )
+
+    datetime_fixed = datetime_formatted.strftime("%d/%m/%Y %H:%M:%S")
+
+    return datetime_fixed
+
+
+def format_key(key  # type: str
+               ):
+
+    key_formatted = ""
+
+    key_formatted = key.capitalize().replace("_", " ")
+
+    return key_formatted
+
+
 # ------------------------------------------------------ #
 # ------------- DATA MANAGEMENT UTILS ENDS ------------- #
 # ------------------------------------------------------ #
@@ -135,7 +166,10 @@ def bot_creation():
     # POST: Creates the bot object right
     # after deletes all the previous storage.
     # Finally, returns the bot object.
-    chatbot = ChatBot("Crux")
+    chatbot = ChatBot(
+        "Crux",
+        response_selection_method = get_random_response
+    )
 
     return chatbot
 
@@ -225,14 +259,220 @@ def bot_liking_posts(api,  # type: Api
     return True
 
 
-def search_user_by_bot(api,  # type: IgProApi
+def search_user_by_bot(bot,  # type: ChatBot
+                       api,  # type: IgProApi
                        username  # type: str
                        ):                        
+
+    data_list = []
 
     data = ig.get_ig_user_info(
         api = api,
         username = username
     )
+
+    if "error" in data:
+        data_list.append(data)
+    else:
+        data_list.append(
+            filter_data(data, search_user_by_bot.__name__)
+        )
+
+    print_data(bot, data_list, search_user_by_bot.__name__)
+
+
+def get_medias_by_bot(bot,  # type: ChatBot
+                      api,  # type: IgProApi
+                      username  # type: str
+                      ):                     
+
+    data_list = []
+
+    data = ig.get_ig_user_medias(
+        api = api,
+        username = username
+    )
+
+    if "error" in data:
+        data_list.append(data)
+    else:
+        for x in range(len(data)):
+            data_list.append(
+                filter_data(data[x], get_medias_by_bot.__name__)
+            )
+
+    print_data(bot, deepcopy(data_list), get_medias_by_bot.__name__)
+
+    return data_list
+
+
+def post_ig_photo_by_bot(bot,  # type: ChatBot
+                         api,  # type: GraphAPI
+                         image_url  # type: str
+                         ):
+    
+    data_list = []
+
+    data = ig.post_ig_photo(
+        api = api,
+        instagram_business_id = INSTAGRAM_BUSINESS_ID,
+        image_url = image_url
+    )
+
+    if "error" in data:
+        data_list.append(data)
+    else:
+        data_list.append(
+            filter_data(data, post_ig_photo_by_bot.__name__)
+        )
+
+    print_data(bot, data_list, post_ig_photo_by_bot.__name__)
+
+
+def update_media_by_bot(bot,  # type: ChatBot
+                        api,  # type: IgProApi
+                        media_id,  # type: str
+                        comment_enabled  # type: bool
+                        ):
+    
+    data_list = []
+
+    data = ig.put_ig_media(
+        api = api,
+        media_id = media_id,
+        comment_enabled = comment_enabled
+    )
+
+    if "error" in data:
+        data_list.append(data)
+    else:
+        data_list.append(filter_data(data, update_media_by_bot.__name__))
+
+    print_data(bot, data_list, update_media_by_bot.__name__)
+
+
+def get_followers_by_bot(bot,  # type: ChatBot
+                         api,  # type: IgProApi
+                         username  # type: str
+                         ):                        
+
+    data_list = []
+
+    data = ig.get_ig_user_info(
+        api = api,
+        username = username
+    )
+
+    if "error" in data:
+        data_list.append(data)
+    else:
+        data_list.append(
+            filter_data(data, get_followers_by_bot.__name__)
+        )
+
+    print_data(bot, data_list, get_followers_by_bot.__name__)    
+
+
+def filter_data(data,  # type: dict
+                function_name  # type: str
+                ):
+
+    parsed_data = {}
+
+    if function_name == search_user_by_bot.__name__:
+
+        parsed_data = {
+            "usuario": data.get("username", IG_USERNAME),
+            "biografia": data.get("biography", "Proyecto para facultad"),
+            "nombre": data.get("name", "Crux Friend"),
+            "cantidad_de_publicaciones": data.get("media_count", 0),
+            "cantidad_de_seguidos": data.get("follows_count", 0)
+        }
+
+    elif function_name == get_medias_by_bot.__name__:
+
+        parsed_data = {
+            "id": data.get("id", 0),
+            "cantidad_de_comentarios": data.get("comments_count", 0),
+            "usuario": data.get("username", "crux_project"),
+            "fecha_y_hora_de_publicacion": data.get(
+                "timestamp", 
+                (datetime.now() + timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%S+%f")
+            ),
+            "cantidad_de_likes": data.get("like_count", 0),
+            "link": data.get("permalink", "https://www.instagram.com/crux_project")
+        }
+
+    elif function_name == get_followers_by_bot.__name__:
+
+        parsed_data = { "cantidad_de_seguidores": data.get("followers_count", 0) }        
+
+    else:
+        parsed_data = deepcopy(data)
+    
+    return parsed_data
+
+
+def print_data(bot,  # type: ChatBot
+               data,  # type: list[dict]
+               function_name  # type: str
+               ):
+
+    key_error = "error"
+
+    if (function_name == search_user_by_bot.__name__ or 
+        function_name == get_followers_by_bot.__name__):
+
+        for x in range(len(data)):
+
+            if key_error in data[x]:
+                print_response(bot, "msgerrorconn")
+                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
+
+            else:
+                for key in data[x]:
+                    print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+
+    elif function_name == get_medias_by_bot.__name__:
+
+        for x in range(len(data)):
+
+            if key_error in data[x]:
+                print_response(bot, "msgerrorconn")
+                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
+
+            else:
+                del data[x]["id"]
+                data[x]["fecha_y_hora_de_publicacion"] = format_date(data[x].get("fecha_y_hora_de_publicacion"))
+
+                print(f"\n[{bot.name}]: {x + 1}° - publicación")
+
+                for key in data[x]:
+                    print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")                       
+
+    elif function_name == post_ig_photo_by_bot.__name__:
+
+        for x in range(len(data)):
+
+            if key_error in data[x]:
+                print_response(bot, "msgerrorconn")
+                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
+
+            else:
+                print_response(bot, "msgpostedphoto")
+
+    elif function_name == update_media_by_bot.__name__:
+
+        for x in range(len(data)):
+
+            if key_error in data[x]:
+                print_response(bot, "msgerrorconn")
+                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
+            else:
+                if(data[x].get("success")):
+                    print_response(bot, "msgcommenabledsucc")
+                else:
+                    print_response(bot, "msgcommenablednotsucc")
 
 
 # ------------------------------------------------------ #
@@ -262,7 +502,7 @@ def request_input(bot,  # type: ChatBot
                   ):
 
     response = bot.get_response(statement)
-    request = input(f"[{bot.name}]: {response}\n")
+    request = input(f"\n[{bot.name}]: {response}\n")
 
     return request.lower()
 
@@ -299,14 +539,30 @@ def are_keywords_in_text(text,  # type: str
 def main():
     response = ""
     request = ""
+    username = ""
+    image_url = ""
+    posts_list = []
+    post_id = 0
 
     flag_is_valid = False
+    comment_enabled = False
 
     api = Api(
         app_id=APP_ID,
         app_secret=APP_SECRET,
         long_term_token=PAGE_ACCESS_TOKEN,
     )
+
+    igproapi = IgProApi(
+        app_id = APP_ID,
+        app_secret = APP_SECRET,
+        long_term_token = PAGE_ACCESS_TOKEN,
+        instagram_business_id = INSTAGRAM_BUSINESS_ID
+    )
+
+    graphapi = GraphAPI(
+        access_token = PAGE_ACCESS_TOKEN
+    )    
 
     bot = bot_creation()
 
@@ -342,9 +598,13 @@ def main():
                     request = request_input(bot, "msgreqopt")
                     response = bot.get_response(request)
 
-                    while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or "habilitar" in response.text.lower():
+                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or 
+                           "habilitar" in response.text.lower()):
+
                         request = request_input(bot, "msgforconfidence")
                         response = bot.get_response(request)
+
+                    print(f"[{bot.name}]: {response}\n")    
 
                     if "likear" in request and "likear" in response.text.lower():
                         #Llamar a función correspondiente para likear
@@ -388,25 +648,52 @@ def main():
                         request = request_input(bot, "msgforconfidence")
                         response = bot.get_response(request)
 
-                    if "buscar" in request and "buscar" in response.text.lower():
-                        #Llamar a función correspondiente para buscar un usuario
-                        print()
+                    print(f"[{bot.name}]: {response}\n")
 
-                    if "publicaciones" in request and "publicaciones" in response.text.lower():
-                        #Llamar a función correspondiente para ver publicaciones
-                        print()
+                    if "buscar" in request and "buscar" in response.text.lower():
+                        username = request_input(bot, "msgrequsername")
+
+                        search_user_by_bot(bot, igproapi, username)
+
+                    elif "publicaciones" in request and "publicaciones" in response.text.lower():
+                        username = IG_USERNAME
+
+                        print_response(bot, "msgreqposts")
+                        get_medias_by_bot(bot, igproapi, username)
 
                     elif "foto" in request and "foto" in response.text.lower():
-                        #Llamar a función correspondiente para postear una foto
-                        print()
+                        # Se debe armar función para validar que se ingrese una URL válida
+                        # y que la misma no sea https
+                        image_url = request_input(bot, "msgrequrlphoto")
+                        post_ig_photo_by_bot(bot, graphapi, image_url)
 
                     elif "actualizar" in request and "habilitar" in response.text.lower():
-                        #Llamar a función correspondiente para actualizar una publicación
-                        print()
+                        username = IG_USERNAME
+
+                        posts_list = get_medias_by_bot(bot, igproapi, username)
+                        # Se debe armar función para validar el ingreso solamente de números
+                        # y que el mismo esté dentro de un rango
+                        request = request_input(bot, "msqreqidpostid")
+
+                        post_id = int(request) - 1
+
+                        # Se debe armar función para validar que haya ingresado variantes de
+                        # 'habilitar' y 'deshabilitar', y en todo caso armar un while hasta
+                        # que ingrese una opción válida. 'habilitar' = True, 'deshabilitar' = False
+                        request = request_input(bot, "msgreqcommentenabled")
+
+                        if(request == "habilitar"):
+                            comment_enabled = True
+                        elif(request == "deshabilitar"):
+                            comment_enabled = False
+
+                        update_media_by_bot(bot, igproapi, posts_list[post_id].get("id"), comment_enabled)
 
                     elif "seguidores" in request and "seguidores" in response.text.lower():
-                        #Llamar a función correspondiente para listar los seguidores
-                        print()
+                        username = IG_USERNAME
+
+                        print_response(bot, "msgfollowersok")
+                        get_followers_by_bot(bot, igproapi, username)                        
 
                     flag_is_valid = True
 
