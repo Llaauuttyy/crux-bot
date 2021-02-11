@@ -11,23 +11,41 @@ Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
 quiero likear una publicacion
 Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
 quiero ver mis publicaciones
-Perfecto, {nombre}. Aqui estan tus publicaciones:
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+msgreqposts
+¡Ya está {nombre}! Encontré tus publicaciones
 quiero postear una publicacion
 Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
 quiero subir una foto
 Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+msgrequrlphoto
+¿Entonces una foto, no {nombre}?. Voy a precisar que me facilites la URL de alguna foto de internet
+msgpostedphoto
+¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro {nombre} ¡Verificalo ;)!
 quiero actualizar una publicacion
 Esta bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
 quiero actualizar una publicacion
-Esta bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación
+Esta bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+msqreqidpostid
+Y bien {nombre}, ¿Cuál publicación quisieras actualizar?
+msgreqcommentenabled
+Bueno, y por último {nombre}...¿Qué quieres hacer con la publicación? ¿Quieres habilitarla o deshabilitarla?
+msgcommenabledsucc
+¡Buenas noticias {nombre}!. Hice lo que me pediste, y parece que todo está bien, podes constatarlo si queres
+msgcommenablednotsucc
+¡Malas noticias {nombre}!. Hice lo que me pediste...y se rompió todo, pero no fue mi culpa, eso sí
 quiero listar los amigos
 ¿Amigos? Eso...¿Existe, {nombre}?. Bueno, trataré de hacer lo posible
 quiero actualizar la foto de perfil
 Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
 quiero buscar a un usuario
-Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar
+Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar, un momento...
+msgrequsername
+Bueno ¡Creo ya tener todo listo {nombre}!. Por favor, dime el nombre de usuario que quieres buscar
 quiero listar los seguidores
 Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+msgfollowersok
+¡Ya está {nombre}! Uffffff pensé que tenías más seguidores
 salir
 Bueno mi rey, ¡Hasta la próxima {nombre}!
 exit
@@ -70,3 +88,5 @@ msgforconfidence
 Uyuyuyuy, mil disculpas {nombre}, pero no entendí del todo lo que me dijiste. Por favor, intenta escribiendomelo de otra forma
 msgreqopt
 Dime {nombre}, ¿Qué opción quieres elegir?
+msgerrorconn
+Aaaaagghhhh, perdón {nombre}...al parecer hubo un problema al quererme conectar con Facebook
