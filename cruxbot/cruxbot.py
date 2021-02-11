@@ -37,7 +37,7 @@ OPTIONS_FOR_INSTAGRAM = ["instagram", "ig"]
 KEYWORDS = [
     "opciones", "likear", "publicaciones", 
     "postear", "foto", "actualizar",
-    "listar", "amigos","perfil", 
+    "listar", "amigos", "perfil", 
     "buscar", "seguidores"
 ]
 
@@ -243,6 +243,8 @@ def search_user_by_bot(api,  # type: IgProApi
 def set_up_username(username  # type: str
                     ):
 
+    filedata = []
+
     # Read in the file
     with open("data/entrenador.txt", "r", encoding = "utf-8") as file:
         filedata = file.read()
@@ -273,7 +275,7 @@ def print_response(bot,  # type: ChatBot
 
     response = bot.get_response(statement)
 
-    while response.confidence <= 0.8:
+    while response.confidence < 0.8:
         request = request_input(bot, "msgforconfidence")
 
         response = bot.get_response(request)
@@ -282,8 +284,8 @@ def print_response(bot,  # type: ChatBot
 
 
 def are_keywords_in_text(text,  # type: str
-                       keywords  # type: list
-                       ):
+                         keywords  # type: list
+                         ):
 
     flag_is_in = False
 
@@ -328,6 +330,8 @@ def main():
         elif "opciones" in request:
             request = request_input(bot, request)
 
+            flag_is_valid = False
+
             while not flag_is_valid:
 
                 if request in OPTIONS_FOR_FACEBOOK:
@@ -338,7 +342,7 @@ def main():
                     request = request_input(bot, "msgreqopt")
                     response = bot.get_response(request)
 
-                    while response.confidence <= 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or "habilitar" in response.text.lower():
+                    while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or "habilitar" in response.text.lower():
                         request = request_input(bot, "msgforconfidence")
                         response = bot.get_response(request)
 
@@ -368,7 +372,7 @@ def main():
 
                     elif "perfil" in request and "perfil" in response.text.lower():
                         #Llamar a función correspondiente para actualizar la foto de perfil
-                        print()                                                        
+                        print()
 
                     flag_is_valid = True
 
@@ -380,7 +384,7 @@ def main():
                     request = request_input(bot, "msgreqopt")
                     response = bot.get_response(request)
 
-                    while response.confidence <= 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
+                    while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
                         request = request_input(bot, "msgforconfidence")
                         response = bot.get_response(request)
 
