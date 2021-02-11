@@ -37,7 +37,7 @@ def testGetMediaInfo():
 
 def testPostPhoto():
     data = ig.post_ig_photo(
-        api = graphApi,
+        api = graphapi,
         instagram_business_id = INSTAGRAM_BUSINESS_ID,
         image_url = image_url
     )
@@ -45,11 +45,22 @@ def testPostPhoto():
     assert "id" in data
 
 
+def testPutMedia():
+    data = ig.put_ig_media(
+        api = api,
+        media_id = media_id,
+        comment_enabled = comment_enabled
+    )
+
+    assert data["success"]
+
+
 if __name__ == "__main__":
 
-    username = "camilamur_"
+    username = "crux_project"
     image_url = "https://i.ytimg.com/vi/cn8oF2kRMyY/hqdefault.jpg"
-    media_id = "17881781170970625"
+    media_id = "18061943653263356"
+    comment_enabled = True
 
     api = IgProApi(
         app_id = APP_ID,
@@ -58,7 +69,7 @@ if __name__ == "__main__":
         instagram_business_id = INSTAGRAM_BUSINESS_ID
     )
 
-    graphApi = GraphAPI(
+    graphapi = GraphAPI(
         access_token = PAGE_ACCESS_TOKEN
     )
 
@@ -66,3 +77,4 @@ if __name__ == "__main__":
     testGetUserMedias()
     testGetMediaInfo()
     testPostPhoto()
+    testPutMedia()
