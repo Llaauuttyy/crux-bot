@@ -42,9 +42,9 @@ OPTIONS_FOR_FACEBOOK = ["facebook", "fb"]
 OPTIONS_FOR_INSTAGRAM = ["instagram", "ig"]
 
 KEYWORDS = [
-    "opciones", "likear", "publicaciones", 
+    "opciones", "likear", "publicaciones",
     "postear", "foto", "actualizar",
-    "listar", "amigos", "perfil", 
+    "listar", "amigos", "perfil",
     "buscar", "seguidores", "habilitar",
     "conversaciones", "chats", "comentar"
 ]
@@ -176,14 +176,13 @@ def fb_error_checking_profile_photo(data):
         return True
 
 
-
 def format_date(str_datetime  # type: str
                 ):
 
     datetime_fixed = ""
 
     datetime_formatted = (
-        datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S+%f") + 
+        datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S+%f") +
         timedelta(hours=-3)
     )
 
@@ -218,7 +217,7 @@ def bot_creation():
     # Finally, returns the bot object.
     chatbot = ChatBot(
         "Crux",
-        response_selection_method = get_random_response
+        response_selection_method=get_random_response
     )
 
     return chatbot
@@ -236,7 +235,7 @@ def bot_training(bot  # type: ChatBot
     bot.storage.drop()
     trainer = ListTrainer(bot)
 
-    with open("data/entrenador.txt", "r", encoding = "utf-8") as f:
+    with open("data/entrenador.txt", "r", encoding="utf-8") as f:
         datos = f.read().splitlines()
 
     trainer.train(datos)
@@ -331,7 +330,7 @@ def bot_object_chooser(api,
 
         return object_id
 
-    
+
 def bot_showing_convers_msg(api, bot):
 
     convo_id = bot_object_chooser(api, bot, "convo")
@@ -471,8 +470,8 @@ def search_user_by_bot(bot,  # type: ChatBot
     data_list = []
 
     data = ig.get_ig_user_info(
-        api = api,
-        username = username
+        api=api,
+        username=username
     )
 
     if "error" in data:
@@ -488,13 +487,13 @@ def search_user_by_bot(bot,  # type: ChatBot
 def get_medias_by_bot(bot,  # type: ChatBot
                       api,  # type: IgProApi
                       username  # type: str
-                      ):                     
+                      ):
 
     data_list = []
 
     data = ig.get_ig_user_medias(
-        api = api,
-        username = username
+        api=api,
+        username=username
     )
 
     if "error" in data:
@@ -514,13 +513,13 @@ def post_ig_photo_by_bot(bot,  # type: ChatBot
                          api,  # type: GraphAPI
                          image_url  # type: str
                          ):
-    
+
     data_list = []
 
     data = ig.post_ig_photo(
-        api = api,
-        instagram_business_id = INSTAGRAM_BUSINESS_ID,
-        image_url = image_url
+        api=api,
+        instagram_business_id=INSTAGRAM_BUSINESS_ID,
+        image_url=image_url
     )
 
     if "error" in data:
@@ -538,13 +537,13 @@ def update_media_by_bot(bot,  # type: ChatBot
                         media_id,  # type: str
                         comment_enabled  # type: bool
                         ):
-    
+
     data_list = []
 
     data = ig.put_ig_media(
-        api = api,
-        media_id = media_id,
-        comment_enabled = comment_enabled
+        api=api,
+        media_id=media_id,
+        comment_enabled=comment_enabled
     )
 
     if "error" in data:
@@ -558,13 +557,13 @@ def update_media_by_bot(bot,  # type: ChatBot
 def get_followers_by_bot(bot,  # type: ChatBot
                          api,  # type: IgProApi
                          username  # type: str
-                         ):                        
+                         ):
 
     data_list = []
 
     data = ig.get_ig_user_info(
-        api = api,
-        username = username
+        api=api,
+        username=username
     )
 
     if "error" in data:
@@ -574,7 +573,7 @@ def get_followers_by_bot(bot,  # type: ChatBot
             filter_data(data, get_followers_by_bot.__name__)
         )
 
-    print_data(bot, data_list, get_followers_by_bot.__name__)    
+    print_data(bot, data_list, get_followers_by_bot.__name__)
 
 
 def filter_data(data,  # type: dict
@@ -600,7 +599,7 @@ def filter_data(data,  # type: dict
             "cantidad_de_comentarios": data.get("comments_count", 0),
             "usuario": data.get("username", "crux_project"),
             "fecha_y_hora_de_publicacion": data.get(
-                "timestamp", 
+                "timestamp",
                 (datetime.now() + timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%S+%f")
             ),
             "cantidad_de_likes": data.get("like_count", 0),
@@ -609,11 +608,11 @@ def filter_data(data,  # type: dict
 
     elif function_name == get_followers_by_bot.__name__:
 
-        parsed_data = { "cantidad_de_seguidores": data.get("followers_count", 0) }        
+        parsed_data = { "cantidad_de_seguidores": data.get("followers_count", 0) }
 
     else:
         parsed_data = deepcopy(data)
-    
+
     return parsed_data
 
 
@@ -624,8 +623,7 @@ def print_data(bot,  # type: ChatBot
 
     key_error = "error"
 
-    if (function_name == search_user_by_bot.__name__ or 
-        function_name == get_followers_by_bot.__name__):
+    if (function_name == search_user_by_bot.__name__ or function_name == get_followers_by_bot.__name__):
 
         for x in range(len(data)):
 
@@ -652,7 +650,7 @@ def print_data(bot,  # type: ChatBot
                 print(f"\n[{bot.name}]: {x + 1}° - publicación")
 
                 for key in data[x]:
-                    print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")                       
+                    print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == post_ig_photo_by_bot.__name__:
 
@@ -690,14 +688,14 @@ def set_up_username(username  # type: str
     filedata = []
 
     # Read in the file
-    with open("data/entrenador.txt", "r", encoding = "utf-8") as file:
+    with open("data/entrenador.txt", "r", encoding="utf-8") as file:
         filedata = file.read()
 
     # Replace the target string
     filedata = filedata.replace("{nombre}", username)
 
     # Write the file out again
-    with open('data/entrenador.txt', 'w', encoding = "utf-8") as file:
+    with open('data/entrenador.txt', 'w', encoding="utf-8") as file:
         file.write(filedata)
 
 
@@ -758,15 +756,15 @@ def main():
     )
 
     igproapi = IgProApi(
-        app_id = APP_ID,
-        app_secret = APP_SECRET,
-        long_term_token = PAGE_ACCESS_TOKEN,
-        instagram_business_id = INSTAGRAM_BUSINESS_ID
+        app_id=APP_ID,
+        app_secret=APP_SECRET,
+        long_term_token=PAGE_ACCESS_TOKEN,
+        instagram_business_id=INSTAGRAM_BUSINESS_ID
     )
 
     graphapi = GraphAPI(
-        access_token = PAGE_ACCESS_TOKEN
-    )    
+        access_token=PAGE_ACCESS_TOKEN
+    )
 
     bot = bot_creation()
 
@@ -802,13 +800,13 @@ def main():
                     request = request_input(bot, "msgreqopt")
                     response = bot.get_response(request)
 
-                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or 
+                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
                            "habilitar" in response.text.lower()):
 
                         request = request_input(bot, "msgforconfidence")
                         response = bot.get_response(request)
 
-                    print(f"[{bot.name}]: {response}\n")    
+                    print(f"[{bot.name}]: {response}\n")
 
                     if "likear" in request and "likear" in response.text.lower():
                         bot_liking_posts(api, bot)
@@ -818,23 +816,19 @@ def main():
 
                     elif "postear" in request and "postear" in response.text.lower():
                         bot_post_publication(api, bot)
-                        print()
 
                     elif "foto" in request and "foto" in response.text.lower():
                         bot_uploading_feed_photo(graphapi, bot)
-                        print() 
 
                     elif "actualizar" in request and "actualizar" in response.text.lower():
                         bot_put_publication(api, bot)
-                        print()
 
                     elif "amigos" in request and "amigos" in response.text.lower():
-                        #Llamar a función correspondiente para listar los amigos
+                        # Llamar a función correspondiente para listar los amigos
                         print()
 
                     elif "perfil" in request and "perfil" in response.text.lower():
                         bot_uploading_profile_photo(graphapi, bot)
-                        print()
 
                     elif "conversaciones" in request and "conversaciones" in response.text.lower():
                         bot_showing_convers_msg(api, bot)
@@ -901,7 +895,7 @@ def main():
                         username = IG_USERNAME
 
                         print_response(bot, "msgfollowersok")
-                        get_followers_by_bot(bot, igproapi, username)                        
+                        get_followers_by_bot(bot, igproapi, username)
 
                     flag_is_valid = True
 
