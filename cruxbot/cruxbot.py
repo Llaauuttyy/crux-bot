@@ -1,3 +1,5 @@
+from logging import info
+import os
 import sys
 sys.path.append("C:/Users/Leonel/Documents/crux-bot")
 
@@ -41,10 +43,11 @@ OPTIONS_FOR_FACEBOOK = ["facebook", "fb"]
 OPTIONS_FOR_INSTAGRAM = ["instagram", "ig"]
 
 KEYWORDS = [
-    "opciones", "likear", "publicaciones", 
+    "opciones", "likear", "publicaciones",
     "postear", "foto", "actualizar",
-    "listar", "amigos", "perfil", 
-    "buscar", "seguidores", "habilitar"
+    "listar", "amigos", "perfil",
+    "buscar", "seguidores", "habilitar",
+    "conversaciones", "chats", "comentar"
 ]
 
 
@@ -53,14 +56,15 @@ KEYWORDS = [
 # ------------------------------------------------------ #
 
 
-def posts_printing(posts_info_list  # type: dict
+def posts_printing(posts_info_list  # type: list
                    ):
 
-    # PRE: Receives posts_info_list which is
-    # a dictionary list (filled up).
+    # PRE: Recibe posts_info_list que
+    # es una lista de dics llena, con la info
+    # de los posts.
 
-    # POST: Goes through such list and print the requested data
-    # from those dictionaries.
+    # POST: Recorre la lista e imprime la
+    # información requerida.
 
     for posts in range(len(posts_info_list)):
 
@@ -84,47 +88,132 @@ def posts_printing(posts_info_list  # type: dict
                 ))
 
 
-def posts_order(posts_info_list,  # type: dict
-                post_number  # type: str
-                ):
+def posts_or_convo_order(object_info_list,  # type: list
+                         object_number  # type: str
+                         ):
 
-    # PRE: Recieves posts_info_list which is
-    # a dictionary list filled up with data, and
-    # post_number which is the posts the user wanna
-    # interact with.
+    # PRE: Recibe posts_info_list que
+    # una lista de diccionarios lleno de data, y
+    # object_number que es el post que
+    # al que el usuario quiere acceder.
 
-    # POST: Changes post_number to be an list's index.
-    # Then seaches for the post id and returns it.
+    # POST: Cambia object_number para ser
+    # el índice de una lista, luego busca
+    # al post y lo retorna (su ID).
 
-    post_index = int(post_number) - 1  # Beacuse we're using a list.
+    object_index = int(object_number) - 1  # Beacuse we're using a list.
+
+    object_id = object_info_list[object_index]["id"]
+
+    return object_id
 
 
+def convers_snippet_printing(convers_info_list  # type: list
+                             ):
 
-    post_id = posts_info_list[post_index]["id"]
+    # PRE: Recibe la info de la conversaciones en
+    # una lista de diccionarios.
 
-    return post_id
+    # POST: Permite imprimir el último mensaje
+    # e infomación sobre la conversación.
+
+    for snippet in range(len(convers_info_list)):
+
+        print(
+            '''
+            Follower: {follower}
+            Last message: {last_message}
+            Conversation: {snippet}
+            '''.format(
+                follower=convers_info_list[snippet]["participants"]["data"][0]["name"],
+                last_message=convers_info_list[snippet]["snippet"],
+                snippet=snippet + 1
+            )
+        )
 
 
-def date_transforming(posts_info_list):
+def convers_messages_printing(message_info_list  # type: list
+                              ):
 
-    # PRE: Receives posts_info_list which is
-    # a dictionary list filled up with posts data.
+    # PRE: Recibe la info de la conversaciones en
+    # una lista de diccionarios.
 
-    # POST: Seaches the date and time and transforms them
-    # in order to print them right after.
+    # POST: Permite imprimir los mensajes
+    # e infomación sobre la conversación.
 
-    for post in range(len(posts_info_list)):
+    for message in range(len(message_info_list)):
+        print(
+            '''
+            Sender: {sender}
+            Message: {message}
+            '''.format(
+                sender=message_info_list[message]["from"]["name"],
+                message=message_info_list[message]["message"]
+            )
+        )
 
-        for key in posts_info_list[post]:
 
-            if key == "updated_time":
-                date_and_time = posts_info_list[post]["created_time"]
-                used_date, complete_hour = date_and_time.split("T")
-                splitted_hour = complete_hour.split("+")
-                used_time = splitted_hour[0]
-                print(f"Date: {used_date}. Time: {used_time}.")
+def printing_friend_list(bot,  # type: ChatBot
+                         data  # type: dict
+                         ):
 
-                # Time's been caught from Facebook servers (Different than ours)
+    # PRE: Recibe el objeto bot y data
+    # que es un diccionario que contiene
+    # información sobre los amigos.
+
+    # POST: Muestra la información al usuario.
+
+    print_response(bot, "fbopt5msg5")
+
+    for friend in data["data"]:
+        print("Nombre: {name}\n".format(
+                name=friend["name"]
+            )
+        )
+
+    print("Total de amigos: {friends}".format(
+            friends=data["summary"]["total_count"]
+        )
+    )
+
+
+def fb_error_checking(data  # type: dict
+                      ):
+
+    # PRE: Recibe data de todo tipo
+    # de acciones.
+
+    # POST: Chequea si hay error, si lo
+    # hay, lo printea y devuelve True, sino
+    # False.
+
+    if "error" in data:
+        print("Un error ha ocurrido: {error}".format(
+            error=data["error"]
+            )
+        )
+
+        return True
+
+    else:
+        return False
+
+
+def fb_error_checking_profile_photo(data  # type: dict
+                                    ):
+
+    # PRE: Recibe data de foto de perfil.
+
+    # POST: Chequea si hay error, si lo
+    # hay, printea y devuelve True, sino
+    # False.
+
+    if data["error"].result["error"]["code"] == 100:
+        return False
+
+    else:
+        print("Ha ocurrido un error inesperado.")
+        return True
 
 
 def format_date(str_datetime  # type: str
@@ -133,7 +222,7 @@ def format_date(str_datetime  # type: str
     datetime_fixed = ""
 
     datetime_formatted = (
-        datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S+%f") + 
+        datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S+%f") +
         timedelta(hours=-3)
     )
 
@@ -163,12 +252,11 @@ def format_key(key  # type: str
 
 def bot_creation():
 
-    # POST: Creates the bot object right
-    # after deletes all the previous storage.
-    # Finally, returns the bot object.
+    # POST: Crea el objeto bot y lo retorna.
+
     chatbot = ChatBot(
         "Crux",
-        response_selection_method = get_random_response
+        response_selection_method=get_random_response
     )
 
     return chatbot
@@ -177,16 +265,18 @@ def bot_creation():
 def bot_training(bot  # type: ChatBot
                  ):
 
-    # PRE: Receives the bot object.
+    # PRE: Recibe el objeto bot.
 
-    # POST: Uses it in order to create
-    # the trainer object and allows us
-    # to train our bot with a string list.
+    # POST: Lo usa para crear
+    # el objeto trainer que nos permite
+    # entrenar al bot con lista de strings,
+    # provenientes del archivo trainer.
+
     datos = []
     bot.storage.drop()
     trainer = ListTrainer(bot)
 
-    with open("data/entrenador.txt", "r", encoding = "utf-8") as f:
+    with open("data/entrenador.txt", "r", encoding="utf-8") as f:
         datos = f.read().splitlines()
 
     trainer.train(datos)
@@ -194,6 +284,11 @@ def bot_training(bot  # type: ChatBot
 
 def bot_greetings(bot  # type: ChatBot
                   ):
+
+    # PRE: Recibe el objeto bot.
+
+    # POST: Da la bienvenida al usuario,
+    # valida su nombre y lo devuelve.
 
     username = request_input(bot, "msgwme")
 
@@ -205,70 +300,287 @@ def bot_greetings(bot  # type: ChatBot
     return username
 
 
-def bot_showing_posts(api  # type: Api
+def bot_showing_posts(api,  # type: Api
+                      bot  # type: ChatBot
                       ):
 
-    # POST: Utilizes modules such as
-    # pyfacebook_actions and data_management
-    # so that get data from Facebook and enable
-    # us to print it out.
+    # PRE: Recibe el objeto api y bot.
 
-    posts_info_list = list()
+    # POST: Obtiene los posts, en caso de
+    # que no haya error, returna los mismos,
+    # sino una lista vacía.
 
+    print_response(bot, "fbopt1msg0")
 
     posts_info_list = fb.get_posts(
         api=api,
         page_id=PAGE_ID
     )
 
-    posts_printing(posts_info_list)
+    if not fb_error_checking(posts_info_list):
+        posts_printing(posts_info_list)
 
-    return posts_info_list
+        return posts_info_list
+
+    else:
+        posts_info_list = list()
+
+        return posts_info_list
 
 
-def bot_liking_posts(api,  # type: Api
-                     user_name  # type: str
-                     ):
+def bot_showing_conversations(api,  # type: Api
+                              bot  # type: ChatBot
+                              ):
 
-    # POST: Shows all of the posts and then
-    # allows the user to enter the one they
-    # wanna put a like in. Calls module functions.
+    # PRE: Recibe el objeto api y bot.
 
-    # Shows the post in order to let the user choose.
+    # POST: Obtiene las convers, en caso de
+    # que no haya error, returna las mismas
+    # en una lista, sino una lista vacía.
 
-    posts_info_list = bot_showing_posts(api)
-    if posts_info_list == []:
+    print_response(bot, "fbopt7msg0")
+    # calls conversations
+    convers_info_list = fb.get_page_conversations(
+        api=api,
+        page_id=PAGE_ID
+    )
+
+    # looks for errors
+    if not fb_error_checking(convers_info_list):
+        # if there's not, print conversations
+        convers_snippet_printing(convers_info_list)
+        # lets the user choose and print all
+        # of the mssages from that convo.
+        return convers_info_list
+
+    else:
+        posts_info_list = list()
+
+        return posts_info_list
+
+
+def bot_object_chooser(api,
+                       bot,
+                       type_object  # type: str
+                                    # Values: convo, posts_fb, posts_ig
+                       ):
+
+    if type_object == "posts":
+        object_info_list = bot_showing_posts(api, bot)
+
+    else:
+        object_info_list = bot_showing_conversations(api, bot)
+
+    if object_info_list == []:
         print("Try rebooting your connection")
 
     else:
-        bot_input_message = "Ingrese el numero de la publicacion que quiere likear:"
+        object_number = request_input(bot, "fbchr0")
 
-        post_number = input(f"[Crux]: {bot_input_message}\n")
+        while not object_number.isdecimal() or int(object_number) > len(object_info_list) or int(object_number) < 1:
+
+            object_number = request_input(bot, "fbchr5")
+
+        object_id = posts_or_convo_order(object_info_list, object_number)
+
+        return object_id
 
 
-        while not post_number.isdecimal():
+def bot_showing_convers_msg(api,  # type: Api
+                            bot  # type: ChatBot
+                            ):
 
-            post_number = input(f"[Crux]: {bot_input_message}\n")
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite recibir info de mensajes
+    # y si no hay errores, llama para printearlos.
+
+    convo_id = bot_object_chooser(api, bot, "convo")
+
+    messages_info_list = fb.get_conversation_messages(
+        api=api,
+        conversation_id=convo_id
+    )
+
+    if not fb_error_checking(messages_info_list):
+        convers_messages_printing(messages_info_list)
 
 
-        post_id = posts_order(posts_info_list, post_number)
+def bot_liking_posts(api,  # type: Api
+                     bot  # type: ChatBot
+                     ):
 
-        fb.post_like(api, post_id)
-        
+    # PRE: Recibe el objeto api y bot.
 
-    return True
+    # POST: Llama a método para likear post,
+    # si no hay error, avisa que se ha likeado.
+
+    post_id = bot_object_chooser(api, bot, "posts")
+
+    data = fb.post_like(api, post_id)
+
+    if not fb_error_checking(data):
+        print_response(bot, "fbopt0msg0")
+
+
+def bot_post_publication(api,  # type: Api
+                         bot  # type: ChatBot
+                         ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite publicar llamando
+    # a un método de fb y chequea si hay
+    # algún error al hacerlo, sino hay, 
+    # avisa al usuario que todo salió bien.
+
+    post_message = request_input(bot, "fbopt2msg0")
+
+    data = fb.post_publication(
+        api,
+        page_id=PAGE_ID,
+        message=post_message
+    )
+
+    # fbopt2msg5
+
+    if not fb_error_checking(data):
+
+        print_response(bot, "fbopt2msg10")
+
+
+def bot_put_publication(api,  # type: Api
+                        bot  # type: ChatBot
+                        ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite al usuario editar un post,
+    # llama al método necesario y si no hay
+    # error, muestra mensaje de éxito.
+
+    post_id = bot_object_chooser(api, bot, "posts")
+
+    user_edit = request_input(bot, "fbopt4msg10")
+    data = fb.put_publication(api, post_id, user_edit)
+
+    if not fb_error_checking(data):
+        print_response(bot, "fbopt4msg15")
+
+
+def bot_commenting_posts(api,  # type: Api
+                         bot  # type: ChatBot
+                         ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite comentar, llamándo a método
+    # de fb, si sale bien, printea mensaje.
+
+    post_id = bot_object_chooser(api, bot, "posts")
+
+    comment_message = request_input(bot, "fbopt2msg0")
+
+    data = fb.post_comment(
+        api=api,
+        post_id=post_id,
+        message=comment_message
+    )
+
+    if not fb_error_checking(data):
+
+        print_response(bot, "fbopt2msg15")
+
+
+def bot_checking_photo_in_path(bot   # type: ChatBot
+                               ):
+
+    # PRE: Recibe el objeto bot.
+
+    # POST: Crea la carpeta para subir
+    # fotos, si ya está creada avisa,
+    # y luego revisa que la foto esté
+    # localizada dentro de la carpeta.
+    # Una vez que todo está en order,
+    # retorna la foto.
+
+    try:
+        os.mkdir("images")
+
+    except FileExistsError:
+        user_ready = request_input(bot, "fbopt3msg1")
+
+    else:
+        user_ready = request_input(bot, "fbopt3msg0")
+
+    photo_is_ready = False
+
+    while not photo_is_ready:
+        try:
+            photo = open("images//image.jpeg", "rb")
+
+            photo_is_ready = True
+
+        except FileNotFoundError:
+            user_ready = request_input(bot, "fbopt3msg5")
+
+    return photo
+
+
+def bot_uploading_feed_photo(graphapi,  # type: GraphAPI
+                             bot  # type: ChatBot
+                             ):
+
+    # PRE: Recibe objeto graphapi y bot.
+
+    # POST: Llama al método para subir la
+    # foto y recibe la data, si no tiene error,
+    # le avisa al usuario que todo salió bien.
+    photo = bot_checking_photo_in_path(bot)
+
+    data = fb.post_photo(
+        api=graphapi,
+        page_id=PAGE_ID,
+        image=photo
+    )
+
+    if not fb_error_checking(data):
+        print_response(bot, "fbopt3msg20")
+
+
+def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
+                                bot  # type: ChatBot
+                                ):
+
+    # PRE: Recibe objeto graphapi y bot.
+
+    # POST: Llama al método para subir la
+    # foto de perfil y recibe la data, si
+    # no tiene error, le avisa al usuario
+    # que todo salió bien.
+
+    photo = bot_checking_photo_in_path(bot)
+
+    data = fb.post_profile_photo(
+        api=graphapi,
+        page_id=PAGE_ID,
+        image=photo
+    )
+
+    if not fb_error_checking_profile_photo(data):
+        print_response(bot, "fbopt6msg0")
 
 
 def search_user_by_bot(bot,  # type: ChatBot
                        api,  # type: IgProApi
                        username  # type: str
-                       ):                        
+                       ):
 
     data_list = []
 
     data = ig.get_ig_user_info(
-        api = api,
-        username = username
+        api=api,
+        username=username
     )
 
     if "error" in data:
@@ -284,13 +596,13 @@ def search_user_by_bot(bot,  # type: ChatBot
 def get_medias_by_bot(bot,  # type: ChatBot
                       api,  # type: IgProApi
                       username  # type: str
-                      ):                     
+                      ):
 
     data_list = []
 
     data = ig.get_ig_user_medias(
-        api = api,
-        username = username
+        api=api,
+        username=username
     )
 
     if "error" in data:
@@ -310,13 +622,13 @@ def post_ig_photo_by_bot(bot,  # type: ChatBot
                          api,  # type: GraphAPI
                          image_url  # type: str
                          ):
-    
+
     data_list = []
 
     data = ig.post_ig_photo(
-        api = api,
-        instagram_business_id = INSTAGRAM_BUSINESS_ID,
-        image_url = image_url
+        api=api,
+        instagram_business_id=INSTAGRAM_BUSINESS_ID,
+        image_url=image_url
     )
 
     if "error" in data:
@@ -334,13 +646,13 @@ def update_media_by_bot(bot,  # type: ChatBot
                         media_id,  # type: str
                         comment_enabled  # type: bool
                         ):
-    
+
     data_list = []
 
     data = ig.put_ig_media(
-        api = api,
-        media_id = media_id,
-        comment_enabled = comment_enabled
+        api=api,
+        media_id=media_id,
+        comment_enabled=comment_enabled
     )
 
     if "error" in data:
@@ -354,13 +666,13 @@ def update_media_by_bot(bot,  # type: ChatBot
 def get_followers_by_bot(bot,  # type: ChatBot
                          api,  # type: IgProApi
                          username  # type: str
-                         ):                        
+                         ):
 
     data_list = []
 
     data = ig.get_ig_user_info(
-        api = api,
-        username = username
+        api=api,
+        username=username
     )
 
     if "error" in data:
@@ -370,7 +682,7 @@ def get_followers_by_bot(bot,  # type: ChatBot
             filter_data(data, get_followers_by_bot.__name__)
         )
 
-    print_data(bot, data_list, get_followers_by_bot.__name__)    
+    print_data(bot, data_list, get_followers_by_bot.__name__)
 
 
 def filter_data(data,  # type: dict
@@ -396,7 +708,7 @@ def filter_data(data,  # type: dict
             "cantidad_de_comentarios": data.get("comments_count", 0),
             "usuario": data.get("username", "crux_project"),
             "fecha_y_hora_de_publicacion": data.get(
-                "timestamp", 
+                "timestamp",
                 (datetime.now() + timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%S+%f")
             ),
             "cantidad_de_likes": data.get("like_count", 0),
@@ -405,11 +717,11 @@ def filter_data(data,  # type: dict
 
     elif function_name == get_followers_by_bot.__name__:
 
-        parsed_data = { "cantidad_de_seguidores": data.get("followers_count", 0) }        
+        parsed_data = { "cantidad_de_seguidores": data.get("followers_count", 0) }
 
     else:
         parsed_data = deepcopy(data)
-    
+
     return parsed_data
 
 
@@ -420,8 +732,7 @@ def print_data(bot,  # type: ChatBot
 
     key_error = "error"
 
-    if (function_name == search_user_by_bot.__name__ or 
-        function_name == get_followers_by_bot.__name__):
+    if (function_name == search_user_by_bot.__name__ or function_name == get_followers_by_bot.__name__):
 
         for x in range(len(data)):
 
@@ -448,7 +759,7 @@ def print_data(bot,  # type: ChatBot
                 print(f"\n[{bot.name}]: {x + 1}° - publicación")
 
                 for key in data[x]:
-                    print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")                       
+                    print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == post_ig_photo_by_bot.__name__:
 
@@ -486,14 +797,14 @@ def set_up_username(username  # type: str
     filedata = []
 
     # Read in the file
-    with open("data/entrenador.txt", "r", encoding = "utf-8") as file:
+    with open("data/entrenador.txt", "r", encoding="utf-8") as file:
         filedata = file.read()
 
     # Replace the target string
     filedata = filedata.replace("{nombre}", username)
 
     # Write the file out again
-    with open('data/entrenador.txt', 'w', encoding = "utf-8") as file:
+    with open('data/entrenador.txt', 'w', encoding="utf-8") as file:
         file.write(filedata)
 
 
@@ -554,15 +865,15 @@ def main():
     )
 
     igproapi = IgProApi(
-        app_id = APP_ID,
-        app_secret = APP_SECRET,
-        long_term_token = PAGE_ACCESS_TOKEN,
-        instagram_business_id = INSTAGRAM_BUSINESS_ID
+        app_id=APP_ID,
+        app_secret=APP_SECRET,
+        long_term_token=PAGE_ACCESS_TOKEN,
+        instagram_business_id=INSTAGRAM_BUSINESS_ID
     )
 
     graphapi = GraphAPI(
-        access_token = PAGE_ACCESS_TOKEN
-    )    
+        access_token=PAGE_ACCESS_TOKEN
+    )
 
     bot = bot_creation()
 
@@ -591,48 +902,48 @@ def main():
             while not flag_is_valid:
 
                 if request in OPTIONS_FOR_FACEBOOK:
-                    for x in range(7):
+                    for x in range(9):
                         response = bot.get_response(f"fbopt{x}")
                         print(f"[{bot.name}]: {response}")
 
                     request = request_input(bot, "msgreqopt")
                     response = bot.get_response(request)
 
-                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or 
+                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
                            "habilitar" in response.text.lower()):
 
                         request = request_input(bot, "msgforconfidence")
                         response = bot.get_response(request)
 
-                    print(f"[{bot.name}]: {response}\n")    
+                    print(f"[{bot.name}]: {response}\n")
 
                     if "likear" in request and "likear" in response.text.lower():
-                        #Llamar a función correspondiente para likear
-                        print()
+                        bot_liking_posts(api, bot)
 
                     elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                        #Llamar a función correspondiente para ver publicaciones
-                        print()
+                        bot_showing_posts(api, bot)
 
                     elif "postear" in request and "postear" in response.text.lower():
-                        #Llamar a función correspondiente para postear una publicación
-                        print()
+                        bot_post_publication(api, bot)
 
                     elif "foto" in request and "foto" in response.text.lower():
-                        #Llamar a función correspondiente para postear una foto
-                        print() 
+                        bot_uploading_feed_photo(graphapi, bot)
 
                     elif "actualizar" in request and "actualizar" in response.text.lower():
-                        #Llamar a función correspondiente para actualizar una publicación
-                        print()
+                        bot_put_publication(api, bot)
 
                     elif "amigos" in request and "amigos" in response.text.lower():
-                        #Llamar a función correspondiente para listar los amigos
+                        # Llamar a función correspondiente para listar los amigos
                         print()
 
                     elif "perfil" in request and "perfil" in response.text.lower():
-                        #Llamar a función correspondiente para actualizar la foto de perfil
-                        print()
+                        bot_uploading_profile_photo(graphapi, bot)
+
+                    elif "conversaciones" in request and "conversaciones" in response.text.lower():
+                        bot_showing_convers_msg(api, bot)
+
+                    elif "comentar" in request and "comentar" in response.text.lower():
+                        bot_commenting_posts(api, bot)
 
                     flag_is_valid = True
 
@@ -693,7 +1004,7 @@ def main():
                         username = IG_USERNAME
 
                         print_response(bot, "msgfollowersok")
-                        get_followers_by_bot(bot, igproapi, username)                        
+                        get_followers_by_bot(bot, igproapi, username)
 
                     flag_is_valid = True
 
