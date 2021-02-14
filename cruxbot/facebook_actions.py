@@ -4,6 +4,7 @@ from pyfacebook.utils.param_validation import enf_comma_separated
 
 from facebook import GraphAPI, GraphAPIError
 from pyfacebook import Api, PyFacebookException
+from requests.sessions import session
 
 
 DEFAULT_CONVERSATION_FIELDS = [
@@ -25,6 +26,17 @@ def path_builder(api,  # type: Api
                  post_args=None,  # type: Dict
                  enforce_auth=True  # type: bool
                  ):
+
+    # PRE: Recibe el objeto api,
+    # y target, resource, method,
+    # args, post_args, los cuales
+    # nos permiten crear el path y los
+    # últimos dos, enviar datos necesarios
+    # para realizar esas acciones.
+
+    # POST: Crea el path, y permite llamar
+    # a _request para llevarle los datos,
+    # en fin de recibir la info.
 
     response = api._request(
         path="{version}/{target}/{resource}".format(
@@ -49,6 +61,15 @@ def page_by_next(api,  # type: Api
                  args,  # type: Dict
                  next_page,  # type: str
                  ):
+
+    # PRE: Recibe el objeto api,
+    # target y resource permiten armar
+    # el path y los argumentos.
+
+    # POST: Permite obtener información,
+    # en caso de ser mucha, de distintas
+    # páginas, dentro de un mismo campo.
+    # Retorna la siguiente página y la data.
 
     if next_page is not None:
         response = api._request(
@@ -77,12 +98,16 @@ def page_by_next(api,  # type: Api
 def get_posts(api,  # type: Api
               page_id  # type: str
               ):
-    # Se llama a un método del objeto Api, el cual nos
-    # devuelve los posteos hechos por
-    # el usuario, en su muro.
-    # Hay algunos filtros que se pueden pasar por
-    # parámetro, para manipular que
-    # información se desea obtener.
+    # PRE: Recibe el objeto api,
+    # y la id de la página.
+
+    # POST: Permite obtener los post
+    # y customizar la petición para
+    # obtener los que queramos y de
+    # la fecha deseada.
+    # Retorna la data, sino hay error,
+    # contrario, la info del error.
+
     data = {}
 
     try:
@@ -103,6 +128,13 @@ def get_posts(api,  # type: Api
 def get_comments(api,  # type: Api
                  object_id  # type: str
                  ):
+
+    # PRE: Recibe el objeto api,
+    # y la id del post.
+
+    # POST: Llama a la función necesaria
+    # y en caso de error lo retorna, sino,
+    # retorna la data.
 
     data = {}
 
@@ -127,29 +159,14 @@ def get_page_conversations(api,  # type: Api
                            count=10,  # type: Optional[int]
                            limit=200  # type: int
                            ):
-    """
-    Retrieve conversations for target page.
-    Note:
-        This is need page access token and with the scope `pages_messaging`.
-    :param page_id: Target page id.
-    :param access_token: Page access token
-    :param fields: Fields for to get data. None will use default fields.
-    :param folder: Folder for conversations. default is `inbox`.
-    Accept value are:
-        - inbox
-        - other
-        - page_done
-        - pending
-        - spam
-    :param count: The count will retrieve for the conversation if it is
-    possible. If set None will retrieve all.
-    :param limit: Each request will retrieve count for conversation,
-    should no more than 200.
-    :param return_json: Set to false will return a list
-    of PageConversation instances.
-    Or return json data. Default is false.
-    :return: Conversation data list.
-    """
+
+    # PRE: Recibe parámetros que nos
+    # permiten customizar nuestra petición,
+    # tales como fields, folder, count, limit.
+
+    # POST: Llama funciones y controla sus respuestas,
+    # para retornar la cantidad de conversaciones que establecimos
+    # en caso de que no hayan errores.
 
     if fields is None:
         fields = DEFAULT_CONVERSATION_FIELDS
@@ -164,8 +181,9 @@ def get_page_conversations(api,  # type: Api
     conversations = []
     next_page = None
 
+    finish_loop = False
     try:
-        while True:
+        while not finish_loop:
             next_page, data = page_by_next(
                 api=api,
                 target=page_id,
@@ -180,9 +198,10 @@ def get_page_conversations(api,  # type: Api
 
             if count is not None:
                 conversations = conversations[:count]
-                break
+                finish_loop = True
+
             if next_page is None:
-                break
+                finish_loop = True
 
     except PyFacebookException as error:
         conversations = {"error": error}
@@ -197,15 +216,17 @@ def get_conversation_messages(api,  # type: Api
                               limit=200,  # type: int
                               ):
 
-    # PRE: Receives parameters who allows us to customize our request.
-    # POST: Calls functions and manages its responses,
-    #       in order to return the messages amount we established.
+    # PRE: Recibe parámetros que nos
+    # permiten customizar nuestra petición,
+    # tales como fields, count, limit.
+
+    # POST: Llama funciones y controla sus respuestas,
+    # para retornar la cantidad de mensajes que establecimos
+    # en caso de que no hayan errores.
 
     if fields is None:
         fields = DEFAULT_MESSAGE_FIELDS
 
-    # enf_comma_separated basically filters
-    # the fields we passed by parameter.
     args = {
         "access_token": api._access_token,
         "fields": enf_comma_separated("fields", fields),
@@ -215,12 +236,13 @@ def get_conversation_messages(api,  # type: Api
     messages = []
     next_page = None
 
+    finish_loop = False
     try:
-        while True:
+        while not finish_loop:
             next_page, data = page_by_next(
                 api=api,
                 target=conversation_id,
-                resource="messages",  # messages is an important resource.
+                resource="messages",
                 args=args,
                 next_page=next_page
             )
@@ -228,14 +250,15 @@ def get_conversation_messages(api,  # type: Api
 
             messages.extend(data)
 
-            # It just leaves the messages amount we want.
+            # Sólo deja la cantidad de mensaje que pedimos.
             messages = messages[:count]
 
             if count is not None:
                 messages = messages[:count]
-                break
+                finish_loop = True
+
             if next_page is None:
-                break
+                finish_loop = True
 
     except PyFacebookException as error:
         messages = {"error":  error}
@@ -247,6 +270,14 @@ def post_comment(api,  # type: Api
                  post_id,  # type: str
                  message  # type: str
                  ):
+
+    # PRE: Recibe el objeto api,
+    # el id del post y el mensaje.
+
+    # POST: Prepara el diccionario de
+    # post_args y llama a la función para
+    # crear el path. En caso de error lo
+    # capta y retorna info sobre él.
 
     data = {}
 
@@ -274,6 +305,15 @@ def post_publication(api,  # type: Api
                      message  # type: str
                      ):
 
+    # PRE: Recibe el objeto api,
+    # el id de la página y el mensaje a
+    # postear.
+
+    # POST: Prepara el diccionario de
+    # post_args y llama a la función para
+    # crear el path. En caso de error lo
+    # capta y retorna info sobre él.
+
     data = {}
 
     post_args = {
@@ -298,6 +338,14 @@ def post_publication(api,  # type: Api
 def post_like(api,  # type: Api
               object_id  # type: str
               ):
+
+    # PRE: Recibe el objeto api,
+    # y la id de lo que se desea likear.
+
+    # POST: Prepara los post_args y
+    # llama a la funcion necesaria,
+    # en caso de errores prepara un
+    # diccionario con el mismo.
 
     data = {}
 
@@ -324,6 +372,12 @@ def post_photo(api,  # type: GraphAPI
                image
                ):
 
+    # PRE: Recibe el objeto api,
+    # la id de la página, y la foto.
+
+    # POST: Llama a put_photo para publicar
+    # y en caso de error, lo retorna, sino data.
+
     data = {}
 
     try:
@@ -343,6 +397,14 @@ def post_profile_photo(api,  # type: GraphAPI
                        image
                        ):
 
+    # PRE: Recibe el objeto api,
+    # el id de la página y la foto
+    # que se desea subir.
+
+    # POST: Llama a la función para
+    # publicar la foto y en caso de error,
+    # lo retorna, sino data
+
     data = {}
 
     try:
@@ -361,6 +423,14 @@ def delete_publication(api,  # type: Api
                        post_id  # type: str
                        ):
 
+    # PRE: Recibe el objeto api,
+    # el post_id que permite acceder a ese
+    # post.
+
+    # POST: Prepara el diccionario args
+    # y llama a las funciones necesarias
+    # para obtener la data y la retorna.
+
     data = {}
 
     args = {
@@ -371,7 +441,7 @@ def delete_publication(api,  # type: Api
         data = path_builder(
             api=api,
             target=post_id,
-            resource="",  # It has to be empty.
+            resource="",  # Tiene que estar vacío.
             method="DELETE",
             args=args,
             enforce_auth=False
@@ -388,9 +458,16 @@ def put_publication(api,  # type: Api
                     message,  # type: str
                     ):
 
+    # PRE: Recibe el objeto api,
+    # el post_id permite acceder a ese
+    # post y el mensaje a ser publicado.
+
+    # POST: Prepara el diccionario post_args
+    # llama a la función para generar los llamados.
+    # En caso de error, lo retorna, sino data.
+
     data = {}
 
-    # EDITS POST OR COMMENT
     post_args = {
         "access_token": api._access_token,
         "message": message
@@ -402,33 +479,6 @@ def put_publication(api,  # type: Api
             target=post_id,
             resource="",
             post_args=post_args
-        )
-
-    except PyFacebookException as error:
-        data = {"error": error}
-
-    return data
-
-
-def list_friends(api,  # type: Api
-                 user_id,  # type: str
-                 fields  # type: list[str]
-                 ):
-
-    data = {}
-
-    args = {
-        "access_token": api._access_token,
-        "fields": enf_comma_separated("fields", fields)
-    }
-
-    try:
-        data = path_builder(
-            api=api,
-            target=user_id,
-            resource="friends",
-            method="GET",
-            args=args
         )
 
     except PyFacebookException as error:
