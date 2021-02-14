@@ -1,3 +1,4 @@
+from logging import info
 import os
 import sys
 sys.path.append("C:/Users/Leonel/Documents/crux-bot")
@@ -55,14 +56,15 @@ KEYWORDS = [
 # ------------------------------------------------------ #
 
 
-def posts_printing(posts_info_list  # type: dict
+def posts_printing(posts_info_list  # type: list
                    ):
 
-    # PRE: Receives posts_info_list which is
-    # a dictionary list (filled up).
+    # PRE: Recibe posts_info_list que
+    # es una lista de dics llena, con la info
+    # de los posts.
 
-    # POST: Goes through such list and print the requested data
-    # from those dictionaries.
+    # POST: Recorre la lista e imprime la
+    # información requerida.
 
     for posts in range(len(posts_info_list)):
 
@@ -86,17 +88,18 @@ def posts_printing(posts_info_list  # type: dict
                 ))
 
 
-def posts_or_convo_order(object_info_list,  # type: dict
+def posts_or_convo_order(object_info_list,  # type: list
                          object_number  # type: str
                          ):
 
-    # PRE: Recieves posts_info_list which is
-    # a dictionary list filled up with data, and
-    # object_number which is the posts the user wanna
-    # interact with.
+    # PRE: Recibe posts_info_list que
+    # una lista de diccionarios lleno de data, y
+    # object_number que es el post que
+    # al que el usuario quiere acceder.
 
-    # POST: Changes object_number to be an list's index.
-    # Then seaches for the post id and returns it.
+    # POST: Cambia object_number para ser
+    # el índice de una lista, luego busca
+    # al post y lo retorna (su ID).
 
     object_index = int(object_number) - 1  # Beacuse we're using a list.
 
@@ -105,7 +108,14 @@ def posts_or_convo_order(object_info_list,  # type: dict
     return object_id
 
 
-def convers_snippet_printing(convers_info_list):
+def convers_snippet_printing(convers_info_list  # type: list
+                             ):
+
+    # PRE: Recibe la info de la conversaciones en
+    # una lista de diccionarios.
+
+    # POST: Permite imprimir el último mensaje
+    # e infomación sobre la conversación.
 
     for snippet in range(len(convers_info_list)):
 
@@ -122,7 +132,14 @@ def convers_snippet_printing(convers_info_list):
         )
 
 
-def convers_messages_printing(message_info_list):
+def convers_messages_printing(message_info_list  # type: list
+                              ):
+
+    # PRE: Recibe la info de la conversaciones en
+    # una lista de diccionarios.
+
+    # POST: Permite imprimir los mensajes
+    # e infomación sobre la conversación.
 
     for message in range(len(message_info_list)):
         print(
@@ -136,7 +153,15 @@ def convers_messages_printing(message_info_list):
         )
 
 
-def printing_friend_list(bot, data):
+def printing_friend_list(bot,  # type: ChatBot
+                         data  # type: dict
+                         ):
+
+    # PRE: Recibe el objeto bot y data
+    # que es un diccionario que contiene
+    # información sobre los amigos.
+
+    # POST: Muestra la información al usuario.
 
     print_response(bot, "fbopt5msg5")
 
@@ -152,7 +177,15 @@ def printing_friend_list(bot, data):
     )
 
 
-def fb_error_checking(data):
+def fb_error_checking(data  # type: dict
+                      ):
+
+    # PRE: Recibe data de todo tipo
+    # de acciones.
+
+    # POST: Chequea si hay error, si lo
+    # hay, lo printea y devuelve True, sino
+    # False.
 
     if "error" in data:
         print("Un error ha ocurrido: {error}".format(
@@ -166,7 +199,14 @@ def fb_error_checking(data):
         return False
 
 
-def fb_error_checking_profile_photo(data):
+def fb_error_checking_profile_photo(data  # type: dict
+                                    ):
+
+    # PRE: Recibe data de foto de perfil.
+
+    # POST: Chequea si hay error, si lo
+    # hay, printea y devuelve True, sino
+    # False.
 
     if data["error"].result["error"]["code"] == 100:
         return False
@@ -212,9 +252,8 @@ def format_key(key  # type: str
 
 def bot_creation():
 
-    # POST: Creates the bot object right
-    # after deletes all the previous storage.
-    # Finally, returns the bot object.
+    # POST: Crea el objeto bot y lo retorna.
+
     chatbot = ChatBot(
         "Crux",
         response_selection_method=get_random_response
@@ -226,11 +265,13 @@ def bot_creation():
 def bot_training(bot  # type: ChatBot
                  ):
 
-    # PRE: Receives the bot object.
+    # PRE: Recibe el objeto bot.
 
-    # POST: Uses it in order to create
-    # the trainer object and allows us
-    # to train our bot with a string list.
+    # POST: Lo usa para crear
+    # el objeto trainer que nos permite
+    # entrenar al bot con lista de strings,
+    # provenientes del archivo trainer.
+
     datos = []
     bot.storage.drop()
     trainer = ListTrainer(bot)
@@ -244,6 +285,11 @@ def bot_training(bot  # type: ChatBot
 def bot_greetings(bot  # type: ChatBot
                   ):
 
+    # PRE: Recibe el objeto bot.
+
+    # POST: Da la bienvenida al usuario,
+    # valida su nombre y lo devuelve.
+
     username = request_input(bot, "msgwme")
 
     while username.isdecimal():
@@ -255,13 +301,14 @@ def bot_greetings(bot  # type: ChatBot
 
 
 def bot_showing_posts(api,  # type: Api
-                      bot
+                      bot  # type: ChatBot
                       ):
 
-    # POST: Utilizes modules such as
-    # pyfacebook_actions and data_management
-    # so that get data from Facebook and enable
-    # us to print it out.
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Obtiene los posts, en caso de
+    # que no haya error, returna los mismos,
+    # sino una lista vacía.
 
     print_response(bot, "fbopt1msg0")
 
@@ -281,7 +328,15 @@ def bot_showing_posts(api,  # type: Api
         return posts_info_list
 
 
-def bot_showing_conversations(api, bot):
+def bot_showing_conversations(api,  # type: Api
+                              bot  # type: ChatBot
+                              ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Obtiene las convers, en caso de
+    # que no haya error, returna las mismas
+    # en una lista, sino una lista vacía.
 
     print_response(bot, "fbopt7msg0")
     # calls conversations
@@ -331,7 +386,14 @@ def bot_object_chooser(api,
         return object_id
 
 
-def bot_showing_convers_msg(api, bot):
+def bot_showing_convers_msg(api,  # type: Api
+                            bot  # type: ChatBot
+                            ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite recibir info de mensajes
+    # y si no hay errores, llama para printearlos.
 
     convo_id = bot_object_chooser(api, bot, "convo")
 
@@ -345,14 +407,13 @@ def bot_showing_convers_msg(api, bot):
 
 
 def bot_liking_posts(api,  # type: Api
-                     bot
+                     bot  # type: ChatBot
                      ):
 
-    # POST: Shows all of the posts and then
-    # allows the user to enter the one they
-    # wanna put a like in. Calls module functions.
+    # PRE: Recibe el objeto api y bot.
 
-    # Shows the post in order to let the user choose.
+    # POST: Llama a método para likear post,
+    # si no hay error, avisa que se ha likeado.
 
     post_id = bot_object_chooser(api, bot, "posts")
 
@@ -362,9 +423,16 @@ def bot_liking_posts(api,  # type: Api
         print_response(bot, "fbopt0msg0")
 
 
-def bot_post_publication(api,
-                         bot
+def bot_post_publication(api,  # type: Api
+                         bot  # type: ChatBot
                          ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite publicar llamando
+    # a un método de fb y chequea si hay
+    # algún error al hacerlo, sino hay, 
+    # avisa al usuario que todo salió bien.
 
     post_message = request_input(bot, "fbopt2msg0")
 
@@ -381,9 +449,15 @@ def bot_post_publication(api,
         print_response(bot, "fbopt2msg10")
 
 
-def bot_put_publication(api,
-                        bot
+def bot_put_publication(api,  # type: Api
+                        bot  # type: ChatBot
                         ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite al usuario editar un post,
+    # llama al método necesario y si no hay
+    # error, muestra mensaje de éxito.
 
     post_id = bot_object_chooser(api, bot, "posts")
 
@@ -394,7 +468,14 @@ def bot_put_publication(api,
         print_response(bot, "fbopt4msg15")
 
 
-def bot_commenting_posts(api, bot):
+def bot_commenting_posts(api,  # type: Api
+                         bot  # type: ChatBot
+                         ):
+
+    # PRE: Recibe el objeto api y bot.
+
+    # POST: Permite comentar, llamándo a método
+    # de fb, si sale bien, printea mensaje.
 
     post_id = bot_object_chooser(api, bot, "posts")
 
@@ -411,7 +492,17 @@ def bot_commenting_posts(api, bot):
         print_response(bot, "fbopt2msg15")
 
 
-def bot_checking_photo_in_path(bot):
+def bot_checking_photo_in_path(bot   # type: ChatBot
+                               ):
+
+    # PRE: Recibe el objeto bot.
+
+    # POST: Crea la carpeta para subir
+    # fotos, si ya está creada avisa,
+    # y luego revisa que la foto esté
+    # localizada dentro de la carpeta.
+    # Una vez que todo está en order,
+    # retorna la foto.
 
     try:
         os.mkdir("images")
@@ -436,7 +527,15 @@ def bot_checking_photo_in_path(bot):
     return photo
 
 
-def bot_uploading_feed_photo(graphapi, bot):
+def bot_uploading_feed_photo(graphapi,  # type: GraphAPI
+                             bot  # type: ChatBot
+                             ):
+
+    # PRE: Recibe objeto graphapi y bot.
+
+    # POST: Llama al método para subir la
+    # foto y recibe la data, si no tiene error,
+    # le avisa al usuario que todo salió bien.
     photo = bot_checking_photo_in_path(bot)
 
     data = fb.post_photo(
@@ -449,7 +548,17 @@ def bot_uploading_feed_photo(graphapi, bot):
         print_response(bot, "fbopt3msg20")
 
 
-def bot_uploading_profile_photo(graphapi, bot):
+def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
+                                bot  # type: ChatBot
+                                ):
+
+    # PRE: Recibe objeto graphapi y bot.
+
+    # POST: Llama al método para subir la
+    # foto de perfil y recibe la data, si
+    # no tiene error, le avisa al usuario
+    # que todo salió bien.
+
     photo = bot_checking_photo_in_path(bot)
 
     data = fb.post_profile_photo(
