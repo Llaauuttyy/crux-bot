@@ -52,6 +52,10 @@ KEYWORDS = [
     "conversaciones", "chats", "comentar"
 ]
 
+KEYWORDS_ENABLE_DISABLE = [
+    "habilitar","deshabilitar","habilita",
+    "deshabilita","habilitalo","deshabilitalo"
+]
 
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
@@ -74,6 +78,11 @@ def validate_url(bot):
     return url
 
 
+def validate_enable_disable(bot):
+    enable_or_not = request_input(bot, msgreqcommentenabled)
+    while enable_or_not not in KEYWORDS_ENABLE_DISABLE:
+        enable_or_not = request_input(bot, msgerrorenable)
+    return enable_or_not
 
 def posts_printing(posts_info_list  # type: list
                    ):
@@ -1009,7 +1018,7 @@ def main():
                         # Se debe armar función para validar que haya ingresado variantes de
                         # 'habilitar' y 'deshabilitar', y en todo caso armar un while hasta
                         # que ingrese una opción válida. 'habilitar' = True, 'deshabilitar' = False
-                        request = request_input(bot, "msgreqcommentenabled")
+                        request = validate_enable_disable(bot)
 
                         if(request == "habilitar"):
                             comment_enabled = True
