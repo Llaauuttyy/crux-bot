@@ -65,7 +65,7 @@ def validate_url(bot):
         r'(?::\d+)?' # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-    url = request_input(bot, "urlget")
+    url = request_input(bot, "msgrequrlphoto")
     aceptada = re.match(regex, url) is not None
     
     while not aceptada:

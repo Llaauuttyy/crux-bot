@@ -18,6 +18,8 @@ quiero postear una publicacion
 Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
 quiero subir una foto
 Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+msgrequrlphoto
+¿Entonces una foto, no {nombre}?. Voy a precisar que me facilites la URL de alguna foto de internet
 msgpostedphoto
 quiero comentar una publicacion
 Genial, {nombre}. Vamos a comentar!
@@ -146,7 +148,5 @@ msgreqopt
 Dime {nombre}, ¿Qué opción quieres elegir?
 msgerrorconn
 Aaaaagghhhh, perdón {nombre}...al parecer hubo un problema al quererme conectar con Facebook
-urlget
-Necesito la url de la foto que quieras subir
 urlgeterror
 Vos sabes que ingresaste una url no válida, trata de ingresar una correcta {nombre}
