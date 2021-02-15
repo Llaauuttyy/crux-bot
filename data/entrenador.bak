@@ -21,11 +21,15 @@ Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
 msgrequrlphoto
 ¿Entonces una foto, no {nombre}?. Voy a precisar que me facilites la URL de alguna foto de internet
 msgpostedphoto
+quiero comentar una publicacion
+Genial, {nombre}. Vamos a comentar!
 ¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro {nombre} ¡Verificalo ;)!
 quiero actualizar una publicacion
 Esta bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
 quiero actualizar una publicacion
 Esta bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+quiero ver mis conversaciones
+Esta bien, {nombre}. Veamos esas conversaciones!
 msqreqidpostid
 Y bien {nombre}, ¿Cuál publicación quisieras actualizar?
 msgreqcommentenabled
@@ -54,20 +58,74 @@ quit
 Bueno mi rey, ¡Hasta la próxima {nombre}!
 esc
 Bueno mi rey, ¡Hasta la próxima {nombre}!
+fbchr0
+Ingrese el numero del que quiere elegir:
+fbchr5
+Tiene que ser un número, {nombre}. No te pases de númeross! Intentá otra vez:
 fbopt0
 Dar like a posteo
+fbopt0msg0
+{nombre}, es post ha sido likeado con éxito!
 fbopt1
 Leer posteos
+fbopt1msg0
+Aqui estan todos tus posts!
 fbopt2
 Subir posteo
+fbopt2msg0
+Escribe lo que te gustaría publicar (Ojo, {nombre}. No insultes a nadie):
+fbopt2msg5
+Conectando con el servidor...
+fbopt2msg10
+{nombre}, el post ha sido publicado con éxito!
+fbopt2msg15
+{nombre}, el comentario ha sido publicado con éxito!
 fbopt3
 Subir foto
+fbopt3msg0
+Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, la misma debe llamarse "image.jpeg". Una vez que lo hayas hecho, envía cualquier cosa.
+fbopt3msg1
+Ingresa la foto llamada "image.jpeg" dentro de la carpeta "images". Avisá cuando estés listo enviando un mensaje.
+fbopt3msg5
+Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Avisá cuando estés listo enviando un mensaje
+fbopt3msg10
+Te parece poner:
+fbopt3msg15
+La próxima podrías poner algo más creativo.
+fbopt3msg20
+La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
+fbopt3msg25
+Eliminando evidencia...
+fbopt3msg30
+Listo. Nadie sabrá lo que has hecho. MUAJAJA
 fbopt4
 Actualizar un posteo
+fbopt4msg0
+Elije el número del posteo que deseas editar:
+fbopt4msg5
+Tiene que ser un número, {nombre}. No te pases de posts. Intentá otra vez:
+fbopt4msg10
+Escribe la nueva actualización:
+fbopt4msg15
+Perfecto! El post ha sido actualizado con éxito, {nombre}.
 fbopt5
 Listar amigos
+fbopt5msg0
+Está bien, {nombre}. Listaremos a tu amigos! Recordatorio: Sólo los que tengan la app crux-bot podrán ser mostrados. Dile a tus amigos que se sumen!
+fbopt5msg5
+Aquí están tus amigos:
+fbopt5msg10
+Un token de página ha sido creado para que puedas seguir aquí.
 fbopt6
 Actualizar foto de perfil
+fbopt6msg0
+La foto de perfil ha sido actualizada. MUCHA FACHA, {nombre}.
+fbopt7
+Leer conversaciones
+fbopt7msg0
+Aqui van esas conversaciones!!!!
+fbopt8
+Comentar una publicacion
 igopt0
 Buscar usuario
 igopt1
@@ -92,3 +150,5 @@ msgerrorconn
 Aaaaagghhhh, perdón {nombre}...al parecer hubo un problema al quererme conectar con Facebook
 urlgeterror
 Vos sabes que ingresaste una url no válida, trata de ingresar una correcta {nombre}
+msgerrorenable
+Disculpa pero no entendi lo que quisiste decirme, queres deshabilitar o habilitar el comentario?
