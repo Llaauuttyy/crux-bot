@@ -15,6 +15,8 @@ from chatterbot.trainers import ListTrainer
 from pyfacebook import Api, IgProApi
 from facebook import GraphAPI
 
+import re
+
 
 # Cruxbot's app ID
 APP_ID = "2522931991341291"
@@ -54,6 +56,23 @@ KEYWORDS = [
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
 # ------------------------------------------------------ #
+def validate_url(bot):
+    regex = re.compile(
+        r'^(?:http|ftp)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+    url = request_input(bot, "urlget")
+    aceptada = re.match(regex, url) is not None
+    
+    while not aceptada:
+        aceptada = request_input(bot, "urlgeterror")
+    
+    return url
+
 
 
 def posts_printing(posts_info_list  # type: list
@@ -973,9 +992,8 @@ def main():
                         get_medias_by_bot(bot, igproapi, username)
 
                     elif "foto" in request and "foto" in response.text.lower():
-                        # Se debe armar función para validar que se ingrese una URL válida
-                        # y que la misma no sea https
-                        image_url = request_input(bot, "msgrequrlphoto")
+
+                        image_url = validate_url(bot)
                         post_ig_photo_by_bot(bot, graphapi, image_url)
 
                     elif "actualizar" in request and "habilitar" in response.text.lower():
