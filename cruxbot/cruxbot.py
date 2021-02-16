@@ -327,6 +327,30 @@ def bot_greetings(bot  # type: ChatBot
 
     return username
 
+def information_followers(api,bot):
+    print_response(bot, "fbopt9msg0")
+
+    data = fb.get_page_information(
+        api=api,
+        page_id=PAGE_ID
+    )
+
+    if not fb_error_checking(data):
+        followers_count(data)
+
+    else:
+        print_response(bot, "fbopt9msg5")
+
+def followers_count(data):
+    print(
+        '''
+        Bien, entonces la cantidad de seguidores que tenes es: {}.
+        Sos famosito eh!
+        '''.format(
+            data["followers_count"]
+        )
+    )
+
 
 def bot_showing_posts(api,  # type: Api
                       bot  # type: ChatBot
@@ -930,7 +954,7 @@ def main():
             while not flag_is_valid:
 
                 if request in OPTIONS_FOR_FACEBOOK:
-                    for x in range(9):
+                    for x in range(10):
                         response = bot.get_response(f"fbopt{x}")
                         print(f"[{bot.name}]: {response}")
 
@@ -960,9 +984,8 @@ def main():
                     elif "actualizar" in request and "actualizar" in response.text.lower():
                         bot_put_publication(api, bot)
 
-                    elif "amigos" in request and "amigos" in response.text.lower():
-                        # Llamar a función correspondiente para listar los amigos
-                        print()
+                    elif "seguidores" in request and "seguidores" in response.text.lower():
+                        information_followers(api,bot)
 
                     elif "perfil" in request and "perfil" in response.text.lower():
                         bot_uploading_profile_photo(graphapi, bot)
