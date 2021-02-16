@@ -168,7 +168,11 @@ def bot_creation():
     # Finally, returns the bot object.
     chatbot = ChatBot(
         "Crux",
-        response_selection_method = get_random_response
+        response_selection_method = get_random_response,
+        preprocessors = [
+            "chatterbot.preprocessors.clean_whitespace",
+            "chatterbot.preprocessors.convert_to_ascii"
+        ]
     )
 
     return chatbot
