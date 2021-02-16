@@ -70,7 +70,7 @@ def error_logger_creation():
     return error_logger
 
 
-os.makedirs("logs", exist_ok = True)
+os.makedirs("logs", exist_ok=True)
 
 # Logger
 debug_logger = debug_logger_creation()
