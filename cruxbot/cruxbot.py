@@ -52,9 +52,12 @@ KEYWORDS = [
     "conversaciones", "chats", "comentar"
 ]
 
-KEYWORDS_ENABLE_DISABLE = [
-    "habilitar","deshabilitar","habilita",
-    "deshabilita","habilitalo","deshabilitalo"
+KEYWORDS_ENABLE = [
+    "habilitar", "habilita", "habilitalo"
+]
+
+KEYWORDS_DISABLE = [
+    "deshabilitar", "deshabilita", "deshabilitalo"
 ]
 
 # ------------------------------------------------------ #
@@ -79,10 +82,38 @@ def validate_url(bot):
 
 
 def validate_enable_disable(bot):
-    enable_or_not = request_input(bot, msgreqcommentenabled)
-    while enable_or_not not in KEYWORDS_ENABLE_DISABLE:
-        enable_or_not = request_input(bot, msgerrorenable)
+    enable_or_not = request_input(bot, "msgreqcommentenabled")
+    while (enable_or_not not in KEYWORDS_ENABLE and
+           enable_or_not not in KEYWORDS_DISABLE):
+        enable_or_not = request_input(bot, "msgerrorenable")
     return enable_or_not
+
+
+def validate_number_in_range(bot,  # type: ChatBot
+                             range  # type: list
+                             ):
+
+    request = ""
+    flag_is_valid_number = False
+    number = 0
+
+    request = request_input(bot, "msqreqobjectid")
+
+    while not flag_is_valid_number:
+
+        if request.isdecimal():
+            number = int(request) - 1
+
+            if number >= 0 and number <= len(range) - 1:
+                flag_is_valid_number = True
+            else:
+                request = request_input(bot, "msgerrornotinrange")
+
+        else:
+            request = request_input(bot, "msgerrornotnumber")
+
+    return number
+    
 
 def posts_printing(posts_info_list  # type: list
                    ):
@@ -875,6 +906,136 @@ def are_keywords_in_text(text,  # type: str
     return flag_is_in
 
 
+def init_main_options(request,  # type: str
+                      bot,  # type: ChatBot
+                      api,  # type: Api
+                      igproapi,  # type: IgProApi
+                      graphapi  # type: GraphAPI
+                      ):
+
+    if "bienvenida" in request:
+        print_response(bot, request)
+
+        request = request_input(bot, "continuar")
+
+    elif "opciones" in request:
+        request = request_input(bot, request)
+
+        flag_is_valid = False
+
+        while not flag_is_valid:
+
+            if request in OPTIONS_FOR_FACEBOOK:
+                for x in range(9):
+                    response = bot.get_response(f"fbopt{x}")
+                    print(f"[{bot.name}]: {response}")
+
+                request = request_input(bot, "msgreqopt")
+                response = bot.get_response(request)
+
+                while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
+                        "habilitar" in response.text.lower()):
+
+                    request = request_input(bot, "msgforconfidence")
+                    response = bot.get_response(request)
+
+                print(f"[{bot.name}]: {response}\n")
+
+                if "likear" in request and "likear" in response.text.lower():
+                    bot_liking_posts(api, bot)
+
+                elif "publicaciones" in request and "publicaciones" in response.text.lower():
+                    bot_showing_posts(api, bot)
+
+                elif "postear" in request and "postear" in response.text.lower():
+                    bot_post_publication(api, bot)
+
+                elif "foto" in request and "foto" in response.text.lower():
+                    bot_uploading_feed_photo(graphapi, bot)
+
+                elif "actualizar" in request and "actualizar" in response.text.lower():
+                    bot_put_publication(api, bot)
+
+                elif "amigos" in request and "amigos" in response.text.lower():
+                    # Llamar a función correspondiente para listar los amigos
+                    print()
+
+                elif "perfil" in request and "perfil" in response.text.lower():
+                    bot_uploading_profile_photo(graphapi, bot)
+
+                elif "conversaciones" in request and "conversaciones" in response.text.lower():
+                    bot_showing_convers_msg(api, bot)
+
+                elif "comentar" in request and "comentar" in response.text.lower():
+                    bot_commenting_posts(api, bot)
+
+                flag_is_valid = True
+
+            elif request in OPTIONS_FOR_INSTAGRAM:
+                for x in range(5):
+                    response = bot.get_response(f"igopt{x}")
+                    print(f"[{bot.name}]: {response}")
+
+                request = request_input(bot, "msgreqopt")
+                response = bot.get_response(request)
+
+                while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
+                    request = request_input(bot, "msgforconfidence")
+                    response = bot.get_response(request)
+
+                print(f"[{bot.name}]: {response}\n")
+
+                if "buscar" in request and "buscar" in response.text.lower():
+                    username = request_input(bot, "msgrequsername")
+
+                    search_user_by_bot(bot, igproapi, username)
+
+                elif "publicaciones" in request and "publicaciones" in response.text.lower():
+                    username = IG_USERNAME
+
+                    print_response(bot, "msgreqposts")
+                    get_medias_by_bot(bot, igproapi, username)
+
+                elif "foto" in request and "foto" in response.text.lower():
+
+                    image_url = request_input(bot, "msgrequrlphoto")
+                    post_ig_photo_by_bot(bot, graphapi, image_url)
+
+                elif "actualizar" in request and "habilitar" in response.text.lower():
+                    username = IG_USERNAME
+
+                    posts_list = get_medias_by_bot(bot, igproapi, username)
+   
+                    post_id = validate_number_in_range(bot, posts_list)
+
+                    request = validate_enable_disable(bot)
+
+                    if request in KEYWORDS_ENABLE:
+                        comment_enabled = True
+                    elif request in KEYWORDS_DISABLE:
+                        comment_enabled = False
+
+                    update_media_by_bot(bot, igproapi, posts_list[post_id].get("id"), comment_enabled)
+
+                elif "seguidores" in request and "seguidores" in response.text.lower():
+                    username = IG_USERNAME
+
+                    print_response(bot, "msgfollowersok")
+                    get_followers_by_bot(bot, igproapi, username)
+
+                flag_is_valid = True
+
+            else:
+                request = request_input(bot, "msgnotfborig")
+
+        request = request_input(bot, "continuar")
+
+    else:
+        request = request_input(bot, "msgnotvalidopt")
+
+    return request
+
+
 def main():
     response = ""
     request = ""
@@ -917,131 +1078,7 @@ def main():
 
     while request not in OPTIONS_FOR_EXIT:
 
-        if "bienvenida" in request:
-            print_response(bot, request)
-
-            request = request_input(bot, "continuar")
-
-        elif "opciones" in request:
-            request = request_input(bot, request)
-
-            flag_is_valid = False
-
-            while not flag_is_valid:
-
-                if request in OPTIONS_FOR_FACEBOOK:
-                    for x in range(9):
-                        response = bot.get_response(f"fbopt{x}")
-                        print(f"[{bot.name}]: {response}")
-
-                    request = request_input(bot, "msgreqopt")
-                    response = bot.get_response(request)
-
-                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
-                           "habilitar" in response.text.lower()):
-
-                        request = request_input(bot, "msgforconfidence")
-                        response = bot.get_response(request)
-
-                    print(f"[{bot.name}]: {response}\n")
-
-                    if "likear" in request and "likear" in response.text.lower():
-                        bot_liking_posts(api, bot)
-
-                    elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                        bot_showing_posts(api, bot)
-
-                    elif "postear" in request and "postear" in response.text.lower():
-                        bot_post_publication(api, bot)
-
-                    elif "foto" in request and "foto" in response.text.lower():
-                        bot_uploading_feed_photo(graphapi, bot)
-
-                    elif "actualizar" in request and "actualizar" in response.text.lower():
-                        bot_put_publication(api, bot)
-
-                    elif "amigos" in request and "amigos" in response.text.lower():
-                        # Llamar a función correspondiente para listar los amigos
-                        print()
-
-                    elif "perfil" in request and "perfil" in response.text.lower():
-                        bot_uploading_profile_photo(graphapi, bot)
-
-                    elif "conversaciones" in request and "conversaciones" in response.text.lower():
-                        bot_showing_convers_msg(api, bot)
-
-                    elif "comentar" in request and "comentar" in response.text.lower():
-                        bot_commenting_posts(api, bot)
-
-                    flag_is_valid = True
-
-                elif request in OPTIONS_FOR_INSTAGRAM:
-                    for x in range(5):
-                        response = bot.get_response(f"igopt{x}")
-                        print(f"[{bot.name}]: {response}")
-
-                    request = request_input(bot, "msgreqopt")
-                    response = bot.get_response(request)
-
-                    while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
-                        request = request_input(bot, "msgforconfidence")
-                        response = bot.get_response(request)
-
-                    print(f"[{bot.name}]: {response}\n")
-
-                    if "buscar" in request and "buscar" in response.text.lower():
-                        username = request_input(bot, "msgrequsername")
-
-                        search_user_by_bot(bot, igproapi, username)
-
-                    elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                        username = IG_USERNAME
-
-                        print_response(bot, "msgreqposts")
-                        get_medias_by_bot(bot, igproapi, username)
-
-                    elif "foto" in request and "foto" in response.text.lower():
-
-                        image_url = validate_url(bot)
-                        post_ig_photo_by_bot(bot, graphapi, image_url)
-
-                    elif "actualizar" in request and "habilitar" in response.text.lower():
-                        username = IG_USERNAME
-
-                        posts_list = get_medias_by_bot(bot, igproapi, username)
-                        # Se debe armar función para validar el ingreso solamente de números
-                        # y que el mismo esté dentro de un rango
-                        request = request_input(bot, "msqreqidpostid")
-
-                        post_id = int(request) - 1
-
-                        # Se debe armar función para validar que haya ingresado variantes de
-                        # 'habilitar' y 'deshabilitar', y en todo caso armar un while hasta
-                        # que ingrese una opción válida. 'habilitar' = True, 'deshabilitar' = False
-                        request = validate_enable_disable(bot)
-
-                        if(request == "habilitar"):
-                            comment_enabled = True
-                        elif(request == "deshabilitar"):
-                            comment_enabled = False
-
-                        update_media_by_bot(bot, igproapi, posts_list[post_id].get("id"), comment_enabled)
-
-                    elif "seguidores" in request and "seguidores" in response.text.lower():
-                        username = IG_USERNAME
-
-                        print_response(bot, "msgfollowersok")
-                        get_followers_by_bot(bot, igproapi, username)
-
-                    flag_is_valid = True
-
-                else:
-                    request = request_input(bot, "msgnotfborig")
-
-            request = request_input(bot, "continuar")
-
-        else:
-            request = request_input(bot, "msgnotvalidopt")
+        request = init_main_options(request, bot, api, igproapi, graphapi)
 
     else:
         print_response(bot, request)
