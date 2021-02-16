@@ -17,6 +17,9 @@ DEFAULT_MESSAGE_FIELDS = [
     "created_time", "from", "id", "message", "tags", "to"
 ]
 
+DEFAULT_PAGE_FIELDS = [
+    "id", "about", "followers_count", "general_info"
+]
 
 def path_builder(api,  # type: Api
                  target,  # type: str
@@ -483,5 +486,37 @@ def put_publication(api,  # type: Api
 
     except PyFacebookException as error:
         data = {"error": error}
+
+    return data
+
+
+def get_page_information(api,  # type: Api
+                         page_id,  # type: str
+                         fields=None  # type: Optional[Union[str, List, Tuple, Set]]
+                         ):
+
+    if fields is None:
+        fields = DEFAULT_PAGE_FIELDS
+
+    args = {
+        "access_token": api._access_token,
+        "fields": enf_comma_separated("fields", fields)
+    }
+
+    data = []
+
+    try:
+        response = api._request(
+            path="{version}/{target}".format(
+                version=api.version,
+                target=page_id
+            ),
+            args=args
+        )
+
+        data = api._parse_response(response)
+
+    except PyFacebookException as error:
+        data = {"error":  error}
 
     return data

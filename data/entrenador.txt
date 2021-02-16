@@ -148,3 +148,7 @@ msgreqopt
 Dime {nombre}, ¿Qué opción quieres elegir?
 msgerrorconn
 Aaaaagghhhh, perdón {nombre}...al parecer hubo un problema al quererme conectar con Facebook
+urlgeterror
+Vos sabes que ingresaste una url no válida, trata de ingresar una correcta {nombre}
+msgerrorenable
+Disculpa pero no entendi lo que quisiste decirme, queres deshabilitar o habilitar el comentario?
