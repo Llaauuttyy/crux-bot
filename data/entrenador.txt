@@ -30,8 +30,8 @@ quiero actualizar una publicacion
 Esta bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
 quiero ver mis conversaciones
 Esta bien, {nombre}. Veamos esas conversaciones!
-msqreqidpostid
-Y bien {nombre}, ¿Cuál publicación quisieras actualizar?
+msqreqobjectid
+Y bien {nombre}, ¿Cuál quieres elegir?
 msgreqcommentenabled
 Bueno, y por último {nombre}...¿Qué quieres hacer con la publicación? ¿Quieres habilitarla o deshabilitarla?
 msgcommenabledsucc
@@ -152,3 +152,7 @@ urlgeterror
 Vos sabes que ingresaste una url no válida, trata de ingresar una correcta {nombre}
 msgerrorenable
 Disculpa pero no entendi lo que quisiste decirme, queres deshabilitar o habilitar el comentario?
+msgerrornotnumber
+¡{nombre}! Recuerda que sólo puedes ingresar numeros. Te pido amorosamente que elijas de nuevo
+msgerrornotinrange
+¡{nombre}! Vé que dicho número, no está dentro del rango de opciones que te mostré. Te pido cariñosmente que elijas de nuevo
