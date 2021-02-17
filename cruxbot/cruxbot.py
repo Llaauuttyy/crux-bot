@@ -339,7 +339,7 @@ def bot_creation():
         response_selection_method = get_random_response,
         preprocessors = [
             "chatterbot.preprocessors.clean_whitespace",
-            "chatterbot.preprocessors.convert_to_ascii"
+            #"chatterbot.preprocessors.convert_to_ascii"
         ]
     )
 
@@ -946,7 +946,10 @@ def request_input(bot,  # type: ChatBot
                   ):
 
     response = bot.get_response(statement)
+    chat_logger.info(f"[{bot.name}]: {response}")
+
     request = input(f"\n[{bot.name}]: {response}\n")
+    chat_logger.info(f"[Usuario]: {request}")
 
     return request.lower()
 
@@ -969,6 +972,8 @@ def print_response(bot,  # type: ChatBot
         response = bot.get_response(request)
 
     print(f"[{bot.name}]: {response}\n")
+
+    chat_logger.info(f"[{bot.name}]: {response}")
 
 
 # PRE: 'text', debe ser una variable de tipo str
@@ -1027,6 +1032,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(f"fbopt{x}")
                     print(f"[{bot.name}]: {response}")
 
+                    chat_logger.info(f"[{bot.name}]: {response}")
+
                 request = request_input(bot, "msgreqopt")
                 response = bot.get_response(request)
 
@@ -1037,6 +1044,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(request)
 
                 print(f"[{bot.name}]: {response}\n")
+
+                chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "likear" in request and "likear" in response.text.lower():
                     bot_liking_posts(api, bot)
@@ -1073,6 +1082,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(f"igopt{x}")
                     print(f"[{bot.name}]: {response}")
 
+                    chat_logger.info(f"[{bot.name}]: {response}")
+
                 request = request_input(bot, "msgreqopt")
                 response = bot.get_response(request)
 
@@ -1081,6 +1092,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(request)
 
                 print(f"[{bot.name}]: {response}\n")
+
+                chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "buscar" in request and "buscar" in response.text.lower():
                     username = request_input(bot, "msgrequsername")
