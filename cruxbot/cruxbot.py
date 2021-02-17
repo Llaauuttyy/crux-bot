@@ -383,6 +383,30 @@ def bot_greetings(bot  # type: ChatBot
 
     return username
 
+def information_followers(api,bot):
+    print_response(bot, "fbopt9msg0")
+
+    data = fb.get_page_information(
+        api=api,
+        page_id=PAGE_ID
+    )
+
+    if not fb_error_checking(data):
+        followers_count(data)
+
+    else:
+        print_response(bot, "fbopt9msg5")
+
+def followers_count(data):
+    print(
+        '''
+        Bien, entonces la cantidad de seguidores que tenes es: {}.
+        Sos famosito eh!
+        '''.format(
+            data["followers_count"]
+        )
+    )
+
 
 def bot_showing_posts(api,  # type: Api
                       bot  # type: ChatBot
