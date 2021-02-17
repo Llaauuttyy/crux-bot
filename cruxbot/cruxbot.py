@@ -52,9 +52,12 @@ KEYWORDS = [
     "conversaciones", "chats", "comentar"
 ]
 
-KEYWORDS_ENABLE_DISABLE = [
-    "habilitar","deshabilitar","habilita",
-    "deshabilita","habilitalo","deshabilitalo"
+KEYWORDS_ENABLE = [
+    "habilitar", "habilita", "habilitalo"
+]
+
+KEYWORDS_DISABLE = [
+    "deshabilitar", "deshabilita", "deshabilitalo"
 ]
 
 # ------------------------------------------------------ #
@@ -79,10 +82,44 @@ def validate_url(bot):
 
 
 def validate_enable_disable(bot):
-    enable_or_not = request_input(bot, msgreqcommentenabled)
-    while enable_or_not not in KEYWORDS_ENABLE_DISABLE:
-        enable_or_not = request_input(bot, msgerrorenable)
+    enable_or_not = request_input(bot, "msgreqcommentenabled")
+    while (enable_or_not not in KEYWORDS_ENABLE and
+           enable_or_not not in KEYWORDS_DISABLE):
+        enable_or_not = request_input(bot, "msgerrorenable")
     return enable_or_not
+
+
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'range', debe ser una variable de tipo list
+# POST: Devuelve un número de tipo int, el cuál es ingresado por
+#       el usuario, para posteriormente validar, que es un número y
+#       que se encuentra dentro del rango de la cantidad de elementos
+#       de la lista indicada anteriormente
+def validate_number_in_range(bot,  # type: ChatBot
+                             range  # type: list[dict]
+                             ):
+
+    request = ""
+    flag_is_valid_number = False
+    number = 0
+
+    request = request_input(bot, "msqreqobjectid")
+
+    while not flag_is_valid_number:
+
+        if request.isdecimal():
+            number = int(request) - 1
+
+            if number >= 0 and number <= len(range) - 1:
+                flag_is_valid_number = True
+            else:
+                request = request_input(bot, "msgerrornotinrange")
+
+        else:
+            request = request_input(bot, "msgerrornotnumber")
+
+    return number
+    
 
 def posts_printing(posts_info_list  # type: list
                    ):
@@ -244,21 +281,36 @@ def fb_error_checking_profile_photo(data  # type: dict
         return True
 
 
+# PRE: 'str_datetime', debe ser una variable de tipo str
+# POST: Devuelve un string que representa la fecha y hora, la cual
+#       deriva de la fecha y hora ingresada anteriormente, a esa 
+#       se le dió un formato local y se corrigió la diferencia de 
+#       horas
 def format_date(str_datetime  # type: str
                 ):
 
     datetime_fixed = ""
 
+    # El string pasado por parámetro, es necesario parsearlo/convertirlo
+    # a una variable de tipo datetime e indicar el tipo de formato de fecha
+    # y hora con el que viene, para recién poder realizar alguna operación
+    # con la misma, como por ej. la resta de horas
     datetime_formatted = (
         datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S+%f") +
         timedelta(hours=-3)
     )
 
+    # Una vez corregido la diferencia de horas, a la hora y fecha, se le da 
+    # un formato local, para luego parsearlo/convertirlo a string
     datetime_fixed = datetime_formatted.strftime("%d/%m/%Y %H:%M:%S")
 
     return datetime_fixed
 
 
+# PRE: 'key', debe ser una variable de tipo str
+# POST: Devuelve un string que representa una llave de diccionario, dicha 
+#       llave ingresda anteriormente, se la capitalizó y se reemplazó los 
+#       guiones bajos por un espacio 
 def format_key(key  # type: str
                ):
 
@@ -284,7 +336,11 @@ def bot_creation():
 
     chatbot = ChatBot(
         "Crux",
-        response_selection_method=get_random_response
+        response_selection_method = get_random_response,
+        preprocessors = [
+            "chatterbot.preprocessors.clean_whitespace",
+            "chatterbot.preprocessors.convert_to_ascii"
+        ]
     )
 
     return chatbot
@@ -623,6 +679,12 @@ def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
         print_response(bot, "fbopt6msg0")
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'api', debe ser una variable de tipo IgProApi
+#      'username', debe ser una variable de tipo str
+# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+#       el fin de buscar al usuario indicado anteriormente, y de este 
+#       modo, obtener sus datos
 def search_user_by_bot(bot,  # type: ChatBot
                        api,  # type: IgProApi
                        username  # type: str
@@ -645,6 +707,12 @@ def search_user_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, search_user_by_bot.__name__)
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'api', debe ser una variable de tipo IgProApi
+#      'username', debe ser una variable de tipo str
+# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+#       el fin de obtener las publicaciones/medias del usuario indicado
+#       anteriormente, y de este modo, obtener la información de cada una
 def get_medias_by_bot(bot,  # type: ChatBot
                       api,  # type: IgProApi
                       username  # type: str
@@ -670,6 +738,12 @@ def get_medias_by_bot(bot,  # type: ChatBot
     return data_list
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'api', debe ser una variable de tipo GraphAPI
+#      'image_url', debe ser una variable de tipo str
+# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+#       el fin de postear una foto en el muro/feed. Dicha foto, se 
+#       encuentra en la url, indicada anteriormente
 def post_ig_photo_by_bot(bot,  # type: ChatBot
                          api,  # type: GraphAPI
                          image_url  # type: str
@@ -693,6 +767,14 @@ def post_ig_photo_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, post_ig_photo_by_bot.__name__)
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'api', debe ser una variable de tipo IgProApi
+#      'media_id', debe ser una variable de tipo str
+#      'comment_enabled', debe ser una variable de tipo bool
+# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+#       el fin de actualizar la publicacion/media indicada
+#       anteriormente. Dicha actualización se basa en la habilitación
+#       o no, de los comentarios
 def update_media_by_bot(bot,  # type: ChatBot
                         api,  # type: IgProApi
                         media_id,  # type: str
@@ -715,6 +797,12 @@ def update_media_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, update_media_by_bot.__name__)
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'api', debe ser una variable de tipo IgProApi
+#      'username', debe ser una variable de tipo str
+# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+#       el fin de obtener los seguidores del usuario indicado
+#       anteriormente. No se puede listar, sólo se los cuenta
 def get_followers_by_bot(bot,  # type: ChatBot
                          api,  # type: IgProApi
                          username  # type: str
@@ -737,6 +825,12 @@ def get_followers_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, get_followers_by_bot.__name__)
 
 
+# PRE: 'data', debe ser una variable de tipo dict
+#      'function_name', debe ser una variable de tipo str
+# POST: Devuelve un diccionario, el cual deriva de la data pasada
+#       por parámetro, a la misma se la filtra y se asignan las
+#       llaves en español. La filtración varia de acuerdo a la 
+#       función que llame a ésta
 def filter_data(data,  # type: dict
                 function_name  # type: str
                 ):
@@ -777,6 +871,13 @@ def filter_data(data,  # type: dict
     return parsed_data
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'data', debe ser una variable de tipo dict
+#      'function_name', debe ser una variable de tipo str
+# POST: Imprime el error que ocurrió, al hacer la petición a la API
+#       de Facebook, de lo contrario, de acuerdo a que función llame
+#       a ésta, imprimirá la información/respuesta que se recibió de
+#       Facebook
 def print_data(bot,  # type: ChatBot
                data,  # type: list[dict]
                function_name  # type: str
@@ -843,23 +944,27 @@ def print_data(bot,  # type: ChatBot
 # ------------------------------------------------------ #
 
 
+# PRE: 'username', debe ser una variable de tipo str
+# POST: Reemplaza una palabra clave, por el nombre del usuario pasado
+#       por parámetro, en el archivo de entrenamiento del bot
 def set_up_username(username  # type: str
                     ):
 
     filedata = []
 
-    # Read in the file
     with open("data/entrenador.txt", "r", encoding="utf-8") as file:
         filedata = file.read()
 
-    # Replace the target string
     filedata = filedata.replace("{nombre}", username)
 
-    # Write the file out again
     with open('data/entrenador.txt', 'w', encoding="utf-8") as file:
         file.write(filedata)
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'statement', debe ser una variable de tipo str
+# POST: Devuelve un string que representa una petición hecha por
+#       el usuario. Dicha petición se parsea a minúsculas
 def request_input(bot,  # type: ChatBot
                   statement  # type: str
                   ):
@@ -870,6 +975,10 @@ def request_input(bot,  # type: ChatBot
     return request.lower()
 
 
+# PRE: 'bot', debe ser una variable de tipo ChatBot
+#      'statement', debe ser una variable de tipo str
+# POST: Imprime la respuesta que se recibe por parte del bot,
+#       en función del statement
 def print_response(bot,  # type: ChatBot
                    statement  # type: str
                    ):
@@ -886,6 +995,11 @@ def print_response(bot,  # type: ChatBot
     print(f"[{bot.name}]: {response}\n")
 
 
+# PRE: 'text', debe ser una variable de tipo str
+#      'keywords', debe ser una variable de tipo list
+# POST: Retorna un boolean, que representa la ocurrencia de
+#       una palabra de la lista 'keywords', en el texto 
+#       ingresado anteriormente
 def are_keywords_in_text(text,  # type: str
                          keywords  # type: list
                          ):
@@ -899,16 +1013,153 @@ def are_keywords_in_text(text,  # type: str
     return flag_is_in
 
 
-def main():
+# PRE: 'request', debe ser una variable de tipo str
+#      'bot', debe ser una variable de tipo ChatBot
+#      'api', debe ser una variable de tipo Api
+#      'igproapi', debe ser una variable de tipo IgProApi
+#      'graphapi', debe ser una variable de tipo GraphAPI
+# POST: Retorna un string, que representa una petición 
+#       solicitada por el usuario
+def init_main_options(request,  # type: str
+                      bot,  # type: ChatBot
+                      api,  # type: Api
+                      igproapi,  # type: IgProApi
+                      graphapi  # type: GraphAPI
+                      ):
+
     response = ""
-    request = ""
-    username = ""
     image_url = ""
     posts_list = []
     post_id = 0
 
-    flag_is_valid = False
-    comment_enabled = False
+    comment_enabled = False    
+
+    if "bienvenida" in request:
+        print_response(bot, request)
+
+        request = request_input(bot, "continuar")
+
+    elif "opciones" in request:
+        request = request_input(bot, request)
+
+        flag_is_valid = False
+
+        while not flag_is_valid:
+
+            if request in OPTIONS_FOR_FACEBOOK:
+                for x in range(9):
+                    response = bot.get_response(f"fbopt{x}")
+                    print(f"[{bot.name}]: {response}")
+
+                request = request_input(bot, "msgreqopt")
+                response = bot.get_response(request)
+
+                while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
+                        "habilitar" in response.text.lower()):
+
+                    request = request_input(bot, "msgforconfidence")
+                    response = bot.get_response(request)
+
+                print(f"[{bot.name}]: {response}\n")
+
+                if "likear" in request and "likear" in response.text.lower():
+                    bot_liking_posts(api, bot)
+
+                elif "publicaciones" in request and "publicaciones" in response.text.lower():
+                    bot_showing_posts(api, bot)
+
+                elif "postear" in request and "postear" in response.text.lower():
+                    bot_post_publication(api, bot)
+
+                elif "foto" in request and "foto" in response.text.lower():
+                    bot_uploading_feed_photo(graphapi, bot)
+
+                elif "actualizar" in request and "actualizar" in response.text.lower():
+                    bot_put_publication(api, bot)
+
+                elif "amigos" in request and "amigos" in response.text.lower():
+                    # Llamar a función correspondiente para listar los amigos
+                    print()
+
+                elif "perfil" in request and "perfil" in response.text.lower():
+                    bot_uploading_profile_photo(graphapi, bot)
+
+                elif "conversaciones" in request and "conversaciones" in response.text.lower():
+                    bot_showing_convers_msg(api, bot)
+
+                elif "comentar" in request and "comentar" in response.text.lower():
+                    bot_commenting_posts(api, bot)
+
+                flag_is_valid = True
+
+            elif request in OPTIONS_FOR_INSTAGRAM:
+                for x in range(5):
+                    response = bot.get_response(f"igopt{x}")
+                    print(f"[{bot.name}]: {response}")
+
+                request = request_input(bot, "msgreqopt")
+                response = bot.get_response(request)
+
+                while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
+                    request = request_input(bot, "msgforconfidence")
+                    response = bot.get_response(request)
+
+                print(f"[{bot.name}]: {response}\n")
+
+                if "buscar" in request and "buscar" in response.text.lower():
+                    username = request_input(bot, "msgrequsername")
+
+                    search_user_by_bot(bot, igproapi, username)
+
+                elif "publicaciones" in request and "publicaciones" in response.text.lower():
+                    username = IG_USERNAME
+
+                    print_response(bot, "msgreqposts")
+                    get_medias_by_bot(bot, igproapi, username)
+
+                elif "foto" in request and "foto" in response.text.lower():
+
+                    image_url = request_input(bot, "msgrequrlphoto")
+                    post_ig_photo_by_bot(bot, graphapi, image_url)
+
+                elif "actualizar" in request and "habilitar" in response.text.lower():
+                    username = IG_USERNAME
+
+                    posts_list = get_medias_by_bot(bot, igproapi, username)
+   
+                    post_id = validate_number_in_range(bot, posts_list)
+
+                    request = validate_enable_disable(bot)
+
+                    if request in KEYWORDS_ENABLE:
+                        comment_enabled = True
+                    elif request in KEYWORDS_DISABLE:
+                        comment_enabled = False
+
+                    update_media_by_bot(bot, igproapi, posts_list[post_id].get("id"), comment_enabled)
+
+                elif "seguidores" in request and "seguidores" in response.text.lower():
+                    username = IG_USERNAME
+
+                    print_response(bot, "msgfollowersok")
+                    get_followers_by_bot(bot, igproapi, username)
+
+                flag_is_valid = True
+
+            else:
+                request = request_input(bot, "msgnotfborig")
+
+        request = request_input(bot, "continuar")
+
+    else:
+        request = request_input(bot, "msgnotvalidopt")
+
+    return request
+
+
+def main():
+    request = ""
+    username = ""
 
     api = Api(
         app_id=APP_ID,
@@ -941,130 +1192,7 @@ def main():
 
     while request not in OPTIONS_FOR_EXIT:
 
-        if "bienvenida" in request:
-            print_response(bot, request)
-
-            request = request_input(bot, "continuar")
-
-        elif "opciones" in request:
-            request = request_input(bot, request)
-
-            flag_is_valid = False
-
-            while not flag_is_valid:
-
-                if request in OPTIONS_FOR_FACEBOOK:
-                    for x in range(10):
-                        response = bot.get_response(f"fbopt{x}")
-                        print(f"[{bot.name}]: {response}")
-
-                    request = request_input(bot, "msgreqopt")
-                    response = bot.get_response(request)
-
-                    while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
-                           "habilitar" in response.text.lower()):
-
-                        request = request_input(bot, "msgforconfidence")
-                        response = bot.get_response(request)
-
-                    print(f"[{bot.name}]: {response}\n")
-
-                    if "likear" in request and "likear" in response.text.lower():
-                        bot_liking_posts(api, bot)
-
-                    elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                        bot_showing_posts(api, bot)
-
-                    elif "postear" in request and "postear" in response.text.lower():
-                        bot_post_publication(api, bot)
-
-                    elif "foto" in request and "foto" in response.text.lower():
-                        bot_uploading_feed_photo(graphapi, bot)
-
-                    elif "actualizar" in request and "actualizar" in response.text.lower():
-                        bot_put_publication(api, bot)
-
-                    elif "seguidores" in request and "seguidores" in response.text.lower():
-                        information_followers(api,bot)
-
-                    elif "perfil" in request and "perfil" in response.text.lower():
-                        bot_uploading_profile_photo(graphapi, bot)
-
-                    elif "conversaciones" in request and "conversaciones" in response.text.lower():
-                        bot_showing_convers_msg(api, bot)
-
-                    elif "comentar" in request and "comentar" in response.text.lower():
-                        bot_commenting_posts(api, bot)
-
-                    flag_is_valid = True
-
-                elif request in OPTIONS_FOR_INSTAGRAM:
-                    for x in range(5):
-                        response = bot.get_response(f"igopt{x}")
-                        print(f"[{bot.name}]: {response}")
-
-                    request = request_input(bot, "msgreqopt")
-                    response = bot.get_response(request)
-
-                    while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
-                        request = request_input(bot, "msgforconfidence")
-                        response = bot.get_response(request)
-
-                    print(f"[{bot.name}]: {response}\n")
-
-                    if "buscar" in request and "buscar" in response.text.lower():
-                        username = request_input(bot, "msgrequsername")
-
-                        search_user_by_bot(bot, igproapi, username)
-
-                    elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                        username = IG_USERNAME
-
-                        print_response(bot, "msgreqposts")
-                        get_medias_by_bot(bot, igproapi, username)
-
-                    elif "foto" in request and "foto" in response.text.lower():
-
-                        image_url = validate_url(bot)
-                        post_ig_photo_by_bot(bot, graphapi, image_url)
-
-                    elif "actualizar" in request and "habilitar" in response.text.lower():
-                        username = IG_USERNAME
-
-                        posts_list = get_medias_by_bot(bot, igproapi, username)
-                        # Se debe armar función para validar el ingreso solamente de números
-                        # y que el mismo esté dentro de un rango
-                        request = request_input(bot, "msqreqidpostid")
-
-                        post_id = int(request) - 1
-
-                        # Se debe armar función para validar que haya ingresado variantes de
-                        # 'habilitar' y 'deshabilitar', y en todo caso armar un while hasta
-                        # que ingrese una opción válida. 'habilitar' = True, 'deshabilitar' = False
-                        request = validate_enable_disable(bot)
-
-                        if(request == "habilitar"):
-                            comment_enabled = True
-                        elif(request == "deshabilitar"):
-                            comment_enabled = False
-
-                        update_media_by_bot(bot, igproapi, posts_list[post_id].get("id"), comment_enabled)
-
-                    elif "seguidores" in request and "seguidores" in response.text.lower():
-                        username = IG_USERNAME
-
-                        print_response(bot, "msgfollowersok")
-                        get_followers_by_bot(bot, igproapi, username)
-
-                    flag_is_valid = True
-
-                else:
-                    request = request_input(bot, "msgnotfborig")
-
-            request = request_input(bot, "continuar")
-
-        else:
-            request = request_input(bot, "msgnotvalidopt")
+        request = init_main_options(request, bot, api, igproapi, graphapi)
 
     else:
         print_response(bot, request)

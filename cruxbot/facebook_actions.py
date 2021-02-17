@@ -4,7 +4,6 @@ from pyfacebook.utils.param_validation import enf_comma_separated
 
 from facebook import GraphAPI, GraphAPIError
 from pyfacebook import Api, PyFacebookException
-from requests.sessions import session
 
 
 DEFAULT_CONVERSATION_FIELDS = [

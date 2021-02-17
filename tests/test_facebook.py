@@ -121,6 +121,15 @@ def testListFriends():
     assert isinstance(data, list) and len(data) != 0
 
 
+def testGetPageInformation():
+    data = fb.get_page_information(
+        api = api,
+        page_id = page_id
+    )
+
+    assert "id" in data
+
+
 if __name__ == "__main__":
 
     page_id = PAGE_ID
@@ -153,3 +162,4 @@ if __name__ == "__main__":
     testPostPhoto()
     testPostProfilePhoto()
     testListFriends()
+    testGetPageInformation()
