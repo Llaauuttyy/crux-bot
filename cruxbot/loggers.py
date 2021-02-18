@@ -8,6 +8,10 @@ import os
 
 def debug_logger_creation():
 
+    # POST: Crea el objeto logger,
+    # asignandole nivel, dandole
+    # formato y lo retorna.
+
     debug_logger = logging.getLogger("debug")
     debug_logger.setLevel(logging.DEBUG)
 
@@ -31,6 +35,10 @@ def debug_logger_creation():
 
 def chat_logger_creation():
 
+    # POST: Crea el objeto logger,
+    # asignandole nivel, dandole
+    # formato y lo retorna.
+
     chat_logger = logging.getLogger("chat")
     chat_logger.setLevel(logging.INFO)
 
@@ -53,6 +61,10 @@ def chat_logger_creation():
 
 
 def error_logger_creation():
+
+    # POST: Crea el objeto logger,
+    # asignandole nivel, dandole
+    # formato y lo retorna.
 
     error_logger = logging.getLogger("error")
     error_logger.setLevel(logging.ERROR)

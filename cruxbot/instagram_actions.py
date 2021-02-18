@@ -4,7 +4,7 @@ from pyfacebook import IgProApi, PyFacebookException
 
 # PRE: 'api', debe ser una variable de tipo IgProApi
 #      'username', debe ser una variable de tipo str
-# POST: Devuelve los datos del usuario indicado anteriormente, 
+# POST: Devuelve los datos del usuario indicado anteriormente,
 #       en un diccionario
 def get_ig_user_info(api,  # type: IgProApi
                      username  # type: str
@@ -26,7 +26,7 @@ def get_ig_user_info(api,  # type: IgProApi
 
 # PRE: 'api', debe ser una variable de tipo IgProApi
 #      'username', debe ser una variable de tipo str
-# POST: Devuelve las publicaciones/medias del usuario indicado 
+# POST: Devuelve las publicaciones/medias del usuario indicado
 #       anteriormente, en una lista de diccionarios
 def get_ig_user_medias(api,  # type: IgProApi
                        username  # type: str
@@ -48,7 +48,7 @@ def get_ig_user_medias(api,  # type: IgProApi
 
 # PRE: 'api', debe ser una variable de tipo IgProApi
 #      'media_id', debe ser una variable de tipo str
-# POST: Devuelve los datos de la publicacion/media indicado 
+# POST: Devuelve los datos de la publicacion/media indicado
 #       anteriormente, en un diccionario
 def get_ig_media_info(api,  # type: IgProApi
                       media_id  # type: str

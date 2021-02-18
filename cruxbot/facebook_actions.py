@@ -20,6 +20,7 @@ DEFAULT_PAGE_FIELDS = [
     "id", "about", "followers_count", "general_info"
 ]
 
+
 def path_builder(api,  # type: Api
                  target,  # type: str
                  resource,  # type: str
@@ -100,6 +101,7 @@ def page_by_next(api,  # type: Api
 def get_posts(api,  # type: Api
               page_id  # type: str
               ):
+
     # PRE: Recibe el objeto api,
     # y la id de la página.
 

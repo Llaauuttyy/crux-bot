@@ -74,7 +74,7 @@ def validate_url(bot  # type: ChatBot
 
     regex = re.compile(
         r'^(?:http|ftp)s?://'  # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
         r'localhost|'  # localhost...
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
         r'(?::\d+)?'  # optional port
@@ -153,19 +153,18 @@ def posts_printing(posts_info_list  # type: list
             if key == "message":
                 print(f"Post {posts + 1}: {posts_info_list[posts]['message']}\n")
                 chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
-                    post_number=posts + 1,
-                    post_message=posts_info_list[posts]['message']
-                ))
-
-            # if key == "like":
-            #     print(f"Likes: {posts_info_list[posts]['like']['summary']['total_count']}\n")
+                        post_number=posts + 1,
+                        post_message=posts_info_list[posts]['message']
+                    )
+                )
 
             elif key == "picture":
                 print(f"Post {posts + 1}: This post is a photo.")
                 chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
-                    post_number=posts + 1,
-                    post_message="This post is a photo."
-                ))
+                        post_number=posts + 1,
+                        post_message="This post is a photo."
+                    )
+                )
 
 
 def posts_or_convo_order(object_info_list,  # type: list
@@ -285,8 +284,8 @@ def fb_error_checking_profile_photo(data  # type: dict
 
 # PRE: 'str_datetime', debe ser una variable de tipo str
 # POST: Devuelve un string que representa la fecha y hora, la cual
-#       deriva de la fecha y hora ingresada anteriormente, a esa 
-#       se le dió un formato local y se corrigió la diferencia de 
+#       deriva de la fecha y hora ingresada anteriormente, a esa
+#       se le dió un formato local y se corrigió la diferencia de
 #       horas
 def format_date(str_datetime  # type: str
                 ):
@@ -302,7 +301,7 @@ def format_date(str_datetime  # type: str
         timedelta(hours=-3)
     )
 
-    # Una vez corregido la diferencia de horas, a la hora y fecha, se le da 
+    # Una vez corregido la diferencia de horas, a la hora y fecha, se le da
     # un formato local, para luego parsearlo/convertirlo a string
     datetime_fixed = datetime_formatted.strftime("%d/%m/%Y %H:%M:%S")
 
@@ -310,9 +309,9 @@ def format_date(str_datetime  # type: str
 
 
 # PRE: 'key', debe ser una variable de tipo str
-# POST: Devuelve un string que representa una llave de diccionario, dicha 
-#       llave ingresda anteriormente, se la capitalizó y se reemplazó los 
-#       guiones bajos por un espacio 
+# POST: Devuelve un string que representa una llave de diccionario, dicha
+#       llave ingresda anteriormente, se la capitalizó y se reemplazó los
+#       guiones bajos por un espacio
 def format_key(key  # type: str
                ):
 
@@ -361,6 +360,7 @@ def bot_training(bot  # type: ChatBot
     datos = []
     bot.storage.drop()
     trainer = ListTrainer(bot)
+    trainer.show_training_progress = False
 
     with open("data/entrenador.txt", "r", encoding="utf-8") as f:
         datos = f.read().splitlines()
@@ -485,13 +485,20 @@ def bot_showing_conversations(api,  # type: Api
         return posts_info_list
 
 
-def bot_object_chooser(api,
-                       bot,
-                       type_object  # type: str
-                                    # Values: convo, posts_fb, posts_ig
+def bot_object_chooser(api,  # type: Api
+                       bot,  # type: ChatBot
+                       type_object  # type: str  # Values: posts_fb, convo_fb (else)
                        ):
 
-    if type_object == "posts":
+    # PRE: Recibe el objeto api, bot y
+    # la str type_object que determina
+    # qué objetos mostrar.
+
+    # POST: Printea la informacion,
+    # dependiendo del caso y valida
+    # el numero que elija el usuario.
+
+    if type_object == "posts_fb":
         object_info_list = bot_showing_posts(api, bot)
 
     else:
@@ -557,7 +564,7 @@ def bot_post_publication(api,  # type: Api
 
     # POST: Permite publicar llamando
     # a un método de fb y chequea si hay
-    # algún error al hacerlo, sino hay, 
+    # algún error al hacerlo, sino hay,
     # avisa al usuario que todo salió bien.
 
     post_message = request_input(bot, "fbopt2msg0")
@@ -632,21 +639,21 @@ def bot_checking_photo_in_path(bot   # type: ChatBot
         os.mkdir("images")
 
     except FileExistsError:
-        user_ready = request_input(bot, "fbopt3msg1")
+        photo_path = request_input(bot, "fbopt3msg1")
 
     else:
-        user_ready = request_input(bot, "fbopt3msg0")
+        photo_path = request_input(bot, "fbopt3msg0")
 
     photo_is_ready = False
 
     while not photo_is_ready:
         try:
-            photo = open("images//image.jpg", "rb")
+            photo = open("images//{photo_path}".format(photo_path=photo_path), "rb")
 
             photo_is_ready = True
 
         except FileNotFoundError:
-            user_ready = request_input(bot, "fbopt3msg5")
+            photo_path = request_input(bot, "fbopt3msg5")
 
     return photo
 
@@ -699,7 +706,7 @@ def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
 #      'api', debe ser una variable de tipo IgProApi
 #      'username', debe ser una variable de tipo str
 # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de buscar al usuario indicado anteriormente, y de este 
+#       el fin de buscar al usuario indicado anteriormente, y de este
 #       modo, obtener sus datos
 def search_user_by_bot(bot,  # type: ChatBot
                        api,  # type: IgProApi
@@ -758,7 +765,7 @@ def get_medias_by_bot(bot,  # type: ChatBot
 #      'api', debe ser una variable de tipo GraphAPI
 #      'image_url', debe ser una variable de tipo str
 # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de postear una foto en el muro/feed. Dicha foto, se 
+#       el fin de postear una foto en el muro/feed. Dicha foto, se
 #       encuentra en la url, indicada anteriormente
 def post_ig_photo_by_bot(bot,  # type: ChatBot
                          api,  # type: GraphAPI
@@ -845,7 +852,7 @@ def get_followers_by_bot(bot,  # type: ChatBot
 #      'function_name', debe ser una variable de tipo str
 # POST: Devuelve un diccionario, el cual deriva de la data pasada
 #       por parámetro, a la misma se la filtra y se asignan las
-#       llaves en español. La filtración varia de acuerdo a la 
+#       llaves en español. La filtración varia de acuerdo a la
 #       función que llame a ésta
 def filter_data(data,  # type: dict
                 function_name  # type: str
@@ -915,7 +922,7 @@ def print_data(bot,  # type: ChatBot
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
-                    chat_logger(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+                    chat_logger.info(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == get_medias_by_bot.__name__:
 
@@ -925,7 +932,7 @@ def print_data(bot,  # type: ChatBot
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
 
-                chat_logger(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
 
             else:
                 del data[x]["id"]
@@ -938,7 +945,7 @@ def print_data(bot,  # type: ChatBot
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
-                    chat_logger(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+                    chat_logger.info(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == post_ig_photo_by_bot.__name__:
 
@@ -961,7 +968,7 @@ def print_data(bot,  # type: ChatBot
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
 
-                chat_logger(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
             else:
                 if(data[x].get("success")):
                     print_response(bot, "msgcommenabledsucc")
@@ -983,8 +990,8 @@ def print_data(bot,  # type: ChatBot
 #       desde el archivo deseado, hacia el archivo indicado
 def set_up_file(from_filepath,  # type: str
                 to_filepath,  # type: str
-                enforce_username = False,  # type: bool
-                username = None  # type: str
+                enforce_username=False,  # type: bool
+                username=None  # type: str
                 ):
 
     filedata = []
@@ -1041,7 +1048,7 @@ def print_response(bot,  # type: ChatBot
 # PRE: 'text', debe ser una variable de tipo str
 #      'keywords', debe ser una variable de tipo list
 # POST: Retorna un boolean, que representa la ocurrencia de
-#       una palabra de la lista 'keywords', en el texto 
+#       una palabra de la lista 'keywords', en el texto
 #       ingresado anteriormente
 def are_keywords_in_text(text,  # type: str
                          keywords  # type: list
@@ -1061,7 +1068,7 @@ def are_keywords_in_text(text,  # type: str
 #      'api', debe ser una variable de tipo Api
 #      'igproapi', debe ser una variable de tipo IgProApi
 #      'graphapi', debe ser una variable de tipo GraphAPI
-# POST: Retorna un string, que representa una petición 
+# POST: Retorna un string, que representa una petición
 #       solicitada por el usuario
 def init_main_options(request,  # type: str
                       bot,  # type: ChatBot
@@ -1075,7 +1082,7 @@ def init_main_options(request,  # type: str
     posts_list = []
     post_id = 0
 
-    comment_enabled = False    
+    comment_enabled = False
 
     if "bienvenida" in request:
         print_response(bot, request)
@@ -1176,7 +1183,7 @@ def init_main_options(request,  # type: str
                     username = IG_USERNAME
 
                     posts_list = get_medias_by_bot(bot, igproapi, username)
-   
+
                     post_id = validate_number_in_range(bot, posts_list)
 
                     request = validate_enable_disable(bot)
