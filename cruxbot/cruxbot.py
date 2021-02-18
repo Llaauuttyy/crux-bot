@@ -64,21 +64,28 @@ MIN_CONFIDENCE = 0.8
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
 # ------------------------------------------------------ #
-def validate_url(bot):
+
+
+def validate_url(bot  # type: ChatBot
+                 ):
+
+    # PRE: Recibe el objeto bot
+    # POST: Valida la url y la retorna
+
     regex = re.compile(
-        r'^(?:http|ftp)s?://' # http:// or https://
+        r'^(?:http|ftp)s?://'  # http:// or https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
-        r'localhost|' #localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-        r'(?::\d+)?' # optional port
+        r'localhost|'  # localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+        r'(?::\d+)?'  # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
     url = request_input(bot, "msgrequrlphoto")
-    aceptada = re.match(regex, url) is not None
-    
-    while not aceptada:
-        aceptada = request_input(bot, "urlgeterror")
-    
+    acepted = re.match(regex, url) is not None
+
+    while not acepted:
+        url = request_input(bot, "urlgeterror")
+
     return url
 
 
@@ -372,8 +379,14 @@ def bot_greetings(bot  # type: ChatBot
     return username
 
 
-def information_followers(api,bot):
-    print_response(bot, "fbopt5msg0")
+def information_followers(api,  # type: Api
+                          bot  # type: ChatBot
+                          ):
+
+    # PRE: Recibe el objeto api y bot.
+    # POST: Obtiene la data,
+    # y si todo sale bien, imprime los seguidores
+    print_response(bot, "fbopt9msg0")
 
     data = fb.get_page_information(
         api=api,
@@ -387,8 +400,13 @@ def information_followers(api,bot):
         print_response(bot, "fbopt5msg5")
 
 
-def followers_count(data):
-    text = (
+
+def followers_count(data  # type: list[dict]
+                    ):
+
+    # PRE: Obtiene la data 
+    # POST: Accede a la cantidad de seguidores, y la imprime
+    print(
         '''
         Bien, entonces la cantidad de seguidores que tenes es: {}.
         Sos famosito eh!
