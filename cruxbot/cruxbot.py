@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append("C:/Users/Leonel/Documents/crux-bot")
+sys.path.append("C://Users//Leonel//Documents//crux-bot")
 
 import facebook_actions as fb
 import instagram_actions as ig
@@ -616,7 +616,7 @@ def bot_checking_photo_in_path(bot   # type: ChatBot
 
     while not photo_is_ready:
         try:
-            photo = open("images//image.jpeg", "rb")
+            photo = open("images//image.jpg", "rb")
 
             photo_is_ready = True
 

@@ -2,7 +2,7 @@
     This show extend this api for support others methods.
 """
 import sys
-sys.path.append("C:/Users/Leonel/Documents/crux-bot")
+sys.path.append("C://Users//Leonel//Documents//crux-bot")
 
 from typing import Dict, List, Optional, Union, Tuple, Set
 
