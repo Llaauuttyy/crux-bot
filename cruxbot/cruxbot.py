@@ -1,4 +1,3 @@
-from logging import info
 import os
 import sys
 sys.path.append("C:/Users/Leonel/Documents/crux-bot")
@@ -103,7 +102,7 @@ def validate_number_in_range(bot,  # type: ChatBot
     flag_is_valid_number = False
     number = 0
 
-    request = request_input(bot, "msqreqobjectid")
+    request = request_input(bot, "msgreqobjectid")
 
     while not flag_is_valid_number:
 
@@ -137,7 +136,7 @@ def posts_printing(posts_info_list  # type: list
 
             if key == "message":
                 print(f"Post {posts + 1}: {posts_info_list[posts]['message']}\n")
-                chat_logger.info("Crux, Post {post_number}: {post_message}".format(
+                chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
                     post_number=posts + 1,
                     post_message=posts_info_list[posts]['message']
                 ))
@@ -147,7 +146,7 @@ def posts_printing(posts_info_list  # type: list
 
             elif key == "picture":
                 print(f"Post {posts + 1}: This post is a photo.")
-                chat_logger.info("Crux, Post {post_number}: {post_message}".format(
+                chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
                     post_number=posts + 1,
                     post_message="This post is a photo."
                 ))
@@ -184,8 +183,9 @@ def convers_snippet_printing(convers_info_list  # type: list
 
     for snippet in range(len(convers_info_list)):
 
-        print(
+        text = (
             '''
+            [Crux]:
             Follower: {follower}
             Last message: {last_message}
             Conversation: {snippet}
@@ -195,6 +195,9 @@ def convers_snippet_printing(convers_info_list  # type: list
                 snippet=snippet + 1
             )
         )
+
+        print(text)
+        chat_logger.info(text)
 
 
 def convers_messages_printing(message_info_list  # type: list
@@ -207,7 +210,7 @@ def convers_messages_printing(message_info_list  # type: list
     # e infomación sobre la conversación.
 
     for message in range(len(message_info_list)):
-        print(
+        text = (
             '''
             Sender: {sender}
             Message: {message}
@@ -217,29 +220,8 @@ def convers_messages_printing(message_info_list  # type: list
             )
         )
 
-
-def printing_friend_list(bot,  # type: ChatBot
-                         data  # type: dict
-                         ):
-
-    # PRE: Recibe el objeto bot y data
-    # que es un diccionario que contiene
-    # información sobre los amigos.
-
-    # POST: Muestra la información al usuario.
-
-    print_response(bot, "fbopt5msg5")
-
-    for friend in data["data"]:
-        print("Nombre: {name}\n".format(
-                name=friend["name"]
-            )
-        )
-
-    print("Total de amigos: {friends}".format(
-            friends=data["summary"]["total_count"]
-        )
-    )
+        print(text)
+        chat_logger.info(text)
 
 
 def fb_error_checking(data  # type: dict
@@ -253,10 +235,12 @@ def fb_error_checking(data  # type: dict
     # False.
 
     if "error" in data:
-        print("Un error ha ocurrido: {error}".format(
+        text = "Un error ha ocurrido: {error}".format(
             error=data["error"]
             )
-        )
+
+        print(text)
+        chat_logger.info(text)
 
         return True
 
@@ -278,6 +262,8 @@ def fb_error_checking_profile_photo(data  # type: dict
 
     else:
         print("Ha ocurrido un error inesperado.")
+        chat_logger.info("[Crux]: Ha ocurrido un error inesperado")
+
         return True
 
 
@@ -339,7 +325,7 @@ def bot_creation():
         response_selection_method = get_random_response,
         preprocessors = [
             "chatterbot.preprocessors.clean_whitespace",
-            "chatterbot.preprocessors.convert_to_ascii"
+            #"chatterbot.preprocessors.convert_to_ascii"
         ]
     )
 
@@ -383,8 +369,9 @@ def bot_greetings(bot  # type: ChatBot
 
     return username
 
+
 def information_followers(api,bot):
-    print_response(bot, "fbopt9msg0")
+    print_response(bot, "fbopt5msg0")
 
     data = fb.get_page_information(
         api=api,
@@ -395,10 +382,11 @@ def information_followers(api,bot):
         followers_count(data)
 
     else:
-        print_response(bot, "fbopt9msg5")
+        print_response(bot, "fbopt5msg5")
+
 
 def followers_count(data):
-    print(
+    text = (
         '''
         Bien, entonces la cantidad de seguidores que tenes es: {}.
         Sos famosito eh!
@@ -406,6 +394,9 @@ def followers_count(data):
             data["followers_count"]
         )
     )
+
+    print(text)
+    chat_logger.info(text)
 
 
 def bot_showing_posts(api,  # type: Api
@@ -549,8 +540,6 @@ def bot_post_publication(api,  # type: Api
         page_id=PAGE_ID,
         message=post_message
     )
-
-    # fbopt2msg5
 
     if not fb_error_checking(data):
 
@@ -893,9 +882,13 @@ def print_data(bot,  # type: ChatBot
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
 
+                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+
             else:
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+
+                    chat_logger(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == get_medias_by_bot.__name__:
 
@@ -905,14 +898,20 @@ def print_data(bot,  # type: ChatBot
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
 
+                chat_logger(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+
             else:
                 del data[x]["id"]
                 data[x]["fecha_y_hora_de_publicacion"] = format_date(data[x].get("fecha_y_hora_de_publicacion"))
 
                 print(f"\n[{bot.name}]: {x + 1}° - publicación")
 
+                chat_logger.info(f"\n[{bot.name}]: {x + 1}° - publicación")
+
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+
+                    chat_logger(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == post_ig_photo_by_bot.__name__:
 
@@ -921,6 +920,8 @@ def print_data(bot,  # type: ChatBot
             if key_error in data[x]:
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
+
+                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
 
             else:
                 print_response(bot, "msgpostedphoto")
@@ -932,6 +933,8 @@ def print_data(bot,  # type: ChatBot
             if key_error in data[x]:
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
+
+                chat_logger(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
             else:
                 if(data[x].get("success")):
                     print_response(bot, "msgcommenabledsucc")
@@ -970,7 +973,10 @@ def request_input(bot,  # type: ChatBot
                   ):
 
     response = bot.get_response(statement)
+    chat_logger.info(f"[{bot.name}]: {response}")
+
     request = input(f"\n[{bot.name}]: {response}\n")
+    chat_logger.info(f"[Usuario]: {request}")
 
     return request.lower()
 
@@ -993,6 +999,8 @@ def print_response(bot,  # type: ChatBot
         response = bot.get_response(request)
 
     print(f"[{bot.name}]: {response}\n")
+
+    chat_logger.info(f"[{bot.name}]: {response}")
 
 
 # PRE: 'text', debe ser una variable de tipo str
@@ -1051,6 +1059,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(f"fbopt{x}")
                     print(f"[{bot.name}]: {response}")
 
+                    chat_logger.info(f"[{bot.name}]: {response}")
+
                 request = request_input(bot, "msgreqopt")
                 response = bot.get_response(request)
 
@@ -1061,6 +1071,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(request)
 
                 print(f"[{bot.name}]: {response}\n")
+
+                chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "likear" in request and "likear" in response.text.lower():
                     bot_liking_posts(api, bot)
@@ -1077,9 +1089,8 @@ def init_main_options(request,  # type: str
                 elif "actualizar" in request and "actualizar" in response.text.lower():
                     bot_put_publication(api, bot)
 
-                elif "amigos" in request and "amigos" in response.text.lower():
-                    # Llamar a función correspondiente para listar los amigos
-                    print()
+                elif "seguidores" in request and "seguidores" in response.text.lower():
+                    information_followers(api, bot)
 
                 elif "perfil" in request and "perfil" in response.text.lower():
                     bot_uploading_profile_photo(graphapi, bot)
@@ -1097,6 +1108,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(f"igopt{x}")
                     print(f"[{bot.name}]: {response}")
 
+                    chat_logger.info(f"[{bot.name}]: {response}")
+
                 request = request_input(bot, "msgreqopt")
                 response = bot.get_response(request)
 
@@ -1105,6 +1118,8 @@ def init_main_options(request,  # type: str
                     response = bot.get_response(request)
 
                 print(f"[{bot.name}]: {response}\n")
+
+                chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "buscar" in request and "buscar" in response.text.lower():
                     username = request_input(bot, "msgrequsername")
@@ -1119,7 +1134,7 @@ def init_main_options(request,  # type: str
 
                 elif "foto" in request and "foto" in response.text.lower():
 
-                    image_url = request_input(bot, "msgrequrlphoto")
+                    image_url = validate_url(bot)
                     post_ig_photo_by_bot(bot, graphapi, image_url)
 
                 elif "actualizar" in request and "habilitar" in response.text.lower():

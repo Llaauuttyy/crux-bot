@@ -1,137 +1,115 @@
 msgwme
 ¡Bienvenidoooooooo!. Me llamo Crux. ¿Cuál es tu nombre?
 dar bienvenida
-¡Bienvenidoooooooo de nuevo Tu vieja!. Me llamo Crux y seré tu asistente a lo largo del programa
+¡Bienvenidoooooooo de nuevo {nombre}!. Me llamo Crux y seré tu asistente a lo largo del programa
 descripcion
-Excelente Tu vieja, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet Agustin y Chaves Tu vieja. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
+Excelente {nombre}, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet Agustin y Chaves {nombre}. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
 continuar
-Tu vieja, ¿Algo más que quieras hacer?
+{nombre}, ¿Algo más que quieras hacer?
 mostrar opciones
-Okey Tu vieja, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
 quiero likear una publicacion
-Comprendo, Tu vieja. En ese caso necesitaré saber cual publicación quieres likear
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
 quiero ver mis publicaciones
-Perfecto, Tu vieja. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
 msgreqposts
-¡Ya está Tu vieja! Encontré tus publicaciones
+¡Ya está {nombre}! Encontré tus publicaciones
 quiero postear una publicacion
-Okey, Tu vieja. ¡Deberás pensar un mensaje a postear entonces!
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
 quiero subir una foto
-Una...¿Foto?, bueno Tu vieja. ¡Aviso que no hay vuelta atras, eh!
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
 msgrequrlphoto
-¿Entonces una foto, no Tu vieja?. Voy a precisar que me facilites la URL de alguna foto de internet
+¿Entonces una foto, no {nombre}?. Voy a precisar que me facilites la URL de alguna foto de internet
 msgpostedphoto
 quiero comentar una publicacion
-Genial, Tu vieja. Vamos a comentar!
-¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro Tu vieja ¡Verificalo ;)!
+Genial, {nombre}. ¡Vamos a comentar!
+¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro {nombre} ¡Verificalo ;)!
 quiero actualizar una publicacion
-Esta bien, Tu vieja. Ve pensando otro mensaje para actualizar la publicación
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
 quiero actualizar una publicacion
-Esta bien, Tu vieja. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
 quiero ver mis conversaciones
-Esta bien, {nombre}. Veamos esas conversaciones!
-msqreqobjectid
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+msgreqobjectid
 Y bien {nombre}, ¿Cuál publicación quieres elegir?
 msgreqcommentenabled
-Bueno, y por último Tu vieja...¿Qué quieres hacer con la publicación? ¿Quieres habilitarla o deshabilitarla?
+Bueno, y por último {nombre}...¿Qué quieres hacer con la publicación? ¿Quieres habilitarla o deshabilitarla?
 msgcommenabledsucc
-¡Buenas noticias Tu vieja!. Hice lo que me pediste, y parece que todo está bien, podes constatarlo si queres
+¡Buenas noticias {nombre}!. Hice lo que me pediste, y parece que todo está bien, podes constatarlo si queres
 msgcommenablednotsucc
-¡Malas noticias Tu vieja!. Hice lo que me pediste...y se rompió todo, pero no fue mi culpa, eso sí
-quiero listar los amigos
-¿Amigos? Eso...¿Existe, Tu vieja?. Bueno, trataré de hacer lo posible
+¡Malas noticias {nombre}!. Hice lo que me pediste...y se rompió todo, pero no fue mi culpa, eso sí
+quiero ver mis seguidores
+Está bien, {nombre}. ¡Veamos cuantos seguidores tenés!
 quiero actualizar la foto de perfil
-Noooo, ¿Por qué Tu vieja?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
 quiero buscar a un usuario
-Entiendo, Tu vieja. En ese caso necesitaré el nombre del usuario para buscar, un momento...
+Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar, un momento...
 msgrequsername
-Bueno ¡Creo ya tener todo listo Tu vieja!. Por favor, dime el nombre de usuario que quieres buscar
+Bueno ¡Creo ya tener todo listo {nombre}!. Por favor, dime el nombre de usuario que quieres buscar
 quiero listar los seguidores
-Bueno bueno, Tu vieja. ¡Ojo que solo te los puedo contar a los seguidores!
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
 msgfollowersok
-¡Ya está Tu vieja! Uffffff pensé que tenías más seguidores
+¡Ya está {nombre}! Uffffff pensé que tenías más seguidores
 salir
-Bueno mi rey, ¡Hasta la próxima Tu vieja!
+Bueno mi rey, ¡Hasta la próxima {nombre}!
 exit
-Bueno mi rey, ¡Hasta la próxima Tu vieja!
+Bueno mi rey, ¡Hasta la próxima {nombre}!
 quit
-Bueno mi rey, ¡Hasta la próxima Tu vieja!
+Bueno mi rey, ¡Hasta la próxima {nombre}!
 esc
-Bueno mi rey, ¡Hasta la próxima Tu vieja!
+Bueno mi rey, ¡Hasta la próxima {nombre}!
 fbchr0
-Ingrese el numero del que quiere elegir:
+Ingrese el numero del que quiere elegir
 fbchr5
-Tiene que ser un número, Tu vieja. No te pases de númeross! Intentá otra vez:
+Tiene que ser un número, {nombre}. ¡No te pases de númeross!. Intentá otra vez
 fbopt0
 Dar like a posteo
 fbopt0msg0
-Tu vieja, es post ha sido likeado con éxito!
+{nombre}, es post ha sido likeado con éxito!
 fbopt1
 Leer posteos
 fbopt1msg0
-Aqui estan todos tus posts!
+¡Aquí estan todos tus posts!
 fbopt2
 Subir posteo
 fbopt2msg0
-Escribe lo que te gustaría publicar (Ojo, Tu vieja. No insultes a nadie):
-fbopt2msg5
-Conectando con el servidor...
+Escribe lo que te gustaría publicar (Ojo, {nombre}. No insultes a nadie)
 fbopt2msg10
-Tu vieja, el post ha sido publicado con éxito!
+¡{nombre}, el post ha sido publicado con éxito!
 fbopt2msg15
-Tu vieja, el comentario ha sido publicado con éxito!
+¡{nombre}, el comentario ha sido publicado con éxito!
 fbopt3
 Subir foto
 fbopt3msg0
-Vamos a subir esa foto, Tu vieja. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, la misma debe llamarse "image.jpeg". Una vez que lo hayas hecho, envía cualquier cosa.
+Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, la misma debe llamarse "image.jpg". Una vez que lo hayas hecho, envía cualquier cosa
 fbopt3msg1
-Ingresa la foto llamada "image.jpeg" dentro de la carpeta "images". Avisá cuando estés listo enviando un mensaje.
+Ingresa la foto llamada "image.jpg" dentro de la carpeta "images". Avisá cuando estés listo enviando un mensaje
 fbopt3msg5
 Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Avisá cuando estés listo enviando un mensaje
-fbopt3msg10
-Te parece poner:
-fbopt3msg15
-La próxima podrías poner algo más creativo.
 fbopt3msg20
-La foto se ha subido con éxito, cara pantufla... Digo: Tu vieja
-fbopt3msg25
-Eliminando evidencia...
-fbopt3msg30
-Listo. Nadie sabrá lo que has hecho. MUAJAJA
+La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
 fbopt4
 Actualizar un posteo
-fbopt4msg0
-Elije el número del posteo que deseas editar:
-fbopt4msg5
-Tiene que ser un número, Tu vieja. No te pases de posts. Intentá otra vez:
 fbopt4msg10
-Escribe la nueva actualización:
+Escribe la nueva actualización
 fbopt4msg15
-Perfecto! El post ha sido actualizado con éxito, Tu vieja.
+Perfecto! El post ha sido actualizado con éxito, {nombre}
 fbopt5
-Listar amigos
+Listar seguidores
 fbopt5msg0
-Está bien, Tu vieja. Listaremos a tu amigos! Recordatorio: Sólo los que tengan la app crux-bot podrán ser mostrados. Dile a tus amigos que se sumen!
+Perfecto, entonces si todo sale bien ahora te voy a decir la cantidad de seguidores que tenes
 fbopt5msg5
-Aquí están tus amigos:
-fbopt5msg10
-Un token de página ha sido creado para que puedas seguir aquí.
+Uff, no pude traerte la cantidad de seguidores. Si queres podes probar de nuevo a ver si anda
 fbopt6
 Actualizar foto de perfil
 fbopt6msg0
-La foto de perfil ha sido actualizada. MUCHA FACHA, Tu vieja.
+La foto de perfil ha sido actualizada. MUCHA FACHA, {nombre}
 fbopt7
 Leer conversaciones
 fbopt7msg0
-Aqui van esas conversaciones!!!!
+¡Aquí van esas conversaciones!
 fbopt8
 Comentar una publicacion
-fbopt9
-Mostrar seguidores
-fbot9msg0
-Perfecto, entonces si todo sale bien ahora te voy a decir la cantidad de seguidores que tenes
-fbopt9msg5
-Uff, no pude traerte la cantidad de seguidores. Si queres podes probar de nuevo a ver si anda
 igopt0
 Buscar usuario
 igopt1
@@ -143,21 +121,21 @@ Actualizar un posteo
 igopt4
 Listar a los seguidores
 msgnotvalidopt
-Perdón Tu vieja, no soy capaz de ejecutar dicha acción. Por el momento solo puedo dar la bienvenida, mostrar las opciones de Facebook e Instagram y salir
+Perdón {nombre}, no soy capaz de ejecutar dicha acción. Por el momento solo puedo dar la bienvenida, mostrar las opciones de Facebook e Instagram y salir
 msgnotfborig
-Mmmmmmhhh Tu vieja, no soy capaz de ejecutar dicha acción. Recuerda que sólo puede optar entre Facebook e Instagram
+Mmmmmmhhh {nombre}, no soy capaz de ejecutar dicha acción. Recuerda que sólo puedes optar entre Facebook e Instagram
 msgnameisnum
 ¡Ingresaste por error numeros!. Ten en cuenta que debes ingresar tu nombre
 msgforconfidence
-Uyuyuyuy, mil disculpas Tu vieja, pero no entendí del todo lo que me dijiste. Por favor, intenta escribiendomelo de otra forma
+Uyuyuyuy, mil disculpas {nombre}, pero no entendí del todo lo que me dijiste. Por favor, intenta escribiendomelo de otra forma
 msgreqopt
-Dime Tu vieja, ¿Qué opción quieres elegir?
+Dime {nombre}, ¿Qué opción quieres elegir?
 msgerrorconn
-Aaaaagghhhh, perdón Tu vieja...al parecer hubo un problema al quererme conectar con Facebook
+Aaaaagghhhh, perdón {nombre}...al parecer hubo un problema al quererme conectar con Facebook
 urlgeterror
-Vos sabes que ingresaste una url no válida, trata de ingresar una correcta Tu vieja
+Vos sabés que ingresaste una url no válida, trata de ingresar una correcta {nombre}
 msgerrorenable
-Disculpa pero no entendi lo que quisiste decirme, queres deshabilitar o habilitar el comentario?
+Disculpa pero no entendí lo que quisiste decirme {nombre}, ¿Quieres deshabilitar o habilitar el comentario?
 msgerrornotnumber
 ¡{nombre}! Recuerda que sólo puedes ingresar numeros. Te pido amorosamente que elijas de nuevo
 msgerrornotinrange
