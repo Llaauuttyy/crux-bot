@@ -89,11 +89,18 @@ def validate_url(bot  # type: ChatBot
     return url
 
 
-def validate_enable_disable(bot):
+def validate_enable_disable(bot  # type: ChatBot
+                            ):
+
+    # PRE: Recibe el objeto bot
+    # POST: Pregunta al usuario si quiero habilitar o deshabilitar
+    # la publicacion
+
     enable_or_not = request_input(bot, "msgreqcommentenabled")
     while (enable_or_not not in KEYWORDS_ENABLE and
            enable_or_not not in KEYWORDS_DISABLE):
         enable_or_not = request_input(bot, "msgerrorenable")
+
     return enable_or_not
 
 
@@ -127,7 +134,7 @@ def validate_number_in_range(bot,  # type: ChatBot
             request = request_input(bot, "msgerrornotnumber")
 
     return number
-    
+
 
 def posts_printing(posts_info_list  # type: list
                    ):
@@ -404,9 +411,9 @@ def information_followers(api,  # type: Api
 def followers_count(data  # type: list[dict]
                     ):
 
-    # PRE: Obtiene la data 
+    # PRE: Obtiene la data
     # POST: Accede a la cantidad de seguidores, y la imprime
-    print(
+    text = (
         '''
         Bien, entonces la cantidad de seguidores que tenes es: {}.
         Sos famosito eh!
