@@ -1,5 +1,5 @@
 import sys
-sys.path.append("C:/Users/Leonel/Documents/crux-bot")
+sys.path.append("C://Users//Leonel//Documents//crux-bot")
 
 from pyfacebook import IgProApi
 from facebook import GraphAPI
