@@ -59,9 +59,9 @@ Bueno mi rey, ¡Hasta la próxima {nombre}!
 esc
 Bueno mi rey, ¡Hasta la próxima {nombre}!
 fbchr0
-Ingrese el numero del que quiere elegir:
+Ingrese el numero del que quiere elegir
 fbchr5
-Tiene que ser un número, {nombre}. ¡No te pases de númeross!. Intentá otra vez:
+Tiene que ser un número, {nombre}. ¡No te pases de númeross!. Intentá otra vez
 fbopt0
 Dar like a posteo
 fbopt0msg0
@@ -73,7 +73,7 @@ fbopt1msg0
 fbopt2
 Subir posteo
 fbopt2msg0
-Escribe lo que te gustaría publicar (Ojo, {nombre}. No insultes a nadie):
+Escribe lo que te gustaría publicar (Ojo, {nombre}. No insultes a nadie)
 fbopt2msg10
 ¡{nombre}, el post ha sido publicado con éxito!
 fbopt2msg15
@@ -91,7 +91,7 @@ La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
 fbopt4
 Actualizar un posteo
 fbopt4msg10
-Escribe la nueva actualización:
+Escribe la nueva actualización
 fbopt4msg15
 Perfecto! El post ha sido actualizado con éxito, {nombre}
 fbopt5
