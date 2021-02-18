@@ -64,29 +64,43 @@ MIN_CONFIDENCE = 0.8
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
 # ------------------------------------------------------ #
-def validate_url(bot):
+
+
+def validate_url(bot  # type: ChatBot
+                 ):
+
+    # PRE: Recibe el objeto bot
+    # POST: Valida la url y la retorna
+
     regex = re.compile(
-        r'^(?:http|ftp)s?://' # http:// or https://
+        r'^(?:http|ftp)s?://'  # http:// or https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
-        r'localhost|' #localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-        r'(?::\d+)?' # optional port
+        r'localhost|'  # localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+        r'(?::\d+)?'  # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
     url = request_input(bot, "msgrequrlphoto")
-    aceptada = re.match(regex, url) is not None
-    
-    while not aceptada:
-        aceptada = request_input(bot, "urlgeterror")
-    
+    acepted = re.match(regex, url) is not None
+
+    while not acepted:
+        url = request_input(bot, "urlgeterror")
+
     return url
 
 
-def validate_enable_disable(bot):
+def validate_enable_disable(bot  # type: ChatBot
+                            ):
+
+    # PRE: Recibe el objeto bot
+    # POST: Pregunta al usuario si quiero habilitar o deshabilitar
+    # la publicacion
+
     enable_or_not = request_input(bot, "msgreqcommentenabled")
     while (enable_or_not not in KEYWORDS_ENABLE and
            enable_or_not not in KEYWORDS_DISABLE):
         enable_or_not = request_input(bot, "msgerrorenable")
+
     return enable_or_not
 
 
@@ -120,7 +134,7 @@ def validate_number_in_range(bot,  # type: ChatBot
             request = request_input(bot, "msgerrornotnumber")
 
     return number
-    
+
 
 def posts_printing(posts_info_list  # type: list
                    ):
@@ -372,8 +386,14 @@ def bot_greetings(bot  # type: ChatBot
     return username
 
 
-def information_followers(api,bot):
-    print_response(bot, "fbopt5msg0")
+def information_followers(api,  # type: Api
+                          bot  # type: ChatBot
+                          ):
+
+    # PRE: Recibe el objeto api y bot.
+    # POST: Obtiene la data,
+    # y si todo sale bien, imprime los seguidores
+    print_response(bot, "fbopt9msg0")
 
     data = fb.get_page_information(
         api=api,
@@ -387,7 +407,12 @@ def information_followers(api,bot):
         print_response(bot, "fbopt5msg5")
 
 
-def followers_count(data):
+
+def followers_count(data  # type: list[dict]
+                    ):
+
+    # PRE: Obtiene la data
+    # POST: Accede a la cantidad de seguidores, y la imprime
     text = (
         '''
         Bien, entonces la cantidad de seguidores que tenes es: {}.
