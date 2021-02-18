@@ -35,11 +35,11 @@ def chat_logger_creation():
     chat_logger.setLevel(logging.INFO)
 
     chat_formatter = logging.Formatter(
-        '''%(asctime)s, %(message)s.''',
+        '''%(asctime)s, %(message)s''',
         "%d/%m/%Y, %H:%M:%S"
     )
 
-    chat_handler = logging.FileHandler("logs\\chat.log", "a")
+    chat_handler = logging.FileHandler("logs\\chat.log", "a", "utf-8")
     chat_handler.setFormatter(chat_formatter)
 
     chat_logger.addHandler(chat_handler)
