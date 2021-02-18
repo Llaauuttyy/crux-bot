@@ -96,6 +96,10 @@ fbopt4msg15
 Perfecto! El post ha sido actualizado con éxito, {nombre}
 fbopt5
 Listar seguidores
+fbopt5msg0
+Perfecto, entonces si todo sale bien ahora te voy a decir la cantidad de seguidores que tenes
+fbopt5msg5
+Uff, no pude traerte la cantidad de seguidores. Si queres podes probar de nuevo a ver si anda
 fbopt6
 Actualizar foto de perfil
 fbopt6msg0
