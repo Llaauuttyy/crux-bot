@@ -8,27 +8,101 @@ continuar
 {nombre}, ¿Algo más que quieras hacer?
 mostrar opciones
 Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+mostrame las opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+quiero ver las opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+dame las opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+dame opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
 quiero likear una publicacion
 Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+quiero likear un post
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+quiero likear
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+likear
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
 quiero ver mis publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+mostrame mis publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+mostrar publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+listame mis publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+listar publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+publicaciones
 Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
 msgreqposts
 ¡Ya está {nombre}! Encontré tus publicaciones
 quiero postear una publicacion
 Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+quiero postear un post
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+quiero postear
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+postear
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
 quiero subir una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+quiero postear una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+postear una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+postear foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+foto
 Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
 msgrequrlphoto
 ¿Entonces una foto, no {nombre}?. Voy a precisar que me facilites la URL de alguna foto de internet
 msgpostedphoto
+¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro {nombre} ¡Verificalo ;)!
 quiero comentar una publicacion
 Genial, {nombre}. ¡Vamos a comentar!
-¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro {nombre} ¡Verificalo ;)!
+quiero comentar un post
+Genial, {nombre}. ¡Vamos a comentar!
+quiero comentar un post
+Genial, {nombre}. ¡Vamos a comentar!
+comentar un post
+Genial, {nombre}. ¡Vamos a comentar!
+comentar post
+Genial, {nombre}. ¡Vamos a comentar!
+comentar
+Genial, {nombre}. ¡Vamos a comentar!
 quiero actualizar una publicacion
 Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
 quiero actualizar una publicacion
 Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+quiero actualizar un post
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+quiero actualizar un post
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+actualizar una publicacion
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+actualizar una publicacion
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+actualizar publicacion
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+actualizar publicacion
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+actualizar
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+actualizar
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
 quiero ver mis conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+quiero ver conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+ver mis conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+quiero conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+conversaciones
 Está bien, {nombre}. ¡Veamos esas conversaciones!
 msgreqobjectid
 Y bien {nombre}, ¿Cuál publicación quieres elegir?
@@ -39,14 +113,40 @@ msgcommenabledsucc
 msgcommenablednotsucc
 ¡Malas noticias {nombre}!. Hice lo que me pediste...y se rompió todo, pero no fue mi culpa, eso sí
 quiero ver mis seguidores
-Está bien, {nombre}. ¡Veamos cuantos seguidores tenés!
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+quiero ver los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+ver los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+ver mis seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+mostrar los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+mostrar mis seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+ver seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+mostrar seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
 quiero actualizar la foto de perfil
 Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+quiero actualizar el perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+actualizar el perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+actualizar perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
 quiero buscar a un usuario
+Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar, un momento...
+buscar
 Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar, un momento...
 msgrequsername
 Bueno ¡Creo ya tener todo listo {nombre}!. Por favor, dime el nombre de usuario que quieres buscar
 quiero listar los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+quiero listar mis seguidores
 Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
 msgfollowersok
 ¡Ya está {nombre}! Uffffff pensé que tenías más seguidores
@@ -65,7 +165,7 @@ Tiene que ser un número, {nombre}. ¡No te pases de númeross!. Intentá otra v
 fbopt0
 Dar like a posteo
 fbopt0msg0
-{nombre}, es post ha sido likeado con éxito!
+{nombre}, ¡Ese post ha sido likeado con éxito!
 fbopt1
 Leer posteos
 fbopt1msg0
