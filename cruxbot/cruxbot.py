@@ -947,20 +947,28 @@ def print_data(bot,  # type: ChatBot
 # ------------------------------------------------------ #
 
 
-# PRE: 'username', debe ser una variable de tipo str
+# PRE: 'from_filepath', debe ser una variable de tipo str
+#      'to_filepath', debe ser una variable de tipo str
+#      'enforce_username', debe ser una variable de tipo bool
+#      'username', debe ser una variable de tipo str
 # POST: Reemplaza una palabra clave, por el nombre del usuario pasado
-#       por parámetro, en el archivo de entrenamiento del bot
-def set_up_username(username  # type: str
-                    ):
+#       por parámetro, de acuerdo a si se desea forzar el cambio,
+#       desde el archivo deseado, hacia el archivo indicado
+def set_up_file(from_filepath,  # type: str
+                to_filepath,  # type: str
+                enforce_username = False,  # type: bool
+                username = None  # type: str
+                ):
 
     filedata = []
 
-    with open("data/entrenador.txt", "r", encoding="utf-8") as file:
+    with open(from_filepath, "r", encoding="utf-8") as file:
         filedata = file.read()
 
-    filedata = filedata.replace("{nombre}", username)
+    if enforce_username:
+        filedata = filedata.replace("{nombre}", username)
 
-    with open('data/entrenador.txt', 'w', encoding="utf-8") as file:
+    with open(to_filepath, 'w', encoding="utf-8") as file:
         file.write(filedata)
 
 
@@ -1199,7 +1207,7 @@ def main():
 
     username = bot_greetings(bot)
 
-    set_up_username(username)
+    set_up_file("data/entrenador.txt", "data/entrenador.txt", True, username)
 
     bot_training(bot)
 
@@ -1211,6 +1219,8 @@ def main():
 
     else:
         print_response(bot, request)
+
+    set_up_file("data/entrenador.bak", "data/entrenador.txt")
 
 
 if __name__ == "__main__":
