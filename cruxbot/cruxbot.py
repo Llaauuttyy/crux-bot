@@ -59,6 +59,8 @@ KEYWORDS_DISABLE = [
     "deshabilitar", "deshabilita", "deshabilitalo"
 ]
 
+MIN_CONFIDENCE = 0.8
+
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
 # ------------------------------------------------------ #
@@ -1001,7 +1003,7 @@ def print_response(bot,  # type: ChatBot
 
     response = bot.get_response(statement)
 
-    while response.confidence < 0.8:
+    while response.confidence < MIN_CONFIDENCE:
         request = request_input(bot, "msgforconfidence")
 
         response = bot.get_response(request)
@@ -1072,7 +1074,7 @@ def init_main_options(request,  # type: str
                 request = request_input(bot, "msgreqopt")
                 response = bot.get_response(request)
 
-                while (response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
+                while (response.confidence < MIN_CONFIDENCE or not are_keywords_in_text(response.text.lower(), KEYWORDS) or
                         "habilitar" in response.text.lower()):
 
                     request = request_input(bot, "msgforconfidence")
@@ -1121,7 +1123,7 @@ def init_main_options(request,  # type: str
                 request = request_input(bot, "msgreqopt")
                 response = bot.get_response(request)
 
-                while response.confidence < 0.8 or not are_keywords_in_text(response.text.lower(), KEYWORDS):
+                while response.confidence < MIN_CONFIDENCE or not are_keywords_in_text(response.text.lower(), KEYWORDS):
                     request = request_input(bot, "msgforconfidence")
                     response = bot.get_response(request)
 
