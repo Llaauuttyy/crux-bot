@@ -3,7 +3,7 @@ msgwme
 dar bienvenida
 ¡Bienvenidoooooooo de nuevo {nombre}!. Me llamo Crux y seré tu asistente a lo largo del programa
 descripcion
-Excelente {nombre}, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet Agustin y Chaves {nombre}. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
+Excelente {nombre}, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet {nombre}tin y Chaves {nombre}. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
 continuar
 {nombre}, ¿Algo más que quieras hacer?
 mostrar opciones
@@ -181,11 +181,11 @@ fbopt2msg15
 fbopt3
 Subir foto
 fbopt3msg0
-Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, la misma debe llamarse "image.jpg". Una vez que lo hayas hecho, envía cualquier cosa
+Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, escribe el nombre de la foto (no te olvides de la extensiones. Las validas son: png, jpg, jpeg, gif)
 fbopt3msg1
-Ingresa la foto llamada "image.jpg" dentro de la carpeta "images". Avisá cuando estés listo enviando un mensaje
+Ingresa la foto dentro de la carpeta "images". No olvides escribir el nombre de la misma
 fbopt3msg5
-Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Avisá cuando estés listo enviando un mensaje
+Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Escribe el nombre de la imagen, con su extensión correspodiente
 fbopt3msg20
 La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
 fbopt4
