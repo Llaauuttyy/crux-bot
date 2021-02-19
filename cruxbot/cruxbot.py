@@ -639,21 +639,21 @@ def bot_checking_photo_in_path(bot   # type: ChatBot
         os.mkdir("images")
 
     except FileExistsError:
-        user_ready = request_input(bot, "fbopt3msg1")
+        photo_path = request_input(bot, "fbopt3msg1")
 
     else:
-        user_ready = request_input(bot, "fbopt3msg0")
+        photo_path = request_input(bot, "fbopt3msg0")
 
     photo_is_ready = False
 
     while not photo_is_ready:
         try:
-            photo = open("images//image.jpg", "rb")
+            photo = open("images//{photo_path}".format(photo_path=photo_path), "rb")
 
             photo_is_ready = True
 
         except FileNotFoundError:
-            user_ready = request_input(bot, "fbopt3msg5")
+            photo_path = request_input(bot, "fbopt3msg5")
 
     return photo
 
