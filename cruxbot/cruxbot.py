@@ -922,7 +922,7 @@ def print_data(bot,  # type: ChatBot
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
-                    chat_logger(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+                    chat_logger.info(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == get_medias_by_bot.__name__:
 
@@ -932,7 +932,7 @@ def print_data(bot,  # type: ChatBot
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
 
-                chat_logger(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
 
             else:
                 del data[x]["id"]
@@ -945,7 +945,7 @@ def print_data(bot,  # type: ChatBot
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
-                    chat_logger(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
+                    chat_logger.info(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
 
     elif function_name == post_ig_photo_by_bot.__name__:
 
@@ -968,7 +968,7 @@ def print_data(bot,  # type: ChatBot
                 print_response(bot, "msgerrorconn")
                 print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
 
-                chat_logger(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
             else:
                 if(data[x].get("success")):
                     print_response(bot, "msgcommenabledsucc")
