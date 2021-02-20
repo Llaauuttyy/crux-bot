@@ -136,37 +136,6 @@ def validate_number_in_range(bot,  # type: ChatBot
     return number
 
 
-def posts_printing(posts_info_list  # type: list
-                   ):
-
-    # PRE: Recibe posts_info_list que
-    # es una lista de dics llena, con la info
-    # de los posts.
-
-    # POST: Recorre la lista e imprime la
-    # información requerida.
-
-    for posts in range(len(posts_info_list)):
-
-        for key in posts_info_list[posts]:
-
-            if key == "message":
-                print(f"Post {posts + 1}: {posts_info_list[posts]['message']}\n")
-                chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
-                        post_number=posts + 1,
-                        post_message=posts_info_list[posts]['message']
-                    )
-                )
-
-            elif key == "picture":
-                print(f"Post {posts + 1}: This post is a photo.")
-                chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
-                        post_number=posts + 1,
-                        post_message="This post is a photo."
-                    )
-                )
-
-
 def posts_or_convo_order(object_info_list,  # type: list
                          object_number  # type: str
                          ):
@@ -185,58 +154,6 @@ def posts_or_convo_order(object_info_list,  # type: list
     object_id = object_info_list[object_index]["id"]
 
     return object_id
-
-
-def convers_snippet_printing(convers_info_list  # type: list
-                             ):
-
-    # PRE: Recibe la info de la conversaciones en
-    # una lista de diccionarios.
-
-    # POST: Permite imprimir el último mensaje
-    # e infomación sobre la conversación.
-
-    for snippet in range(len(convers_info_list)):
-
-        text = (
-            '''
-            [Crux]:
-            Follower: {follower}
-            Last message: {last_message}
-            Conversation: {snippet}
-            '''.format(
-                follower=convers_info_list[snippet]["participants"]["data"][0]["name"],
-                last_message=convers_info_list[snippet]["snippet"],
-                snippet=snippet + 1
-            )
-        )
-
-        print(text)
-        chat_logger.info(text)
-
-
-def convers_messages_printing(message_info_list  # type: list
-                              ):
-
-    # PRE: Recibe la info de la conversaciones en
-    # una lista de diccionarios.
-
-    # POST: Permite imprimir los mensajes
-    # e infomación sobre la conversación.
-
-    for message in range(len(message_info_list)):
-        text = (
-            '''
-            Sender: {sender}
-            Message: {message}
-            '''.format(
-                sender=message_info_list[message]["from"]["name"],
-                message=message_info_list[message]["message"]
-            )
-        )
-
-        print(text)
-        chat_logger.info(text)
 
 
 def fb_error_checking(data  # type: dict
@@ -425,9 +342,9 @@ def followers_count(data  # type: list[dict]
     chat_logger.info(text)
 
 
-def bot_showing_posts(api,  # type: Api
-                      bot  # type: ChatBot
-                      ):
+def bot_shows_posts(api,  # type: Api
+                    bot  # type: ChatBot
+                    ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -443,7 +360,7 @@ def bot_showing_posts(api,  # type: Api
     )
 
     if not fb_error_checking(posts_info_list):
-        posts_printing(posts_info_list)
+        print_data(bot, posts_info_list, bot_shows_posts.__name__)
 
         return posts_info_list
 
@@ -453,7 +370,7 @@ def bot_showing_posts(api,  # type: Api
         return posts_info_list
 
 
-def bot_showing_conversations(api,  # type: Api
+def bot_shows_conversations(api,  # type: Api
                               bot  # type: ChatBot
                               ):
 
@@ -473,7 +390,7 @@ def bot_showing_conversations(api,  # type: Api
     # looks for errors
     if not fb_error_checking(convers_info_list):
         # if there's not, print conversations
-        convers_snippet_printing(convers_info_list)
+        print_data(bot, convers_info_list, bot_shows_conversations.__name__)
         # lets the user choose and print all
         # of the mssages from that convo.
         return convers_info_list
@@ -498,10 +415,10 @@ def bot_object_chooser(api,  # type: Api
     # el numero que elija el usuario.
 
     if type_object == "posts_fb":
-        object_info_list = bot_showing_posts(api, bot)
+        object_info_list = bot_shows_posts(api, bot)
 
     else:
-        object_info_list = bot_showing_conversations(api, bot)
+        object_info_list = bot_shows_conversations(api, bot)
 
     if object_info_list == []:
         print("Try rebooting your connection")
@@ -518,9 +435,9 @@ def bot_object_chooser(api,  # type: Api
         return object_id
 
 
-def bot_showing_convers_msg(api,  # type: Api
-                            bot  # type: ChatBot
-                            ):
+def bot_shows_convers_msg(api,  # type: Api
+                          bot  # type: ChatBot
+                          ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -535,12 +452,12 @@ def bot_showing_convers_msg(api,  # type: Api
     )
 
     if not fb_error_checking(messages_info_list):
-        convers_messages_printing(messages_info_list)
+        print_data(bot, messages_info_list, bot_shows_convers_msg.__name__)
 
 
-def bot_liking_posts(api,  # type: Api
-                     bot  # type: ChatBot
-                     ):
+def bot_likes_posts(api,  # type: Api
+                    bot  # type: ChatBot
+                    ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -598,9 +515,9 @@ def bot_put_publication(api,  # type: Api
         print_response(bot, "fbopt4msg15")
 
 
-def bot_commenting_posts(api,  # type: Api
-                         bot  # type: ChatBot
-                         ):
+def bot_comments_posts(api,  # type: Api
+                       bot  # type: ChatBot
+                       ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -622,8 +539,8 @@ def bot_commenting_posts(api,  # type: Api
         print_response(bot, "fbopt2msg15")
 
 
-def bot_checking_photo_in_path(bot   # type: ChatBot
-                               ):
+def bot_checks_photo_is_in_path(bot   # type: ChatBot
+                                ):
 
     # PRE: Recibe el objeto bot.
 
@@ -657,16 +574,16 @@ def bot_checking_photo_in_path(bot   # type: ChatBot
     return photo
 
 
-def bot_uploading_feed_photo(graphapi,  # type: GraphAPI
-                             bot  # type: ChatBot
-                             ):
+def bot_uploads_feed_photo(graphapi,  # type: GraphAPI
+                           bot  # type: ChatBot
+                           ):
 
     # PRE: Recibe objeto graphapi y bot.
 
     # POST: Llama al método para subir la
     # foto y recibe la data, si no tiene error,
     # le avisa al usuario que todo salió bien.
-    photo = bot_checking_photo_in_path(bot)
+    photo = bot_checks_photo_is_in_path(bot)
 
     data = fb.post_photo(
         api=graphapi,
@@ -678,9 +595,9 @@ def bot_uploading_feed_photo(graphapi,  # type: GraphAPI
         print_response(bot, "fbopt3msg20")
 
 
-def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
-                                bot  # type: ChatBot
-                                ):
+def bot_uploads_profile_photo(graphapi,  # type: GraphAPI
+                              bot  # type: ChatBot
+                              ):
 
     # PRE: Recibe objeto graphapi y bot.
 
@@ -689,7 +606,7 @@ def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
     # no tiene error, le avisa al usuario
     # que todo salió bien.
 
-    photo = bot_checking_photo_in_path(bot)
+    photo = bot_checks_photo_is_in_path(bot)
 
     data = fb.post_profile_photo(
         api=graphapi,
@@ -974,6 +891,72 @@ def print_data(bot,  # type: ChatBot
                 else:
                     print_response(bot, "msgcommenablednotsucc")
 
+    elif function_name == bot_shows_posts.__name__:
+
+        for posts in range(len(data)):
+
+            for key in data[posts]:
+
+                if key == "message":
+                    print(f"Post {posts + 1}: {data[posts]['message']}\n")
+                    chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
+                            post_number=posts + 1,
+                            post_message=data[posts]['message']
+                        )
+                    )
+
+                elif key == "picture":
+                    print(f"Post {posts + 1}: This post is a photo.")
+                    chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
+                            post_number=posts + 1,
+                            post_message="This post is a photo."
+                        )
+                    )
+
+    elif function_name == bot_shows_conversations.__name__:
+
+        for snippet in range(len(data)):
+
+            print(
+                '''
+                [Crux]:
+                Follower: {follower}
+                Last message: {last_message}
+                Conversation: {snippet}
+                '''.format(
+                    follower=data[snippet]["participants"]["data"][0]["name"],
+                    last_message=data[snippet]["snippet"],
+                    snippet=snippet + 1
+                )
+            )
+
+            chat_logger.info("[Crux]: Follower: {follower} | Last message: {last_message} | Conversation: {snippet}".format(
+                    follower=data[snippet]["participants"]["data"][0]["name"],
+                    last_message=data[snippet]["snippet"],
+                    snippet=snippet + 1
+                )
+            )
+
+    elif function_name == bot_shows_convers_msg.__name__:
+
+        for message in range(len(data)):
+            print(
+                '''
+                [Crux]:
+                Sender: {sender}
+                Message: {message}
+                '''.format(
+                    sender=data[message]["from"]["name"],
+                    message=data[message]["message"]
+                )
+            )
+
+            chat_logger.info("[Crux]: Sender: {sender} | Message: {message}".format(
+                    sender=data[message]["from"]["name"],
+                    message=data[message]["message"]
+                )
+            )
+
 
 # ------------------------------------------------------ #
 # ----------------- BOT FUNCTIONS ENDS ----------------- #
@@ -1116,16 +1099,16 @@ def init_main_options(request,  # type: str
                 chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "likear" in request and "likear" in response.text.lower():
-                    bot_liking_posts(api, bot)
+                    bot_likes_posts(api, bot)
 
                 elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                    bot_showing_posts(api, bot)
+                    bot_shows_posts(api, bot)
 
                 elif "postear" in request and "postear" in response.text.lower():
                     bot_post_publication(api, bot)
 
                 elif "foto" in request and "foto" in response.text.lower():
-                    bot_uploading_feed_photo(graphapi, bot)
+                    bot_uploads_feed_photo(graphapi, bot)
 
                 elif "actualizar" in request and "actualizar" in response.text.lower():
                     bot_put_publication(api, bot)
@@ -1134,13 +1117,13 @@ def init_main_options(request,  # type: str
                     information_followers(api, bot)
 
                 elif "perfil" in request and "perfil" in response.text.lower():
-                    bot_uploading_profile_photo(graphapi, bot)
+                    bot_uploads_profile_photo(graphapi, bot)
 
                 elif "conversaciones" in request and "conversaciones" in response.text.lower():
-                    bot_showing_convers_msg(api, bot)
+                    bot_shows_convers_msg(api, bot)
 
                 elif "comentar" in request and "comentar" in response.text.lower():
-                    bot_commenting_posts(api, bot)
+                    bot_comments_posts(api, bot)
 
                 flag_is_valid = True
 
