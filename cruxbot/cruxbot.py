@@ -407,7 +407,6 @@ def information_followers(api,  # type: Api
         print_response(bot, "fbopt5msg5")
 
 
-
 def followers_count(data  # type: list[dict]
                     ):
 
@@ -940,7 +939,7 @@ def print_data(bot,  # type: ChatBot
 
                 print(f"\n[{bot.name}]: {x + 1}° - publicación")
 
-                chat_logger.info(f"\n[{bot.name}]: {x + 1}° - publicación")
+                chat_logger.info(f"[{bot.name}]: {x + 1}° - publicación")
 
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
