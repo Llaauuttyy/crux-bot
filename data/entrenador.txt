@@ -108,9 +108,9 @@ msgreqobjectid
 Y bien {nombre}, ¿Cuál publicación quieres elegir?
 msgreqcommentenabled
 Bueno, y por último {nombre}...¿Qué quieres hacer con la publicación? ¿Quieres habilitarla o deshabilitarla?
-msgcommenabledsucc
+msgrequestsucc
 ¡Buenas noticias {nombre}!. Hice lo que me pediste, y parece que todo está bien, podes constatarlo si queres
-msgcommenablednotsucc
+msgrequestnotsucc
 ¡Malas noticias {nombre}!. Hice lo que me pediste...y se rompió todo, pero no fue mi culpa, eso sí
 quiero ver mis seguidores
 Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
@@ -164,8 +164,6 @@ fbchr5
 Tiene que ser un número, {nombre}. ¡No te pases de númeross!. Intentá otra vez
 fbopt0
 Dar like a posteo
-fbopt0msg0
-{nombre}, ¡Ese post ha sido likeado con éxito!
 fbopt1
 Leer posteos
 fbopt1msg0
@@ -191,9 +189,7 @@ La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
 fbopt4
 Actualizar un posteo
 fbopt4msg10
-Escribe la nueva actualización
-fbopt4msg15
-Perfecto! El post ha sido actualizado con éxito, {nombre}
+Dime {nombre}, ¿Cuál va a ser el nuevo mensaje para la publicación?
 fbopt5
 Listar seguidores
 fbopt5msg0

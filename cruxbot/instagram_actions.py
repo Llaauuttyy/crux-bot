@@ -2,13 +2,14 @@ from facebook import GraphAPI, GraphAPIError
 from pyfacebook import IgProApi, PyFacebookException
 
 
-# PRE: 'api', debe ser una variable de tipo IgProApi
-#      'username', debe ser una variable de tipo str
-# POST: Devuelve los datos del usuario indicado anteriormente,
-#       en un diccionario
 def get_ig_user_info(api,  # type: IgProApi
                      username  # type: str
                      ):
+
+    # PRE: 'api', debe ser una variable de tipo IgProApi
+    #      'username', debe ser una variable de tipo str
+    # POST: Devuelve los datos del usuario indicado anteriormente,
+    #       en un diccionario
 
     data = {}
 
@@ -24,13 +25,14 @@ def get_ig_user_info(api,  # type: IgProApi
     return data
 
 
-# PRE: 'api', debe ser una variable de tipo IgProApi
-#      'username', debe ser una variable de tipo str
-# POST: Devuelve las publicaciones/medias del usuario indicado
-#       anteriormente, en una lista de diccionarios
 def get_ig_user_medias(api,  # type: IgProApi
                        username  # type: str
                        ):
+
+    # PRE: 'api', debe ser una variable de tipo IgProApi
+    #      'username', debe ser una variable de tipo str
+    # POST: Devuelve las publicaciones/medias del usuario indicado
+    #       anteriormente, en una lista de diccionarios
 
     data = {}
 
@@ -46,13 +48,14 @@ def get_ig_user_medias(api,  # type: IgProApi
     return data
 
 
-# PRE: 'api', debe ser una variable de tipo IgProApi
-#      'media_id', debe ser una variable de tipo str
-# POST: Devuelve los datos de la publicacion/media indicado
-#       anteriormente, en un diccionario
 def get_ig_media_info(api,  # type: IgProApi
                       media_id  # type: str
                       ):
+
+    # PRE: 'api', debe ser una variable de tipo IgProApi
+    #      'media_id', debe ser una variable de tipo str
+    # POST: Devuelve los datos de la publicacion/media indicado
+    #       anteriormente, en un diccionario
 
     data = {}
 
@@ -68,15 +71,16 @@ def get_ig_media_info(api,  # type: IgProApi
     return data
 
 
-# PRE: 'api', debe ser una variable de tipo GraphAPI
-#      'instagram_business_id', debe ser una variable de tipo str
-#      'image_url', debe ser una variable de tipo str
-# POST: Devuelve el 'id' de la publicacion de la foto indicada
-#       anteriormente, en un diccionario
 def post_ig_photo(api,  # type: GraphAPI
                   instagram_business_id,  # type: str
                   image_url  # type: str
                   ):
+
+    # PRE: 'api', debe ser una variable de tipo GraphAPI
+    #      'instagram_business_id', debe ser una variable de tipo str
+    #      'image_url', debe ser una variable de tipo str
+    # POST: Devuelve el 'id' de la publicacion de la foto indicada
+    #       anteriormente, en un diccionario
 
     response = {}
     data = {}
@@ -125,15 +129,16 @@ def post_ig_photo(api,  # type: GraphAPI
     return data
 
 
-# PRE: 'api', debe ser una variable de tipo IgProApi
-#      'media_id', debe ser una variable de tipo str
-#      'comment_enabled', debe ser una variable de tipo bool
-# POST: Devuelve el estado de la actualización de la publicacion/media
-#       indicada anteriormente, en un diccionario
 def put_ig_media(api,  # type: IgProApi
                  media_id,  # type: str
                  comment_enabled  # type: bool
                  ):
+    
+    # PRE: 'api', debe ser una variable de tipo IgProApi
+    #      'media_id', debe ser una variable de tipo str
+    #      'comment_enabled', debe ser una variable de tipo bool
+    # POST: Devuelve el estado de la actualización de la publicacion/media
+    #       indicada anteriormente, en un diccionario
 
     data = {}
 
