@@ -207,7 +207,7 @@ def format_date(str_datetime  # type: str
     # POST: Devuelve un string que representa la fecha y hora, la cual
     #       deriva de la fecha y hora ingresada anteriormente, a esa
     #       se le dió un formato local y se corrigió la diferencia de
-    #       horas                
+    #       horas
 
     datetime_fixed = ""
 
@@ -355,29 +355,27 @@ def bot_shows_posts(api,  # type: Api
     # que no haya error, returna los mismos,
     # sino una lista vacía.
 
-    data_list = []
+    print_response(bot, "fbopt1msg0")
 
-    data = fb.get_posts(
+    posts_info_list = fb.get_posts(
         api=api,
         page_id=PAGE_ID
     )
 
-    if "error" in data:
-        data_list.append(data)
+    if not fb_error_checking(posts_info_list):
+        print_data(bot, posts_info_list, bot_shows_posts.__name__)
+
+        return posts_info_list
+
     else:
-        for x in range(len(data)):
-            data_list.append(
-                filter_data(data[x], bot_shows_posts.__name__)
-            )
+        posts_info_list = list()
 
-    print_data(bot, deepcopy(data_list), bot_shows_posts.__name__)
-
-    return data_list        
+        return posts_info_list
 
 
 def bot_shows_conversations(api,  # type: Api
-                            bot  # type: ChatBot
-                            ):
+                              bot  # type: ChatBot
+                              ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -461,25 +459,20 @@ def bot_shows_convers_msg(api,  # type: Api
 
 
 def bot_likes_posts(api,  # type: Api
-                    bot,  # type: ChatBot
-                    post_id  # type: str
+                    bot  # type: ChatBot
                     ):
 
-    # PRE: Recibe el objeto api, bot y post_id.
+    # PRE: Recibe el objeto api y bot.
 
     # POST: Llama a método para likear post,
     # si no hay error, avisa que se ha likeado.
 
-    data_list = []
+    post_id = bot_object_chooser(api, bot, "posts")
 
     data = fb.post_like(api, post_id)
 
-    if "error" in data:
-        data_list.append(data)
-    else:
-        data_list.append(filter_data(data, bot_likes_posts.__name__))
-
-    print_data(bot, data_list, bot_likes_posts.__name__)        
+    if not fb_error_checking(data):
+        print_response(bot, "fbopt0msg0")
 
 
 def bot_post_publication(api,  # type: Api
@@ -507,27 +500,22 @@ def bot_post_publication(api,  # type: Api
 
 
 def bot_put_publication(api,  # type: Api
-                        bot,  # type: ChatBot
-                        post_id,  # type: str
-                        new_message  # type: str
+                        bot  # type: ChatBot
                         ):
 
-    # PRE: Recibe el objeto api, bot, post_id y new_message.
+    # PRE: Recibe el objeto api y bot.
 
     # POST: Permite al usuario editar un post,
     # llama al método necesario y si no hay
     # error, muestra mensaje de éxito.
 
-    data_list = []
+    post_id = bot_object_chooser(api, bot, "posts")
 
-    data = fb.put_publication(api, post_id, new_message)
+    user_edit = request_input(bot, "fbopt4msg10")
+    data = fb.put_publication(api, post_id, user_edit)
 
-    if "error" in data:
-        data_list.append(data)
-    else:
-        data_list.append(filter_data(data, bot_put_publication.__name__))
-
-    print_data(bot, data_list, bot_put_publication.__name__)           
+    if not fb_error_checking(data):
+        print_response(bot, "fbopt4msg15")
 
 
 def bot_comments_posts(api,  # type: Api
@@ -672,7 +660,7 @@ def get_medias_by_bot(bot,  # type: ChatBot
     #      'username', debe ser una variable de tipo str
     # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
     #       el fin de obtener las publicaciones/medias del usuario indicado
-    #       anteriormente, y de este modo, obtener la información de cada una                      
+    #       anteriormente, y de este modo, obtener la información de cada una
 
     data_list = []
 
@@ -825,20 +813,6 @@ def filter_data(data,  # type: dict
 
         parsed_data = { "cantidad_de_seguidores": data.get("followers_count", 0) }
 
-    elif function_name == bot_shows_posts.__name__:
-
-        parsed_data = { 
-            "id": data.get("id", 0),
-            "cantidad_de_comentarios": data.get("comments").get("summary").get("total_count", 0),
-            "fecha_y_hora_de_publicacion": data.get(
-                "created_time", 
-                (datetime.now() + timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%S+%f")
-            ),
-            "mensaje": data.get("message", "No hay mensaje, ¡Es una foto!"),
-            "cantidad_de_reacciones": data.get("reactions").get("summary").get("total_count", 0),
-            "link": data.get("permalink_url", "https://www.facebook.com/Crux-Friend-102579945106245")
-        }        
-
     else:
         parsed_data = deepcopy(data)
 
@@ -912,9 +886,7 @@ def print_data(bot,  # type: ChatBot
             else:
                 print_response(bot, "msgpostedphoto")
 
-    elif (function_name == update_media_by_bot.__name__ or
-          function_name == bot_likes_posts.__name__ or
-          function_name == bot_put_publication.__name__):
+    elif function_name == update_media_by_bot.__name__:
 
         for x in range(len(data)):
 
@@ -925,32 +897,31 @@ def print_data(bot,  # type: ChatBot
                 chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
             else:
                 if(data[x].get("success")):
-                    print_response(bot, "msgrequestsucc")
+                    print_response(bot, "msgcommenabledsucc")
                 else:
-                    print_response(bot, "msgrequestnotsucc")
+                    print_response(bot, "msgcommenablednotsucc")
 
     elif function_name == bot_shows_posts.__name__:
 
-        for post in range(len(data)):
+        for posts in range(len(data)):
 
-            if key_error in data[post]:
-                print_response(bot, "msgerrorconn")
-                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[post].get(key_error).message}\n")
+            for key in data[posts]:
 
-                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[post].get(key_error).message}")
+                if key == "message":
+                    print(f"Post {posts + 1}: {data[posts]['message']}\n")
+                    chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
+                            post_number=posts + 1,
+                            post_message=data[posts]['message']
+                        )
+                    )
 
-            else:
-                del data[post]["id"]
-                data[post]["fecha_y_hora_de_publicacion"] = format_date(data[post].get("fecha_y_hora_de_publicacion"))
-
-                print(f"\n[{bot.name}]: {post + 1}° - publicación")
-
-                chat_logger.info(f"[{bot.name}]: {post + 1}° - publicación")
-
-                for key in data[post]:
-                    print(f"[{bot.name}]: {format_key(key)}  :  {data[post].get(key)}")
-
-                    chat_logger.info(f"[{bot.name}]: {format_key(key)}  :  {data[post].get(key)}")                    
+                elif key == "picture":
+                    print(f"Post {posts + 1}: This post is a photo.")
+                    chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
+                            post_number=posts + 1,
+                            post_message="This post is a photo."
+                        )
+                    )
 
     elif function_name == bot_shows_conversations.__name__:
 
@@ -1143,18 +1114,9 @@ def init_main_options(request,  # type: str
                 chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "likear" in request and "likear" in response.text.lower():
-
-                    posts_list = bot_shows_posts(api, bot)
-
-
-
-                    post_id = validate_number_in_range(bot, posts_list)
-
-                    bot_likes_posts(api, bot, posts_list[post_id].get("id"))
+                    bot_likes_posts(api, bot)
 
                 elif "publicaciones" in request and "publicaciones" in response.text.lower():
-
-                    print_response(bot, "fbopt1msg0")
                     bot_shows_posts(api, bot)
 
                 elif "postear" in request and "postear" in response.text.lower():
@@ -1164,14 +1126,7 @@ def init_main_options(request,  # type: str
                     bot_uploads_feed_photo(graphapi, bot)
 
                 elif "actualizar" in request and "actualizar" in response.text.lower():
-
-                    posts_list = bot_shows_posts(api, bot)
-
-                    post_id = validate_number_in_range(bot, posts_list)
-
-                    new_message = request_input(bot, "fbopt4msg10")
-
-                    bot_put_publication(api, bot, posts_list[post_id].get("id"), new_message)
+                    bot_put_publication(api, bot)
 
                 elif "seguidores" in request and "seguidores" in response.text.lower():
                     information_followers(api, bot)
