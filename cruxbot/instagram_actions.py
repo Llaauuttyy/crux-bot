@@ -1,6 +1,8 @@
 from facebook import GraphAPI, GraphAPIError
 from pyfacebook import IgProApi, PyFacebookException
 
+from loggers import error_logger
+
 
 def get_ig_user_info(api,  # type: IgProApi
                      username  # type: str
@@ -21,6 +23,8 @@ def get_ig_user_info(api,  # type: IgProApi
 
     except PyFacebookException as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
 
@@ -45,6 +49,8 @@ def get_ig_user_medias(api,  # type: IgProApi
     except PyFacebookException as error:
         data = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return data
 
 
@@ -67,6 +73,8 @@ def get_ig_media_info(api,  # type: IgProApi
 
     except PyFacebookException as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
 
@@ -103,6 +111,8 @@ def post_ig_photo(api,  # type: GraphAPI
     except GraphAPIError as error:
         response = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     if "error" not in response:
         try:
             # La primera petición, se encarga de subir la foto a Instagram, donde
@@ -122,6 +132,8 @@ def post_ig_photo(api,  # type: GraphAPI
 
         except GraphAPIError as error:
             data = {"error": error}
+
+            error_logger.error(error, exc_info=True)
 
     else:
         data = response.copy()
@@ -160,5 +172,7 @@ def put_ig_media(api,  # type: IgProApi
 
     except PyFacebookException as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
