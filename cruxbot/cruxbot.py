@@ -345,11 +345,35 @@ def followers_count(data  # type: list[dict]
     chat_logger.info(text)
 
 
+def delete_photo_for_put_publication(posts_list  # type: list[dict]
+                                     ):
+
+    # PRE: Recibe posts_list que es
+    # una lista de diccionarios llena
+    # de informacion de los post.
+
+    # POST: Recorre esa lista y
+    # arma otra quitando excluyendo
+    # a todos los posts que contengan
+    # foto, porque los mismos no pueden
+    # ser editados. Devuelve la lista.
+
+    posts_list_parsed = []
+
+    for post in range(len(posts_list)):
+        if posts_list[post].get("message") is not None:
+            posts_list_parsed.append(posts_list[post])
+
+    return posts_list_parsed
+
+
 def bot_shows_posts(api,  # type: Api
-                    bot  # type: ChatBot
+                    bot,  # type: ChatBot
+                    print_enable=False  # type: bool
                     ):
 
-    # PRE: Recibe el objeto api y bot.
+    # PRE: Recibe el objeto api, bot y print_enable
+    # que indica si se debe printear o no.
 
     # POST: Obtiene los posts, en caso de
     # que no haya error, returna los mismos,
@@ -363,7 +387,8 @@ def bot_shows_posts(api,  # type: Api
     )
 
     if not fb_error_checking(posts_info_list):
-        print_data(bot, posts_info_list, bot_shows_posts.__name__)
+        if not print_enable:
+            print_data(bot, posts_info_list, bot_shows_posts.__name__)
 
         return posts_info_list
 
@@ -374,8 +399,8 @@ def bot_shows_posts(api,  # type: Api
 
 
 def bot_shows_conversations(api,  # type: Api
-                              bot  # type: ChatBot
-                              ):
+                            bot  # type: ChatBot
+                            ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -419,6 +444,11 @@ def bot_object_chooser(api,  # type: Api
 
     if type_object == "posts_fb":
         object_info_list = bot_shows_posts(api, bot)
+
+    elif type_object == "puts_fb":
+        posts_info_list = bot_shows_posts(api, bot, True)
+        object_info_list = delete_photo_for_put_publication(posts_info_list)
+        print_data(bot, object_info_list, bot_shows_posts.__name__)
 
     else:
         object_info_list = bot_shows_conversations(api, bot)
@@ -509,7 +539,7 @@ def bot_put_publication(api,  # type: Api
     # llama al método necesario y si no hay
     # error, muestra mensaje de éxito.
 
-    post_id = bot_object_chooser(api, bot, "posts")
+    post_id = bot_object_chooser(api, bot, "puts_fb")
 
     user_edit = request_input(bot, "fbopt4msg10")
     data = fb.put_publication(api, post_id, user_edit)
