@@ -1,0 +1,250 @@
+msgwme
+¡Bienvenidoooooooo!. Me llamo Crux. ¿Cuál es tu nombre?
+dar bienvenida
+¡Bienvenidoooooooo de nuevo {nombre}!. Me llamo Crux y seré tu asistente a lo largo del programa
+descripcion
+Excelente {nombre}, te comento, soy un asistente para las redes sociales de Facebook y de Instagram. Los estudiantes que me programaron son: D'Abbraccio Lautaro, Decouflet {nombre}tin y Chaves {nombre}. ¡Ah! Casi me olvido del querido ejecutor que es Capra Franco, es mucho muy importante. Bueno, sin más preámbulos, ¡Estaré expectante de lo que desees hacer!
+continuar
+{nombre}, ¿Algo más que quieras hacer?
+mostrar opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+mostrame las opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+quiero ver las opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+dame las opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+dame opciones
+Okey {nombre}, pero ¿Cuáles te muestro? ¿De Facebook o de Instagram?
+quiero likear una publicacion
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+quiero likear un post
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+quiero likear
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+likear
+Comprendo, {nombre}. En ese caso necesitaré saber cual publicación quieres likear
+quiero ver mis publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+mostrame mis publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+mostrar publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+listame mis publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+listar publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+publicaciones
+Perfecto, {nombre}. Puede ser que me demore un poco en traer las publicaciones ¡Es mucha información!
+msgreqposts
+¡Ya está {nombre}! Encontré tus publicaciones
+quiero postear una publicacion
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+quiero postear un post
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+quiero postear
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+postear
+Okey, {nombre}. ¡Deberás pensar un mensaje a postear entonces!
+quiero subir una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+quiero postear una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+postear una foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+postear foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+foto
+Una...¿Foto?, bueno {nombre}. ¡Aviso que no hay vuelta atras, eh!
+msgrequrlphoto
+¿Entonces una foto, no {nombre}?. Voy a precisar que me facilites la URL de alguna foto de internet
+msgpostedphoto
+¡Perfeeeeeeeeeeecto!. Pude publicar la foto en tu muro {nombre} ¡Verificalo ;)!
+quiero comentar una publicacion
+Genial, {nombre}. ¡Vamos a comentar!
+quiero comentar un post
+Genial, {nombre}. ¡Vamos a comentar!
+quiero comentar un post
+Genial, {nombre}. ¡Vamos a comentar!
+comentar un post
+Genial, {nombre}. ¡Vamos a comentar!
+comentar post
+Genial, {nombre}. ¡Vamos a comentar!
+comentar
+Genial, {nombre}. ¡Vamos a comentar!
+quiero actualizar una publicacion
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+quiero actualizar una publicacion
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+quiero actualizar un post
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+quiero actualizar un post
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+actualizar una publicacion
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+actualizar una publicacion
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+actualizar publicacion
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+actualizar publicacion
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+actualizar
+Está bien, {nombre}. Ve pensando otro mensaje para actualizar la publicación
+actualizar
+Está bien, {nombre}. Te aviso que solo puedo habilitar/deshabilitar los comentarios de una publicación. ¡Ahora mismo te los muestro!
+quiero ver mis conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+quiero ver conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+ver mis conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+quiero conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+conversaciones
+Está bien, {nombre}. ¡Veamos esas conversaciones!
+msgreqobjectid
+Y bien {nombre}, ¿Cuál publicación quieres elegir?
+msgreqcommentenabled
+Bueno, y por último {nombre}...¿Qué quieres hacer con la publicación? ¿Quieres habilitarla o deshabilitarla?
+msgcommenabledsucc
+¡Buenas noticias {nombre}!. Hice lo que me pediste, y parece que todo está bien, podes constatarlo si queres
+msgcommenablednotsucc
+¡Malas noticias {nombre}!. Hice lo que me pediste...y se rompió todo, pero no fue mi culpa, eso sí
+quiero ver mis seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+quiero ver los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+ver los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+ver mis seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+mostrar los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+mostrar mis seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+ver seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+mostrar seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+quiero actualizar la foto de perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+quiero actualizar el perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+actualizar el perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+actualizar perfil
+Noooo, ¿Por qué {nombre}?, si está 10/10 la que ya tenes de perfil. Otra no queda, ya mismo lo hago
+quiero buscar a un usuario
+Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar, un momento...
+buscar
+Entiendo, {nombre}. En ese caso necesitaré el nombre del usuario para buscar, un momento...
+msgrequsername
+Bueno ¡Creo ya tener todo listo {nombre}!. Por favor, dime el nombre de usuario que quieres buscar
+quiero listar los seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+quiero listar mis seguidores
+Bueno bueno, {nombre}. ¡Ojo que solo te los puedo contar a los seguidores!
+msgfollowersok
+¡Ya está {nombre}! Uffffff pensé que tenías más seguidores
+salir
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+exit
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+quit
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+esc
+Bueno mi rey, ¡Hasta la próxima {nombre}!
+fbchr0
+Ingrese el numero del que quiere elegir
+fbchr5
+Tiene que ser un número, {nombre}. ¡No te pases de númeross!. Intentá otra vez
+fbopt0
+Dar like a posteo
+fbopt0msg0
+{nombre}, ¡Ese post ha sido likeado con éxito!
+fbopt1
+Leer posteos
+fbopt1msg0
+¡Aquí estan todos tus posts!
+fbopt2
+Subir posteo
+fbopt2msg0
+Escribe lo que te gustaría publicar (Ojo, {nombre}. No insultes a nadie)
+fbopt2msg10
+¡{nombre}, el post ha sido publicado con éxito!
+fbopt2msg15
+¡{nombre}, el comentario ha sido publicado con éxito!
+fbopt3
+Subir foto
+fbopt3msg0
+Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, escribe el nombre de la foto (No te olvides de la extensiones. Las validas son: png, jpg, jpeg, gif)
+fbopt3msg1
+Ingresa la foto dentro de la carpeta "images". No olvides escribir el nombre de la misma
+fbopt3msg5
+Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Escribe el nombre de la imagen, con su extensión correspondiente
+fbopt3msg20
+La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
+fbopt4
+Actualizar un posteo
+fbopt4msg10
+Escribe la nueva actualización
+fbopt4msg15
+Perfecto! El post ha sido actualizado con éxito, {nombre}
+fbopt5
+Listar seguidores
+fbopt5msg0
+Perfecto, entonces si todo sale bien ahora te voy a decir la cantidad de seguidores que tenes
+fbopt5msg5
+Uff, no pude traerte la cantidad de seguidores. Si queres podes probar de nuevo a ver si anda
+fbopt6
+Actualizar foto de perfil
+fbopt6msg0
+La foto de perfil ha sido actualizada. MUCHA FACHA, {nombre}
+fbopt7
+Leer conversaciones
+fbopt7msg0
+¡Aquí van esas conversaciones!
+fbopt8
+Comentar una publicacion
+igopt0
+Buscar usuario
+igopt1
+Leer posteos
+igopt2
+Subir foto
+igopt3
+Actualizar un posteo
+igopt4
+Listar a los seguidores
+msgnotvalidopt
+Perdón {nombre}, no soy capaz de ejecutar dicha acción. Por el momento solo puedo dar la bienvenida, mostrar las opciones de Facebook e Instagram y salir
+msgnotfborig
+Mmmmmmhhh {nombre}, no soy capaz de ejecutar dicha acción. Recuerda que sólo puedes optar entre Facebook e Instagram
+msgnameisnum
+¡Ingresaste por error numeros!. Ten en cuenta que debes ingresar tu nombre
+msgforconfidence
+Uyuyuyuy, mil disculpas {nombre}, pero no entendí del todo lo que me dijiste. Por favor, intenta escribiendomelo de otra forma
+msgreqopt
+Dime {nombre}, ¿Qué opción quieres elegir?
+msgerrorconn
+Aaaaagghhhh, perdón {nombre}...al parecer hubo un problema al quererme conectar con Facebook
+urlgeterror
+Vos sabés que ingresaste una url no válida, trata de ingresar una correcta {nombre}
+msgerrorenable
+Disculpa pero no entendí lo que quisiste decirme {nombre}, ¿Quieres deshabilitar o habilitar el comentario?
+msgerrornotnumber
+¡{nombre}! Recuerda que sólo puedes ingresar numeros. Te pido amorosamente que elijas de nuevo
+msgerrornotinrange
+¡{nombre}! Vé que dicho número, no está dentro del rango de opciones que te mostré. Te pido cariñosmente que elijas de nuevo
+dspoptmen
+Tene en cuenta que para poder entenderte, cuando me pidas las opciones, tenes que usar alguna de estas frases:
+dspoptlk
+Para acceder a la opcion de likear podes usar las siguientes frases:
+dspoptpl
+Para acceder a la opcion de ver tus publicaciones podes usar las siguientes frases:
+dspoptgeneral
+Como has visto este es el tipo de frases que entiendo a la hora de pedirme que opcion queres ejecutar, y se mantiene con todas las opciones. Espero que se haya entendido la idea!
