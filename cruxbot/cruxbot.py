@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append("path-project")
+sys.path.append("")
 
 import facebook_actions as fb
 import instagram_actions as ig
@@ -302,7 +302,7 @@ def bot_training(bot  # type: ChatBot
     trainer = ListTrainer(bot)
     trainer.show_training_progress = False
 
-    with open("data/entrenador.txt", "r", encoding="utf-8") as f:
+    with open("data\\trainer.txt", "r", encoding="utf-8") as f:
         datos = f.read().splitlines()
 
     trainer.train(datos)
@@ -617,7 +617,7 @@ def bot_checks_photo_is_in_path(bot   # type: ChatBot
 
     while not photo_is_ready:
         try:
-            photo = open("images//{photo_path}".format(photo_path=photo_path), "rb")
+            photo = open("images\\{photo_path}".format(photo_path=photo_path), "rb")
 
             photo_is_ready = True
 
@@ -1331,7 +1331,7 @@ def main():
 
     username = bot_greetings(bot)
 
-    set_up_file("data/entrenador.txt", "data/entrenador.txt", True, username)
+    set_up_file("data\\trainer.txt", "data\\trainer.txt", True, username)
 
     bot_training(bot)
 
@@ -1344,7 +1344,7 @@ def main():
     else:
         print_response(bot, request)
 
-    set_up_file("data/entrenador.bak", "data/entrenador.txt")
+    set_up_file("data\\trainer.bak", "data\\trainer.txt")
 
 
 if __name__ == "__main__":
