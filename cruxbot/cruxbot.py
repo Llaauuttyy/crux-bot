@@ -59,11 +59,33 @@ KEYWORDS_DISABLE = [
     "deshabilitar", "deshabilita", "deshabilitalo"
 ]
 
+IMAGE_EXTENSIONS = [
+    "jpg", "png", "jpeg", "gif"
+]
+
 MIN_CONFIDENCE = 0.8
+
 
 # ------------------------------------------------------ #
 # ------------ DATA MANAGEMENT UTILS STARTS ------------ #
 # ------------------------------------------------------ #
+
+
+def validate_image_format(bot # type: ChatBot
+                          ):
+
+
+    # PRE: Recibe el objeto bot
+    # POST: Valida la extension de la imagen
+
+
+    name_photo = request_input(bot, "msgim0")
+    nombre, extension = name_photo.split(".")
+
+    while extension not in IMAGE_EXTENSIONS:
+        name_photo = request_input(bot, "msgim5")
+
+    return name_photo
 
 
 def validate_url(bot  # type: ChatBot
@@ -1089,6 +1111,39 @@ def are_keywords_in_text(text,  # type: str
     return flag_is_in
 
 
+def display_options(bot  # type: ChatBot
+                    ):
+
+
+    #  PRE: Resive a bot que es un objeto
+    #  POST: Muestra las frases aceptadas
+
+    request_input(bot, "dspoptmen")
+
+    print('''mostrar opciones.
+          opciones.
+          mostrame las opciones.
+          quiero ver las opciones.
+          dame las opciones.
+          dame opcines''')
+
+    request_input(bot, "dspoptlk")
+
+    print('''quiero likear una publicacion
+          quiero likear un post
+          quiero likear''')
+
+    request_input(bot, "dspoptpl")
+
+    print('''quiero ver mis publicaciones
+          mostrame mis publicaciones
+          mostrar publicaciones
+          listame mis publicaciones
+          listar publicaciones''')
+
+    request_input(bot, "dspoptgeneral")
+
+
 def init_main_options(request,  # type: str
                       bot,  # type: ChatBot
                       api,  # type: Api
@@ -1265,6 +1320,8 @@ def main():
     bot = bot_creation()
 
     bot_training(bot)
+
+    display_options(bot)
 
     username = bot_greetings(bot)
 

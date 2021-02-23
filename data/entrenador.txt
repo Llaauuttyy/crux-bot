@@ -240,3 +240,11 @@ msgerrornotnumber
 ¡{nombre}! Recuerda que sólo puedes ingresar numeros. Te pido amorosamente que elijas de nuevo
 msgerrornotinrange
 ¡{nombre}! Vé que dicho número, no está dentro del rango de opciones que te mostré. Te pido cariñosmente que elijas de nuevo
+dspoptmen
+Tene en cuenta que para poder entenderte, cuando me pidas las opciones, tenes que usar alguna de estas frases:
+dspoptlk
+Para acceder a la opcion de likear podes usar las siguientes frases:
+dspoptpl
+Para acceder a la opcion de ver tus publicaciones podes usar las siguientes frases:
+dspoptgeneral
+Como has visto este es el tipo de frases que entiendo a la hora de pedirme que opcion queres ejecutar, y se mantiene con todas las opciones. Espero que se haya entendido la idea!
