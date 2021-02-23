@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append("C://Users//Leonel//Documents//crux-bot")
+sys.path.append("")
 
 import facebook_actions as fb
 import instagram_actions as ig
@@ -74,10 +74,8 @@ MIN_CONFIDENCE = 0.8
 def validate_image_format(bot # type: ChatBot
                           ):
 
-
     # PRE: Recibe el objeto bot
     # POST: Valida la extension de la imagen
-
 
     name_photo = request_input(bot, "msgim0")
     nombre, extension = name_photo.split(".")
@@ -304,7 +302,7 @@ def bot_training(bot  # type: ChatBot
     trainer = ListTrainer(bot)
     trainer.show_training_progress = False
 
-    with open("data/entrenador.txt", "r", encoding="utf-8") as f:
+    with open("data\\trainer.txt", "r", encoding="utf-8") as f:
         datos = f.read().splitlines()
 
     trainer.train(datos)
@@ -619,7 +617,7 @@ def bot_checks_photo_is_in_path(bot   # type: ChatBot
 
     while not photo_is_ready:
         try:
-            photo = open("images//{photo_path}".format(photo_path=photo_path), "rb")
+            photo = open("images\\{photo_path}".format(photo_path=photo_path), "rb")
 
             photo_is_ready = True
 
@@ -871,6 +869,23 @@ def filter_data(data,  # type: dict
     return parsed_data
 
 
+def print_error(bot,  # type: ChatBot
+                key_error,  # type: str 
+                data  # type: dict
+                ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'key_error', debe ser una variable de tipo str
+    #      'data', debe ser una variable de tipo dict
+    # POST: Imprime el error almacenado en data, accediendo
+    #       al mismo, mediante la key key_error
+
+    print_response(bot, "msgerrorconn")
+    print(f"[{bot.name}]: {key_error.capitalize()}  :  {data.get(key_error).message}\n")
+
+    chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data.get(key_error).message}")    
+
+
 def print_data(bot,  # type: ChatBot
                data,  # type: list[dict]
                function_name  # type: str
@@ -891,10 +906,7 @@ def print_data(bot,  # type: ChatBot
         for x in range(len(data)):
 
             if key_error in data[x]:
-                print_response(bot, "msgerrorconn")
-                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
-
-                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                print_error(bot, key_error, data[x])
 
             else:
                 for key in data[x]:
@@ -907,10 +919,7 @@ def print_data(bot,  # type: ChatBot
         for x in range(len(data)):
 
             if key_error in data[x]:
-                print_response(bot, "msgerrorconn")
-                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
-
-                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                print_error(bot, key_error, data[x])
 
             else:
                 del data[x]["id"]
@@ -930,10 +939,7 @@ def print_data(bot,  # type: ChatBot
         for x in range(len(data)):
 
             if key_error in data[x]:
-                print_response(bot, "msgerrorconn")
-                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
-
-                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                print_error(bot, key_error, data[x])
 
             else:
                 print_response(bot, "msgpostedphoto")
@@ -943,10 +949,8 @@ def print_data(bot,  # type: ChatBot
         for x in range(len(data)):
 
             if key_error in data[x]:
-                print_response(bot, "msgerrorconn")
-                print(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}\n")
-
-                chat_logger.info(f"[{bot.name}]: {key_error.capitalize()}  :  {data[x].get(key_error).message}")
+                print_error(bot, key_error, data[x])
+                
             else:
                 if(data[x].get("success")):
                     print_response(bot, "msgcommenabledsucc")
@@ -1114,34 +1118,36 @@ def are_keywords_in_text(text,  # type: str
 def display_options(bot  # type: ChatBot
                     ):
 
-
     #  PRE: Resive a bot que es un objeto
     #  POST: Muestra las frases aceptadas
 
-    request_input(bot, "dspoptmen")
+    print_response(bot, "dspoptmen")
 
-    print('''mostrar opciones.
-          opciones.
-          mostrame las opciones.
-          quiero ver las opciones.
-          dame las opciones.
-          dame opcines''')
+    print('''
+          mostrar opciones
+          opciones
+          mostrame las opciones
+          quiero ver las opciones
+          dame las opciones
+          dame opciones''')
 
-    request_input(bot, "dspoptlk")
+    print_response(bot, "dspoptlk")
 
-    print('''quiero likear una publicacion
+    print('''
+          quiero likear una publicacion
           quiero likear un post
           quiero likear''')
 
-    request_input(bot, "dspoptpl")
+    print_response(bot, "dspoptpl")
 
-    print('''quiero ver mis publicaciones
+    print('''
+          quiero ver mis publicaciones
           mostrame mis publicaciones
           mostrar publicaciones
           listame mis publicaciones
           listar publicaciones''')
 
-    request_input(bot, "dspoptgeneral")
+    print_response(bot, "dspoptgeneral")
 
 
 def init_main_options(request,  # type: str
@@ -1325,7 +1331,7 @@ def main():
 
     username = bot_greetings(bot)
 
-    set_up_file("data/entrenador.txt", "data/entrenador.txt", True, username)
+    set_up_file("data\\trainer.txt", "data\\trainer.txt", True, username)
 
     bot_training(bot)
 
@@ -1338,7 +1344,7 @@ def main():
     else:
         print_response(bot, request)
 
-    set_up_file("data/entrenador.bak", "data/entrenador.txt")
+    set_up_file("data\\trainer.bak", "data\\trainer.txt")
 
 
 if __name__ == "__main__":

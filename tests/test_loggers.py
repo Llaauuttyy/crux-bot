@@ -1,5 +1,5 @@
 import sys
-sys.path.append("ALTERNATIVE PATH")
+sys.path.append("path-project")
 
 import cruxbot.loggers as log
 

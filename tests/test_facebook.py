@@ -1,5 +1,5 @@
 import sys
-sys.path.append("C://Users//Leonel//Documents//crux-bot")
+sys.path.append("path-project")
 
 from pyfacebook import Api
 from facebook import GraphAPI
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     conversation_id = "t_10224843694505732"
     post_id = "102579945106245_118113650219541"
     post_id_to_manipulate = "102579945106245_117924853571754"
-    image = open("images//image.jpg", "rb")
+    image = open("images\\image.jpg", "rb")
 
     api = Api(
         app_id = APP_ID,

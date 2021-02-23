@@ -181,11 +181,11 @@ fbopt2msg15
 fbopt3
 Subir foto
 fbopt3msg0
-Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, escribe el nombre de la foto (no te olvides de la extensiones. Las validas son: png, jpg, jpeg, gif)
+Vamos a subir esa foto, {nombre}. Se acaba de crear una carpeta llamada "images". Debes poner la foto ahí, escribe el nombre de la foto (No te olvides de la extensiones. Las validas son: png, jpg, jpeg, gif)
 fbopt3msg1
 Ingresa la foto dentro de la carpeta "images". No olvides escribir el nombre de la misma
 fbopt3msg5
-Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Escribe el nombre de la imagen, con su extensión correspodiente
+Algo ha salido mal. Chequea que hayas seguido bien las instrucciones. Tontón. Escribe el nombre de la imagen, con su extensión correspondiente
 fbopt3msg20
 La foto se ha subido con éxito, cara pantufla... Digo: {nombre}
 fbopt4

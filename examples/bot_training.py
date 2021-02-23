@@ -31,7 +31,7 @@ while not end_program:
         print("Crux: Bye")
         end_program = True
 
-f = with open("entrenador.txt","r")
+f = with open("data\\trainer.txt","r")
 datos_entrenamiento = []
 for linea in f.readlines:
     datos_entrenamiento.append(linea)
