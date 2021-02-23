@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append("C://Users//Leonel//Documents//crux-bot")
+sys.path.append("path-project")
 
 import facebook_actions as fb
 import instagram_actions as ig

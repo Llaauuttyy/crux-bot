@@ -1,5 +1,5 @@
 import sys
-sys.path.append("C://Users//Leonel//Documents//crux-bot")
+sys.path.append("path-project")
 
 from pyfacebook import Api
 from facebook import GraphAPI
