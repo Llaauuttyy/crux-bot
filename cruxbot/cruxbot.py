@@ -126,15 +126,16 @@ def validate_enable_disable(bot  # type: ChatBot
     return enable_or_not
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'range', debe ser una variable de tipo list
-# POST: Devuelve un número de tipo int, el cuál es ingresado por
-#       el usuario, para posteriormente validar, que es un número y
-#       que se encuentra dentro del rango de la cantidad de elementos
-#       de la lista indicada anteriormente
 def validate_number_in_range(bot,  # type: ChatBot
                              range  # type: list[dict]
                              ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'range', debe ser una variable de tipo list
+    # POST: Devuelve un número de tipo int, el cuál es ingresado por
+    #       el usuario, para posteriormente validar, que es un número y
+    #       que se encuentra dentro del rango de la cantidad de elementos
+    #       de la lista indicada anteriormente
 
     request = ""
     flag_is_valid_number = False
@@ -158,37 +159,6 @@ def validate_number_in_range(bot,  # type: ChatBot
     return number
 
 
-def posts_printing(posts_info_list  # type: list
-                   ):
-
-    # PRE: Recibe posts_info_list que
-    # es una lista de dics llena, con la info
-    # de los posts.
-
-    # POST: Recorre la lista e imprime la
-    # información requerida.
-
-    for posts in range(len(posts_info_list)):
-
-        for key in posts_info_list[posts]:
-
-            if key == "message":
-                print(f"Post {posts + 1}: {posts_info_list[posts]['message']}\n")
-                chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
-                        post_number=posts + 1,
-                        post_message=posts_info_list[posts]['message']
-                    )
-                )
-
-            elif key == "picture":
-                print(f"Post {posts + 1}: This post is a photo.")
-                chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
-                        post_number=posts + 1,
-                        post_message="This post is a photo."
-                    )
-                )
-
-
 def posts_or_convo_order(object_info_list,  # type: list
                          object_number  # type: str
                          ):
@@ -207,58 +177,6 @@ def posts_or_convo_order(object_info_list,  # type: list
     object_id = object_info_list[object_index]["id"]
 
     return object_id
-
-
-def convers_snippet_printing(convers_info_list  # type: list
-                             ):
-
-    # PRE: Recibe la info de la conversaciones en
-    # una lista de diccionarios.
-
-    # POST: Permite imprimir el último mensaje
-    # e infomación sobre la conversación.
-
-    for snippet in range(len(convers_info_list)):
-
-        text = (
-            '''
-            [Crux]:
-            Follower: {follower}
-            Last message: {last_message}
-            Conversation: {snippet}
-            '''.format(
-                follower=convers_info_list[snippet]["participants"]["data"][0]["name"],
-                last_message=convers_info_list[snippet]["snippet"],
-                snippet=snippet + 1
-            )
-        )
-
-        print(text)
-        chat_logger.info(text)
-
-
-def convers_messages_printing(message_info_list  # type: list
-                              ):
-
-    # PRE: Recibe la info de la conversaciones en
-    # una lista de diccionarios.
-
-    # POST: Permite imprimir los mensajes
-    # e infomación sobre la conversación.
-
-    for message in range(len(message_info_list)):
-        text = (
-            '''
-            Sender: {sender}
-            Message: {message}
-            '''.format(
-                sender=message_info_list[message]["from"]["name"],
-                message=message_info_list[message]["message"]
-            )
-        )
-
-        print(text)
-        chat_logger.info(text)
 
 
 def fb_error_checking(data  # type: dict
@@ -304,13 +222,14 @@ def fb_error_checking_profile_photo(data  # type: dict
         return True
 
 
-# PRE: 'str_datetime', debe ser una variable de tipo str
-# POST: Devuelve un string que representa la fecha y hora, la cual
-#       deriva de la fecha y hora ingresada anteriormente, a esa
-#       se le dió un formato local y se corrigió la diferencia de
-#       horas
 def format_date(str_datetime  # type: str
                 ):
+
+    # PRE: 'str_datetime', debe ser una variable de tipo str
+    # POST: Devuelve un string que representa la fecha y hora, la cual
+    #       deriva de la fecha y hora ingresada anteriormente, a esa
+    #       se le dió un formato local y se corrigió la diferencia de
+    #       horas
 
     datetime_fixed = ""
 
@@ -330,12 +249,13 @@ def format_date(str_datetime  # type: str
     return datetime_fixed
 
 
-# PRE: 'key', debe ser una variable de tipo str
-# POST: Devuelve un string que representa una llave de diccionario, dicha
-#       llave ingresda anteriormente, se la capitalizó y se reemplazó los
-#       guiones bajos por un espacio
 def format_key(key  # type: str
                ):
+
+    # PRE: 'key', debe ser una variable de tipo str
+    # POST: Devuelve un string que representa una llave de diccionario, dicha
+    #       llave ingresda anteriormente, se la capitalizó y se reemplazó los
+    #       guiones bajos por un espacio
 
     key_formatted = ""
 
@@ -429,7 +349,6 @@ def information_followers(api,  # type: Api
         print_response(bot, "fbopt5msg5")
 
 
-
 def followers_count(data  # type: list[dict]
                     ):
 
@@ -448,11 +367,35 @@ def followers_count(data  # type: list[dict]
     chat_logger.info(text)
 
 
-def bot_showing_posts(api,  # type: Api
-                      bot  # type: ChatBot
-                      ):
+def delete_photo_for_put_publication(posts_list  # type: list[dict]
+                                     ):
 
-    # PRE: Recibe el objeto api y bot.
+    # PRE: Recibe posts_list que es
+    # una lista de diccionarios llena
+    # de informacion de los post.
+
+    # POST: Recorre esa lista y
+    # arma otra quitando excluyendo
+    # a todos los posts que contengan
+    # foto, porque los mismos no pueden
+    # ser editados. Devuelve la lista.
+
+    posts_list_parsed = []
+
+    for post in range(len(posts_list)):
+        if posts_list[post].get("message") is not None:
+            posts_list_parsed.append(posts_list[post])
+
+    return posts_list_parsed
+
+
+def bot_shows_posts(api,  # type: Api
+                    bot,  # type: ChatBot
+                    print_enable=False  # type: bool
+                    ):
+
+    # PRE: Recibe el objeto api, bot y print_enable
+    # que indica si se debe printear o no.
 
     # POST: Obtiene los posts, en caso de
     # que no haya error, returna los mismos,
@@ -466,7 +409,8 @@ def bot_showing_posts(api,  # type: Api
     )
 
     if not fb_error_checking(posts_info_list):
-        posts_printing(posts_info_list)
+        if not print_enable:
+            print_data(bot, posts_info_list, bot_shows_posts.__name__)
 
         return posts_info_list
 
@@ -476,9 +420,9 @@ def bot_showing_posts(api,  # type: Api
         return posts_info_list
 
 
-def bot_showing_conversations(api,  # type: Api
-                              bot  # type: ChatBot
-                              ):
+def bot_shows_conversations(api,  # type: Api
+                            bot  # type: ChatBot
+                            ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -496,7 +440,7 @@ def bot_showing_conversations(api,  # type: Api
     # looks for errors
     if not fb_error_checking(convers_info_list):
         # if there's not, print conversations
-        convers_snippet_printing(convers_info_list)
+        print_data(bot, convers_info_list, bot_shows_conversations.__name__)
         # lets the user choose and print all
         # of the mssages from that convo.
         return convers_info_list
@@ -521,10 +465,15 @@ def bot_object_chooser(api,  # type: Api
     # el numero que elija el usuario.
 
     if type_object == "posts_fb":
-        object_info_list = bot_showing_posts(api, bot)
+        object_info_list = bot_shows_posts(api, bot)
+
+    elif type_object == "puts_fb":
+        posts_info_list = bot_shows_posts(api, bot, True)
+        object_info_list = delete_photo_for_put_publication(posts_info_list)
+        print_data(bot, object_info_list, bot_shows_posts.__name__)
 
     else:
-        object_info_list = bot_showing_conversations(api, bot)
+        object_info_list = bot_shows_conversations(api, bot)
 
     if object_info_list == []:
         print("Try rebooting your connection")
@@ -541,9 +490,9 @@ def bot_object_chooser(api,  # type: Api
         return object_id
 
 
-def bot_showing_convers_msg(api,  # type: Api
-                            bot  # type: ChatBot
-                            ):
+def bot_shows_convers_msg(api,  # type: Api
+                          bot  # type: ChatBot
+                          ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -558,12 +507,12 @@ def bot_showing_convers_msg(api,  # type: Api
     )
 
     if not fb_error_checking(messages_info_list):
-        convers_messages_printing(messages_info_list)
+        print_data(bot, messages_info_list, bot_shows_convers_msg.__name__)
 
 
-def bot_liking_posts(api,  # type: Api
-                     bot  # type: ChatBot
-                     ):
+def bot_likes_posts(api,  # type: Api
+                    bot  # type: ChatBot
+                    ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -612,7 +561,7 @@ def bot_put_publication(api,  # type: Api
     # llama al método necesario y si no hay
     # error, muestra mensaje de éxito.
 
-    post_id = bot_object_chooser(api, bot, "posts")
+    post_id = bot_object_chooser(api, bot, "puts_fb")
 
     user_edit = request_input(bot, "fbopt4msg10")
     data = fb.put_publication(api, post_id, user_edit)
@@ -621,9 +570,9 @@ def bot_put_publication(api,  # type: Api
         print_response(bot, "fbopt4msg15")
 
 
-def bot_commenting_posts(api,  # type: Api
-                         bot  # type: ChatBot
-                         ):
+def bot_comments_posts(api,  # type: Api
+                       bot  # type: ChatBot
+                       ):
 
     # PRE: Recibe el objeto api y bot.
 
@@ -645,8 +594,8 @@ def bot_commenting_posts(api,  # type: Api
         print_response(bot, "fbopt2msg15")
 
 
-def bot_checking_photo_in_path(bot   # type: ChatBot
-                               ):
+def bot_checks_photo_is_in_path(bot   # type: ChatBot
+                                ):
 
     # PRE: Recibe el objeto bot.
 
@@ -680,16 +629,16 @@ def bot_checking_photo_in_path(bot   # type: ChatBot
     return photo
 
 
-def bot_uploading_feed_photo(graphapi,  # type: GraphAPI
-                             bot  # type: ChatBot
-                             ):
+def bot_uploads_feed_photo(graphapi,  # type: GraphAPI
+                           bot  # type: ChatBot
+                           ):
 
     # PRE: Recibe objeto graphapi y bot.
 
     # POST: Llama al método para subir la
     # foto y recibe la data, si no tiene error,
     # le avisa al usuario que todo salió bien.
-    photo = bot_checking_photo_in_path(bot)
+    photo = bot_checks_photo_is_in_path(bot)
 
     data = fb.post_photo(
         api=graphapi,
@@ -701,9 +650,9 @@ def bot_uploading_feed_photo(graphapi,  # type: GraphAPI
         print_response(bot, "fbopt3msg20")
 
 
-def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
-                                bot  # type: ChatBot
-                                ):
+def bot_uploads_profile_photo(graphapi,  # type: GraphAPI
+                              bot  # type: ChatBot
+                              ):
 
     # PRE: Recibe objeto graphapi y bot.
 
@@ -712,7 +661,7 @@ def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
     # no tiene error, le avisa al usuario
     # que todo salió bien.
 
-    photo = bot_checking_photo_in_path(bot)
+    photo = bot_checks_photo_is_in_path(bot)
 
     data = fb.post_profile_photo(
         api=graphapi,
@@ -724,16 +673,17 @@ def bot_uploading_profile_photo(graphapi,  # type: GraphAPI
         print_response(bot, "fbopt6msg0")
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'api', debe ser una variable de tipo IgProApi
-#      'username', debe ser una variable de tipo str
-# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de buscar al usuario indicado anteriormente, y de este
-#       modo, obtener sus datos
 def search_user_by_bot(bot,  # type: ChatBot
                        api,  # type: IgProApi
                        username  # type: str
                        ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'api', debe ser una variable de tipo IgProApi
+    #      'username', debe ser una variable de tipo str
+    # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+    #       el fin de buscar al usuario indicado anteriormente, y de este
+    #       modo, obtener sus datos
 
     data_list = []
 
@@ -752,16 +702,17 @@ def search_user_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, search_user_by_bot.__name__)
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'api', debe ser una variable de tipo IgProApi
-#      'username', debe ser una variable de tipo str
-# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de obtener las publicaciones/medias del usuario indicado
-#       anteriormente, y de este modo, obtener la información de cada una
 def get_medias_by_bot(bot,  # type: ChatBot
                       api,  # type: IgProApi
                       username  # type: str
                       ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'api', debe ser una variable de tipo IgProApi
+    #      'username', debe ser una variable de tipo str
+    # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+    #       el fin de obtener las publicaciones/medias del usuario indicado
+    #       anteriormente, y de este modo, obtener la información de cada una
 
     data_list = []
 
@@ -783,16 +734,17 @@ def get_medias_by_bot(bot,  # type: ChatBot
     return data_list
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'api', debe ser una variable de tipo GraphAPI
-#      'image_url', debe ser una variable de tipo str
-# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de postear una foto en el muro/feed. Dicha foto, se
-#       encuentra en la url, indicada anteriormente
 def post_ig_photo_by_bot(bot,  # type: ChatBot
                          api,  # type: GraphAPI
                          image_url  # type: str
                          ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'api', debe ser una variable de tipo GraphAPI
+    #      'image_url', debe ser una variable de tipo str
+    # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+    #       el fin de postear una foto en el muro/feed. Dicha foto, se
+    #       encuentra en la url, indicada anteriormente
 
     data_list = []
 
@@ -812,19 +764,20 @@ def post_ig_photo_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, post_ig_photo_by_bot.__name__)
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'api', debe ser una variable de tipo IgProApi
-#      'media_id', debe ser una variable de tipo str
-#      'comment_enabled', debe ser una variable de tipo bool
-# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de actualizar la publicacion/media indicada
-#       anteriormente. Dicha actualización se basa en la habilitación
-#       o no, de los comentarios
 def update_media_by_bot(bot,  # type: ChatBot
                         api,  # type: IgProApi
                         media_id,  # type: str
                         comment_enabled  # type: bool
                         ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'api', debe ser una variable de tipo IgProApi
+    #      'media_id', debe ser una variable de tipo str
+    #      'comment_enabled', debe ser una variable de tipo bool
+    # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+    #       el fin de actualizar la publicacion/media indicada
+    #       anteriormente. Dicha actualización se basa en la habilitación
+    #       o no, de los comentarios
 
     data_list = []
 
@@ -842,16 +795,17 @@ def update_media_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, update_media_by_bot.__name__)
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'api', debe ser una variable de tipo IgProApi
-#      'username', debe ser una variable de tipo str
-# POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
-#       el fin de obtener los seguidores del usuario indicado
-#       anteriormente. No se puede listar, sólo se los cuenta
 def get_followers_by_bot(bot,  # type: ChatBot
                          api,  # type: IgProApi
                          username  # type: str
                          ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'api', debe ser una variable de tipo IgProApi
+    #      'username', debe ser una variable de tipo str
+    # POST: Hace el llamado a la API de Facebook, haciendo uso de api, con
+    #       el fin de obtener los seguidores del usuario indicado
+    #       anteriormente. No se puede listar, sólo se los cuenta
 
     data_list = []
 
@@ -870,15 +824,16 @@ def get_followers_by_bot(bot,  # type: ChatBot
     print_data(bot, data_list, get_followers_by_bot.__name__)
 
 
-# PRE: 'data', debe ser una variable de tipo dict
-#      'function_name', debe ser una variable de tipo str
-# POST: Devuelve un diccionario, el cual deriva de la data pasada
-#       por parámetro, a la misma se la filtra y se asignan las
-#       llaves en español. La filtración varia de acuerdo a la
-#       función que llame a ésta
 def filter_data(data,  # type: dict
                 function_name  # type: str
                 ):
+
+    # PRE: 'data', debe ser una variable de tipo dict
+    #      'function_name', debe ser una variable de tipo str
+    # POST: Devuelve un diccionario, el cual deriva de la data pasada
+    #       por parámetro, a la misma se la filtra y se asignan las
+    #       llaves en español. La filtración varia de acuerdo a la
+    #       función que llame a ésta
 
     parsed_data = {}
 
@@ -916,17 +871,18 @@ def filter_data(data,  # type: dict
     return parsed_data
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'data', debe ser una variable de tipo dict
-#      'function_name', debe ser una variable de tipo str
-# POST: Imprime el error que ocurrió, al hacer la petición a la API
-#       de Facebook, de lo contrario, de acuerdo a que función llame
-#       a ésta, imprimirá la información/respuesta que se recibió de
-#       Facebook
 def print_data(bot,  # type: ChatBot
                data,  # type: list[dict]
                function_name  # type: str
                ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'data', debe ser una variable de tipo dict
+    #      'function_name', debe ser una variable de tipo str
+    # POST: Imprime el error que ocurrió, al hacer la petición a la API
+    #       de Facebook, de lo contrario, de acuerdo a que función llame
+    #       a ésta, imprimirá la información/respuesta que se recibió de
+    #       Facebook
 
     key_error = "error"
 
@@ -962,7 +918,7 @@ def print_data(bot,  # type: ChatBot
 
                 print(f"\n[{bot.name}]: {x + 1}° - publicación")
 
-                chat_logger.info(f"\n[{bot.name}]: {x + 1}° - publicación")
+                chat_logger.info(f"[{bot.name}]: {x + 1}° - publicación")
 
                 for key in data[x]:
                     print(f"[{bot.name}]: {format_key(key)}  :  {data[x].get(key)}")
@@ -997,24 +953,91 @@ def print_data(bot,  # type: ChatBot
                 else:
                     print_response(bot, "msgcommenablednotsucc")
 
+    elif function_name == bot_shows_posts.__name__:
+
+        for posts in range(len(data)):
+
+            for key in data[posts]:
+
+                if key == "message":
+                    print(f"Post {posts + 1}: {data[posts]['message']}\n")
+                    chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
+                            post_number=posts + 1,
+                            post_message=data[posts]['message']
+                        )
+                    )
+
+                elif key == "picture":
+                    print(f"Post {posts + 1}: This post is a photo.")
+                    chat_logger.info("[Crux]: Post {post_number} - {post_message}".format(
+                            post_number=posts + 1,
+                            post_message="This post is a photo."
+                        )
+                    )
+
+    elif function_name == bot_shows_conversations.__name__:
+
+        for snippet in range(len(data)):
+
+            print(
+                '''
+                [Crux]:
+                Follower: {follower}
+                Last message: {last_message}
+                Conversation: {snippet}
+                '''.format(
+                    follower=data[snippet]["participants"]["data"][0]["name"],
+                    last_message=data[snippet]["snippet"],
+                    snippet=snippet + 1
+                )
+            )
+
+            chat_logger.info("[Crux]: Follower: {follower} | Last message: {last_message} | Conversation: {snippet}".format(
+                    follower=data[snippet]["participants"]["data"][0]["name"],
+                    last_message=data[snippet]["snippet"],
+                    snippet=snippet + 1
+                )
+            )
+
+    elif function_name == bot_shows_convers_msg.__name__:
+
+        for message in range(len(data)):
+            print(
+                '''
+                [Crux]:
+                Sender: {sender}
+                Message: {message}
+                '''.format(
+                    sender=data[message]["from"]["name"],
+                    message=data[message]["message"]
+                )
+            )
+
+            chat_logger.info("[Crux]: Sender: {sender} | Message: {message}".format(
+                    sender=data[message]["from"]["name"],
+                    message=data[message]["message"]
+                )
+            )
+
 
 # ------------------------------------------------------ #
 # ----------------- BOT FUNCTIONS ENDS ----------------- #
 # ------------------------------------------------------ #
 
 
-# PRE: 'from_filepath', debe ser una variable de tipo str
-#      'to_filepath', debe ser una variable de tipo str
-#      'enforce_username', debe ser una variable de tipo bool
-#      'username', debe ser una variable de tipo str
-# POST: Reemplaza una palabra clave, por el nombre del usuario pasado
-#       por parámetro, de acuerdo a si se desea forzar el cambio,
-#       desde el archivo deseado, hacia el archivo indicado
 def set_up_file(from_filepath,  # type: str
                 to_filepath,  # type: str
                 enforce_username=False,  # type: bool
                 username=None  # type: str
                 ):
+
+    # PRE: 'from_filepath', debe ser una variable de tipo str
+    #      'to_filepath', debe ser una variable de tipo str
+    #      'enforce_username', debe ser una variable de tipo bool
+    #      'username', debe ser una variable de tipo str
+    # POST: Reemplaza una palabra clave, por el nombre del usuario pasado
+    #       por parámetro, de acuerdo a si se desea forzar el cambio,
+    #       desde el archivo deseado, hacia el archivo indicado
 
     filedata = []
 
@@ -1028,13 +1051,14 @@ def set_up_file(from_filepath,  # type: str
         file.write(filedata)
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'statement', debe ser una variable de tipo str
-# POST: Devuelve un string que representa una petición hecha por
-#       el usuario. Dicha petición se parsea a minúsculas
 def request_input(bot,  # type: ChatBot
                   statement  # type: str
                   ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'statement', debe ser una variable de tipo str
+    # POST: Devuelve un string que representa una petición hecha por
+    #       el usuario. Dicha petición se parsea a minúsculas
 
     response = bot.get_response(statement)
     chat_logger.info(f"[{bot.name}]: {response}")
@@ -1045,13 +1069,14 @@ def request_input(bot,  # type: ChatBot
     return request.lower()
 
 
-# PRE: 'bot', debe ser una variable de tipo ChatBot
-#      'statement', debe ser una variable de tipo str
-# POST: Imprime la respuesta que se recibe por parte del bot,
-#       en función del statement
 def print_response(bot,  # type: ChatBot
                    statement  # type: str
                    ):
+
+    # PRE: 'bot', debe ser una variable de tipo ChatBot
+    #      'statement', debe ser una variable de tipo str
+    # POST: Imprime la respuesta que se recibe por parte del bot,
+    #       en función del statement
 
     request = ""
 
@@ -1067,14 +1092,15 @@ def print_response(bot,  # type: ChatBot
     chat_logger.info(f"[{bot.name}]: {response}")
 
 
-# PRE: 'text', debe ser una variable de tipo str
-#      'keywords', debe ser una variable de tipo list
-# POST: Retorna un boolean, que representa la ocurrencia de
-#       una palabra de la lista 'keywords', en el texto
-#       ingresado anteriormente
 def are_keywords_in_text(text,  # type: str
                          keywords  # type: list
                          ):
+
+    # PRE: 'text', debe ser una variable de tipo str
+    #      'keywords', debe ser una variable de tipo list
+    # POST: Retorna un boolean, que representa la ocurrencia de
+    #       una palabra de la lista 'keywords', en el texto
+    #       ingresado anteriormente
 
     flag_is_in = False
 
@@ -1091,7 +1117,6 @@ def display_options(bot  # type: ChatBot
 
     #  PRE: Resive a bot que es un objeto
     #  POST: Muestra las frases aceptadas
-
 
     request_input(bot, "dspoptmen")
 
@@ -1119,19 +1144,20 @@ def display_options(bot  # type: ChatBot
     request_input(bot, "dspoptgeneral")
 
 
-# PRE: 'request', debe ser una variable de tipo str
-#      'bot', debe ser una variable de tipo ChatBot
-#      'api', debe ser una variable de tipo Api
-#      'igproapi', debe ser una variable de tipo IgProApi
-#      'graphapi', debe ser una variable de tipo GraphAPI
-# POST: Retorna un string, que representa una petición
-#       solicitada por el usuario
 def init_main_options(request,  # type: str
                       bot,  # type: ChatBot
                       api,  # type: Api
                       igproapi,  # type: IgProApi
                       graphapi  # type: GraphAPI
                       ):
+
+    # PRE: 'request', debe ser una variable de tipo str
+    #      'bot', debe ser una variable de tipo ChatBot
+    #      'api', debe ser una variable de tipo Api
+    #      'igproapi', debe ser una variable de tipo IgProApi
+    #      'graphapi', debe ser una variable de tipo GraphAPI
+    # POST: Retorna un string, que representa una petición
+    #       solicitada por el usuario
 
     response = ""
     image_url = ""
@@ -1173,16 +1199,16 @@ def init_main_options(request,  # type: str
                 chat_logger.info(f"[{bot.name}]: {response}")
 
                 if "likear" in request and "likear" in response.text.lower():
-                    bot_liking_posts(api, bot)
+                    bot_likes_posts(api, bot)
 
                 elif "publicaciones" in request and "publicaciones" in response.text.lower():
-                    bot_showing_posts(api, bot)
+                    bot_shows_posts(api, bot)
 
                 elif "postear" in request and "postear" in response.text.lower():
                     bot_post_publication(api, bot)
 
                 elif "foto" in request and "foto" in response.text.lower():
-                    bot_uploading_feed_photo(graphapi, bot)
+                    bot_uploads_feed_photo(graphapi, bot)
 
                 elif "actualizar" in request and "actualizar" in response.text.lower():
                     bot_put_publication(api, bot)
@@ -1191,13 +1217,13 @@ def init_main_options(request,  # type: str
                     information_followers(api, bot)
 
                 elif "perfil" in request and "perfil" in response.text.lower():
-                    bot_uploading_profile_photo(graphapi, bot)
+                    bot_uploads_profile_photo(graphapi, bot)
 
                 elif "conversaciones" in request and "conversaciones" in response.text.lower():
-                    bot_showing_convers_msg(api, bot)
+                    bot_shows_convers_msg(api, bot)
 
                 elif "comentar" in request and "comentar" in response.text.lower():
-                    bot_commenting_posts(api, bot)
+                    bot_comments_posts(api, bot)
 
                 flag_is_valid = True
 

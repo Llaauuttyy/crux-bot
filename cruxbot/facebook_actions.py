@@ -5,6 +5,8 @@ from pyfacebook.utils.param_validation import enf_comma_separated
 from facebook import GraphAPI, GraphAPIError
 from pyfacebook import Api, PyFacebookException
 
+from loggers import error_logger
+
 
 DEFAULT_CONVERSATION_FIELDS = [
     "id", "link", "snippet", "updated_time", "message_count",
@@ -126,6 +128,8 @@ def get_posts(api,  # type: Api
     except PyFacebookException as error:
         data = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return data
 
 
@@ -152,6 +156,8 @@ def get_comments(api,  # type: Api
 
     except PyFacebookException as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
 
@@ -210,6 +216,8 @@ def get_page_conversations(api,  # type: Api
     except PyFacebookException as error:
         conversations = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return conversations
 
 
@@ -267,6 +275,8 @@ def get_conversation_messages(api,  # type: Api
     except PyFacebookException as error:
         messages = {"error":  error}
 
+        error_logger.error(error, exc_info=True)
+
     return messages
 
 
@@ -300,6 +310,8 @@ def post_comment(api,  # type: Api
 
     except PyFacebookException as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
 
@@ -336,6 +348,8 @@ def post_publication(api,  # type: Api
     except PyFacebookException as error:
         data = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return data
 
 
@@ -368,6 +382,8 @@ def post_like(api,  # type: Api
     except PyFacebookException as error:
         data = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return data
 
 
@@ -392,6 +408,8 @@ def post_photo(api,  # type: GraphAPI
 
     except GraphAPIError as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
 
@@ -419,6 +437,8 @@ def post_profile_photo(api,  # type: GraphAPI
 
     except GraphAPIError as error:
         data = {"error": error}
+
+        error_logger.error(error, exc_info=True)
 
     return data
 
@@ -454,6 +474,8 @@ def delete_publication(api,  # type: Api
     except PyFacebookException as error:
         data = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return data
 
 
@@ -488,6 +510,8 @@ def put_publication(api,  # type: Api
     except PyFacebookException as error:
         data = {"error": error}
 
+        error_logger.error(error, exc_info=True)
+
     return data
 
 
@@ -519,5 +543,7 @@ def get_page_information(api,  # type: Api
 
     except PyFacebookException as error:
         data = {"error":  error}
+
+        error_logger.error(error, exc_info=True)        
 
     return data

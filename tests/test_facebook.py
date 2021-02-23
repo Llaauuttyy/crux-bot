@@ -109,7 +109,7 @@ def testPostProfilePhoto():
         image = image
     )
 
-    assert data.result["error"]["code"] == 100
+    assert data["error"].code == 100
 
 
 def testListFriends():
