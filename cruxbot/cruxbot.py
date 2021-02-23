@@ -451,7 +451,7 @@ def bot_shows_conversations(api,  # type: Api
 
 def bot_object_chooser(api,  # type: Api
                        bot,  # type: ChatBot
-                       type_object  # type: str  # Values: posts_fb, convo_fb (else)
+                       type_object  # type: str  # Values: posts_fb, puts_fb, convo (else).
                        ):
 
     # PRE: Recibe el objeto api, bot y
